@@ -17,7 +17,7 @@ namespace BigData.Models
         public int StartTime { get; set; }
         public int EndTime { get; set; }
         public int Price { get; set; }
-
+        public string test { get; set; }
 
 
     }
