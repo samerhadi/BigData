@@ -15,27 +15,16 @@ namespace BigData.Controllers
             return View();
         }
 
+        //Skapar ett nytt bokningssystem
         [HttpPost]
-        public ActionResult BookingSystems(BookingSystem system)
+        public ActionResult CreateBookingSystems(BookingSystem system)
         {
             try
             {
-                BookingSystem booking = new BookingSystem();
                 if (ModelState.IsValid)
                 {
-                    booking.Adress = system.Adress;
-                    booking.SystemName = system.SystemName;
-                    booking.Website = system.Website;
-                    booking.SystemDescription = system.SystemDescription;
-                    booking.PostaICode = system.PostaICode;
-                    booking.PhoneNumber = system.PhoneNumber;
-                    booking.LatitudeAndLongitude = system.LatitudeAndLongitude;
-                    booking.Email = system.Email;
-                    booking.City = system.City;
-
                     db.BookingSystems.Add(system);
                     db.SaveChanges();
-
                 }
 
             }
