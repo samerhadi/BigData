@@ -10,14 +10,14 @@ namespace BigData.Controllers
     public class BookingSystemController : BaseController
     {
         // GET: BookingSystem
-        public ActionResult BookingSystems()
+        public ActionResult CreateBookingSystem()
         {
             return View();
         }
 
         //Skapar ett nytt bokningssystem
         [HttpPost]
-        public ActionResult CreateBookingSystems(BookingSystem system)
+        public ActionResult CreateBookingSystem(BookingSystem system)
         {
             try
             {
@@ -26,7 +26,6 @@ namespace BigData.Controllers
                     db.BookingSystems.Add(system);
                     db.SaveChanges();
                 }
-
             }
 
             catch (Exception ex)
