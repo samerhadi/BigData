@@ -29,5 +29,8 @@ namespace BigData.Models
         {
             return new ApplicationDbContext();
         }
+
+        public DbSet<BookingSystem> BookingSystems { get; set; }
+        public DbSet<BookingTabel> BookingTabels { get; set; }
     }
 }

@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
 namespace BigData.Models
 {
     //skapar klassen för bokningtjänsten
-    public class Bokningsystem
+    public class BookingSystem
 
     {
+        [Key]
         public int BookningSystemId { get; set; }
         public string SystemName { get; set; }
         public string SystemDescription { get; set; }
