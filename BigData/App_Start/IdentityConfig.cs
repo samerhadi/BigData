@@ -10,7 +10,9 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
-using BigData.Models;
+using DataLogic.Models;
+using static DataLogic.Entities.ApplicationUserEntity;
+using DataLogic.Context;
 
 namespace BigData
 {

@@ -4,11 +4,11 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace BigData.Models
+namespace DataLogic.Entities
 {
-    //Skapar bokningstabellen
-    public class BookingTabel
+    public class BookingTableEntity
     {
+
         [Key]
         public int BookingId { get; set; }
         public string UserName { get; set; }
@@ -18,6 +18,7 @@ namespace BigData.Models
         public int StartTime { get; set; }
         public int EndTime { get; set; }
         public int Price { get; set; }
+
 
 
     }

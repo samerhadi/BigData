@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28010.2046
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BigData", "BigData\BigData.csproj", "{7A260ACB-BD04-4C16-AB8C-FE6F93489170}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UI", "BigData\UI.csproj", "{7A260ACB-BD04-4C16-AB8C-FE6F93489170}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataLogic", "DataLogic\DataLogic.csproj", "{DC6249E7-F63B-4A75-8BCF-1259F263C891}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{7A260ACB-BD04-4C16-AB8C-FE6F93489170}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7A260ACB-BD04-4C16-AB8C-FE6F93489170}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7A260ACB-BD04-4C16-AB8C-FE6F93489170}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DC6249E7-F63B-4A75-8BCF-1259F263C891}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DC6249E7-F63B-4A75-8BCF-1259F263C891}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DC6249E7-F63B-4A75-8BCF-1259F263C891}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DC6249E7-F63B-4A75-8BCF-1259F263C891}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -8,7 +8,10 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
-using BigData.Models;
+using DataLogic.Models;
+using DataLogic.Entities;
+using static DataLogic.Models.AccountViewModels;
+using static DataLogic.Entities.ApplicationUserEntity;
 
 namespace BigData.Controllers
 {

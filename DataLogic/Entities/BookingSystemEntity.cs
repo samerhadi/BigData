@@ -4,11 +4,9 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace BigData.Models
+namespace DataLogic.Entities
 {
-    //skapar klassen för bokningtjänsten
-    public class BookingSystem
-
+    public class BookingSystemEntity
     {
         [Key]
         public int BookningSystemId { get; set; }
@@ -22,8 +20,7 @@ namespace BigData.Models
         public int ContactPhone { get; set; }
         public string Adress { get; set; }
         public string LatitudeAndLongitude { get; set; }
-        public string PostaICode {get; set;}
+        public string PostaICode { get; set; }
         public string City { get; set; }
-
     }
 }
