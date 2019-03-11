@@ -19,7 +19,7 @@ namespace BigData.Controllers
 
         //Skapar ett nytt bokningssystem
         [HttpPost]
-        public ActionResult CreateBookingSystem(BookingSystems system)
+        public ActionResult CreateBookingSystem(BookingSystemEntity system)
         {
             try
             {
