@@ -5,7 +5,9 @@ using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
 using Owin;
-using BigData.Models;
+using DataLogic.Models;
+using DataLogic.Context;
+using static DataLogic.Entities.ApplicationUserEntity;
 
 namespace BigData
 {

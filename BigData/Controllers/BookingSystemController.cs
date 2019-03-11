@@ -1,9 +1,11 @@
-﻿using BigData.Models;
+﻿using DataLogic.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using DataLogic.Entities;
+using DataLogic.Context;
 
 namespace BigData.Controllers
 {
@@ -17,7 +19,7 @@ namespace BigData.Controllers
 
         //Skapar ett nytt bokningssystem
         [HttpPost]
-        public ActionResult CreateBookingSystem(BookingSystem system)
+        public ActionResult CreateBookingSystem(BookingSystems system)
         {
             try
             {
