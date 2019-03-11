@@ -13,11 +13,11 @@ namespace DataLogic.Entities
         public string SystemName { get; set; }
         public string SystemDescription { get; set; }
         public string Email { get; set; }
-        public int PhoneNumber { get; set; }
+        public string PhoneNumber { get; set; }
         public string Website { get; set; }
         public string CompanyName { get; set; }
         public string ContactEmail { get; set; }
-        public int ContactPhone { get; set; }
+        public string ContactPhone { get; set; }
         public string Adress { get; set; }
         public string LatitudeAndLongitude { get; set; }
         public string PostaICode { get; set; }
