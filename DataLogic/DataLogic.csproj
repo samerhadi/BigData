@@ -117,6 +117,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Context\ApplicationDbContext.cs" />
+    <Compile Include="Context\DataInitializer.cs" />
     <Compile Include="Entities\ApplicationUserEntity.cs" />
     <Compile Include="Entities\BookingSystemEntity.cs" />
     <Compile Include="Entities\BookingTableEntity.cs" />
