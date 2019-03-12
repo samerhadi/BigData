@@ -6,10 +6,10 @@
 
 <h2>CreateBookingSystem</h2>
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>BookingSystemEntity</h4>
         <hr />
@@ -116,6 +116,10 @@
             </div>
         </div>
     </div>
+    @Html.EnumDropDownListFor(
+    x => x.ServiceType,
+    "Select My Type",
+    new { @class = "form-control" })
 }
 
 <div>

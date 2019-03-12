@@ -22,5 +22,17 @@ namespace DataLogic.Entities
         public string LatitudeAndLongitude { get; set; }
         public string PostaICode { get; set; }
         public string City { get; set; }
+        public ServiceType ServiceType { get; set; }
+      
     }
+
+    public enum ServiceType
+        {
+            Frisör = 1,
+            Massage = 2,
+            Ansiktebehandling = 3,
+            Yoga = 4
+            
+            
+        }
 }
