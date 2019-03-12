@@ -7,7 +7,7 @@
 <h2>ChooseService</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Registera nytt system", "CreateBookingSystem")
 </p>
 <table class="table">
     <tr>
@@ -38,9 +38,7 @@
         <th>
             @Html.DisplayNameFor(model => model.Adress)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.LatitudeAndLongitude)
-        </th>
+      
         <th>
             @Html.DisplayNameFor(model => model.PostaICode)
         </th>
@@ -79,20 +77,14 @@
         <td>
             @Html.DisplayFor(modelItem => item.Adress)
         </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.LatitudeAndLongitude)
-        </td>
+ 
         <td>
             @Html.DisplayFor(modelItem => item.PostaICode)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.City)
         </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.BookningSystemId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.BookningSystemId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.BookningSystemId })
-        </td>
+  
     </tr>
 }
 
