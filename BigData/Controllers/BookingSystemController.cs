@@ -12,8 +12,8 @@ namespace BigData.Controllers
     public class BookingSystemController : BaseController
     {
 
-       
-        
+
+
         // GET: BookingSystem
         public ActionResult CreateBookingSystem()
         {
@@ -40,12 +40,20 @@ namespace BigData.Controllers
 
             return View();
         }
-        public ActionResult ChooseService()
-            {
-            var listOfService = db.BookingSystems.ToList();
-             
-                return View(listOfService);
-            }
+
+        public ActionResult AllServices()
+        {
+            var listOfAllServices = db.BookingSystems.ToList();
+
+            return View(listOfAllServices);
+        }
+
+        public ActionResult ChoosenService(int id)
+        {
+            var bookingSystem = db.BookingSystems.Find(id);
+            return View(bookingSystem);
+        }
+
     }
 
 }
