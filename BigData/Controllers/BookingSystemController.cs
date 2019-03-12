@@ -37,6 +37,10 @@ namespace BigData.Controllers
 
             return View();
         }
-
+        public ActionResult ChooseService()
+            {
+                return View();
+            }
     }
+
 }
