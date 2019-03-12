@@ -40,6 +40,7 @@ namespace BigData.Controllers
 
             return View();
         }
+        //skapar en vy med all tjänster som en lista
         public ActionResult ChooseService()
             {
             var listOfService = db.BookingSystems.ToList();

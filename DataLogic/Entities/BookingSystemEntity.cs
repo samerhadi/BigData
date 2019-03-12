@@ -6,6 +6,8 @@ using System.Web;
 
 namespace DataLogic.Entities
 {
+
+    //skapa en bookingsystem model som används för att spara all information om tjänster
     public class BookingSystemEntity
     {
         [Key]
@@ -22,10 +24,12 @@ namespace DataLogic.Entities
         public string LatitudeAndLongitude { get; set; }
         public string PostaICode { get; set; }
         public string City { get; set; }
+        //skapar en variabel av enum klassen
         public ServiceType ServiceType { get; set; }
       
     }
 
+    //skapa en enum som innehåller alla tjänster
     public enum ServiceType
         {
             Frisör = 1,
