@@ -56,8 +56,9 @@ namespace BigData.Controllers
 
         public ActionResult BookTime(int id)
         {
-            var bookingSystem = db.BookingSystems.Find(id);
-            return View(bookingSystem);
+            var findTimeModel = new FindTimeModel();
+            findTimeModel.BookingSystem = db.BookingSystems.Find(id);
+            return View(findTimeModel);
         }
 
     }

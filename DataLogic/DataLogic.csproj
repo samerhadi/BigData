@@ -296,7 +296,7 @@
     <Compile Include="Entities\BookingSystemEntity.cs" />
     <Compile Include="Entities\BookingTableEntity.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\Class1.cs" />
+    <Compile Include="Models\BookingViewModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
