@@ -10,16 +10,16 @@
 {
 
     @Html.EditorFor(model => model.Tid, new { htmlAttributes = new { @class = "datepicker" } })
-    <input type="submit" value="Välj dag" onclick="location.href='@Url.Action("BookTime", "BookingSystem", new { id = Model.BookingSystem, date = Model.Tid })'" />
+    <input type="submit" value="Välj dag" onclick="location.href='@Url.Action("BookTime", "BookingSystem", new { Model = Model })'" />  
 }
 
-@if (Model.Date == null)
+@if (Model.DateChoosen)
 {
     <p>hej</p>
     @*foreach (var item in model.)
-    {
-        @Html.DisplayFor(modelItem => item)
-    }*@
+        {
+            @Html.DisplayFor(modelItem => item)
+        }*@
 }
 
 <link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />

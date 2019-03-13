@@ -58,15 +58,14 @@ namespace BigData.Controllers
         {
             var findTimeModel = new FindTimeModel();
             findTimeModel.BookingSystem = db.BookingSystems.Find(id);
+            findTimeModel.DateChoosen = false;
             return View(findTimeModel);
         }
 
         [HttpPost]
-        public ActionResult BookTime(BookingSystemEntity bookingSystem, DateTime date)
+        public ActionResult BookTime(FindTimeModel findTimeModel)
         {
-            var findTimeModel = new FindTimeModel();
-            findTimeModel.BookingSystem = db.BookingSystems.Find(bookingSystem.BookningSystemId);
-            findTimeModel.Date = date;
+            findTimeModel.DateChoosen = true;
             return View(findTimeModel);
         }
 
