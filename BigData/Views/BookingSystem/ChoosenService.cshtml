@@ -106,6 +106,10 @@
             @Html.DisplayFor(model => model.City)
         </dd>
 
+        <dd>
+            @Html.ActionLink("Boka Tid", "BookTime", "Booking", new { area = "" }, new { id = Model.BookningSystemId })
+        </dd>
+
     </dl>
 </div>
 <p>

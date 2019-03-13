@@ -12,7 +12,7 @@ namespace BigData.Controllers
     public class BookingSystemController : BaseController
     {
 
-        // GET: BookingSystem
+        // GET: CreateBookingSystem
         public ActionResult CreateBookingSystem()
         {
             return View();

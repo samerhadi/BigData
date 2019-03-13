@@ -1,17 +1,22 @@
-﻿using System;
+﻿using DataLogic.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using DataLogic.Entities;
+using DataLogic.Context;
+
 
 namespace BigData.Controllers
 {
-    public class BookingController : Controller
+    public class BookingController : BaseController
     {
         // GET: Booking
-        public ActionResult Index()
+        public ActionResult BookTime(int id)
         {
-            return View();
+            var bookingSystem = db.BookingSystems.Find(id);
+            return View(bookingSystem);
         }
     }
 }
