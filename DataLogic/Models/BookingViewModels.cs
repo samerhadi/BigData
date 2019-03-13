@@ -15,5 +15,6 @@ namespace DataLogic.Models
     {
         public DateTime Tid { get; set; }
         public BookingSystemEntity BookingSystem { get; set; }
+        public DateTime Date { get; set; }
     }
 }
