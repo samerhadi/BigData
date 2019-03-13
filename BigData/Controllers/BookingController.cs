@@ -13,10 +13,9 @@ namespace BigData.Controllers
     public class BookingController : BaseController
     {
         // GET: Booking
-        public ActionResult BookTime(int id)
+        public ActionResult BookTime()
         {
-            var bookingSystem = db.BookingSystems.Find(id);
-            return View(bookingSystem);
+            return View();
         }
     }
 }
