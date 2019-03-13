@@ -1,0 +1,25 @@
+﻿@model DataLogic.Models.Class1
+@{
+    ViewBag.Title = "BookTime";
+}
+
+<h2>BookTime</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.EditorFor(model => model.Tid, new { htmlAttributes = new { @class = "datepicker" } })
+}
+
+<link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+
+@section scripts{
+
+    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+
+    <script>
+        $(function () {
+            $(".datepicker").datepicker();
+        });
+    </script>
+
+}
