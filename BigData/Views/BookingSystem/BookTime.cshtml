@@ -29,6 +29,7 @@
 
         }
         @Html.HiddenFor(model => model.BookingSystem.BookningSystemId)
+        @Html.HiddenFor(model => model.Time)
 
         <input type="submit" value="Boka tid" onclick="location.href='@Url.Action("TimeBooked", "BookingSystem", new { Model = Model })'" />
     }
