@@ -6,22 +6,35 @@
 
 <h2>Booka Tid</h2>
 
+
+
+
 @using (Html.BeginForm("BookTime", "BookingSystem", FormMethod.Post))
 {
 
     @Html.EditorFor(model => model.Time, new { htmlAttributes = new { @class = "datepicker" } })
     <input type="submit" value="Välj dag" onclick="location.href='@Url.Action("BookTime", "BookingSystem", new { Model = Model })'" />
 }
-
-@if (Model.DateChoosen)
+@using (Html.BeginForm("CheckRadio", "Home", FormMethod.Post))
 {
 
-    foreach (var item in Model.ListOfTimes)
+    if (Model.DateChoosen)
     {
-        @Html.DisplayFor(Model => item)
-        <br/>
+
+
+        foreach (var item in Model.ListOfTimes)
+        {
+            @Html.DisplayFor(Model => item)
+            <input type="radio" name="item" value=@Model.ListOfTimes />
+            <br />
+
+        }
     }
+
 }
+
+
+
 
 <link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
 
