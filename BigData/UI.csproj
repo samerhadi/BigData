@@ -458,6 +458,7 @@
     <Content Include="Views\BookingSystem\ChoosenService.cshtml" />
     <Content Include="Views\BookingSystem\BookTime.cshtml" />
     <Content Include="Views\Booking\BookTime.cshtml" />
+    <Content Include="Views\BookingSystem\TimeBooked.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
