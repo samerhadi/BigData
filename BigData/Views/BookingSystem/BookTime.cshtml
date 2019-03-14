@@ -9,7 +9,7 @@
 @using (Html.BeginForm("BookTime", "BookingSystem", FormMethod.Post))
 {
 
-    @Html.EditorFor(model => model.Tid, new { htmlAttributes = new { @class = "datepicker" } })
+    @Html.EditorFor(model => model.Time, new { htmlAttributes = new { @class = "datepicker" } })
     <input type="submit" value="Välj dag" onclick="location.href='@Url.Action("BookTime", "BookingSystem", new { Model = Model })'" />  
 }
 

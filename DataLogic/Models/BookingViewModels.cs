@@ -6,14 +6,11 @@ using DataLogic.Entities;
 
 namespace DataLogic.Models
 {
-    public class Test
-    {
-        public DateTime Tid { get; set; }
-    }
+   
 
     public class FindTimeModel
     {
-        public DateTime Tid { get; set; }
+        public DateTime Time { get; set; }
         public BookingSystemEntity BookingSystem { get; set; }
         public Boolean DateChoosen { get; set; }
         public List<int> ListOfTimes { get; set; }
