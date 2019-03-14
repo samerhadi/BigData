@@ -15,9 +15,8 @@
     @Html.EditorFor(model => model.Time, new { htmlAttributes = new { @class = "datepicker" } })
     <input type="submit" value="Välj dag" onclick="location.href='@Url.Action("BookTime", "BookingSystem", new { Model = Model })'" />
 }
-@using (Html.BeginForm("CheckRadio", "Home", FormMethod.Post))
+@using (Html.BeginForm("TimeBooked", "BookingSystem", FormMethod.Post))
 {
-
     if (Model.DateChoosen)
     {
 
@@ -30,8 +29,10 @@
 
         }
     }
-
+    <input type="submit" value="Välj dag" onclick="location.href='@Url.Action("TimeBooked", "BookingSystem", new { Model = Model })'" />
 }
+
+
 
 
 
