@@ -13,6 +13,7 @@
 {
 
     @Html.EditorFor(model => model.Time, new { htmlAttributes = new { @class = "datepicker" } })
+    @Html.HiddenFor(model => model.BookingSystem.BookningSystemId)
     <input type="submit" value="Välj dag" onclick="location.href='@Url.Action("BookTime", "BookingSystem", new { Model = Model })'" />
 }
 @using (Html.BeginForm("TimeBooked", "BookingSystem", FormMethod.Post))
@@ -27,6 +28,7 @@
             <br />
 
         }
+        @Html.HiddenFor(model => model.BookingSystem.BookningSystemId)
 
         <input type="submit" value="Boka tid" onclick="location.href='@Url.Action("TimeBooked", "BookingSystem", new { Model = Model })'" />
     }
