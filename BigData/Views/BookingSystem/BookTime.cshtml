@@ -16,10 +16,11 @@
 @if (Model.DateChoosen)
 {
     <p>hej</p>
-    @*foreach (var item in model.)
+    foreach (var item in Model.ListOfTimes)
         {
-            @Html.DisplayFor(modelItem => item)
-        }*@
+            <p>0</p>
+            @Html.DisplayFor(Model => item)
+        }
 }
 
 <link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
