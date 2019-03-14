@@ -70,13 +70,15 @@ namespace BigData.Controllers
             return View(findTimeModel);
         }
 
-        public List<int> CreateListOfTimes()
+        public List<String> CreateListOfTimes()
         {
-            var listOfTimes = new List<int>();
+            var listOfTimes = new List<String>();
             int startTid = 8;
+            string skapaTid;
             for(int i = 0;i <= 8; i++)
             {
-                listOfTimes.Add(startTid);
+                skapaTid = Convert.ToString(startTid) + ":00-" + Convert.ToString(startTid + 1) + ":00";
+                listOfTimes.Add(skapaTid);
                 startTid++;
             }
             return listOfTimes;
