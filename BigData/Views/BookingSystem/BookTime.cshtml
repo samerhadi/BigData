@@ -20,7 +20,6 @@
     if (Model.DateChoosen)
     {
 
-
         foreach (var item in Model.ListOfTimes)
         {
             @Html.DisplayFor(Model => item)
@@ -28,8 +27,9 @@
             <br />
 
         }
+
+        <input type="submit" value="Boka tid" onclick="location.href='@Url.Action("TimeBooked", "BookingSystem", new { Model = Model })'" />
     }
-    <input type="submit" value="Välj dag" onclick="location.href='@Url.Action("TimeBooked", "BookingSystem", new { Model = Model })'" />
 }
 
 

@@ -14,5 +14,6 @@ namespace DataLogic.Models
         public BookingSystemEntity BookingSystem { get; set; }
         public Boolean DateChoosen { get; set; }
         public List<String> ListOfTimes { get; set; }
+        public String ChoosenTime { get; set; }
     }
 }

@@ -84,9 +84,15 @@ namespace BigData.Controllers
             return listOfTimes;
         }
 
-        public ActionResult TimeBooked()
+        public ActionResult TimeBooked(FindTimeModel findTimeModel)
         {
+            SaveBookedTime(findTimeModel);
             return View();
+        }
+
+        public void SaveBookedTime(FindTimeModel findTimeModel)
+        {
+
         }
 
 
