@@ -9,17 +9,18 @@
 @using (Html.BeginForm("BookTime", "BookingSystem", FormMethod.Post))
 {
 
-    @Html.EditorFor(model => model.Tid, new { htmlAttributes = new { @class = "datepicker" } })
+    @Html.EditorFor(model => model.Time, new { htmlAttributes = new { @class = "datepicker" } })
     <input type="submit" value="Välj dag" onclick="location.href='@Url.Action("BookTime", "BookingSystem", new { Model = Model })'" />  
 }
 
 @if (Model.DateChoosen)
 {
     <p>hej</p>
-    @*foreach (var item in model.)
+    foreach (var item in Model.ListOfTimes)
         {
-            @Html.DisplayFor(modelItem => item)
-        }*@
+            <p>0</p>
+            @Html.DisplayFor(Model => item)
+        }
 }
 
 <link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
