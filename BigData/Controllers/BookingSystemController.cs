@@ -66,7 +66,20 @@ namespace BigData.Controllers
         public ActionResult BookTime(FindTimeModel findTimeModel)
         {
             findTimeModel.DateChoosen = true;
+            findTimeModel.ListOfTimes = CreateListOfTimes();
             return View(findTimeModel);
+        }
+
+        public List<int> CreateListOfTimes()
+        {
+            var listOfTimes = new List<int>();
+            int startTid = 8;
+            for(int i = 0;i <= 7; i++)
+            {
+                listOfTimes.Add(startTid);
+                startTid++;
+            }
+            return listOfTimes;
         }
 
     }
