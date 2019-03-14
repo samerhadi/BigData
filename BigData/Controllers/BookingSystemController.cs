@@ -84,6 +84,12 @@ namespace BigData.Controllers
             return listOfTimes;
         }
 
+        public ActionResult TimeBooked()
+        {
+            return View();
+        }
+
+
     }
 
 }
