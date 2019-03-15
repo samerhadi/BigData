@@ -1,14 +1,39 @@
-﻿@model DataLogic.Models.Test
+﻿@model DataLogic.Models.FindTimeModel
+
 @{
     ViewBag.Title = "BookTime";
 }
 
-<h2>BookTime</h2>
+<h2>Booka Tid</h2>
 
-@using (Html.BeginForm())
+
+
+
+@using (Html.BeginForm("BookTime", "Booking", FormMethod.Post))
 {
-    @Html.EditorFor(model => model.Tid, new { htmlAttributes = new { @class = "datepicker" } })
+
+    @Html.EditorFor(model => model.Time, new { htmlAttributes = new { @class = "datepicker" } })
+    @Html.HiddenFor(model => model.BookingSystem.BookningSystemId)
+    <input type="submit" value="Välj dag" onclick="location.href='@Url.Action("BookTime", "Booking", new { Model = Model })'" />
 }
+
+@if (Model.DateChoosen)
+{
+    @Html.HiddenFor(model => model.BookingSystem.BookningSystemId)
+    @Html.HiddenFor(model => model.Time)
+    foreach (var item in Model.ListOfTimes)
+    {
+        @Html.ActionLink(item, "TimeBooked", new { Model = Model, time = item, id = Model.BookingSystem.BookningSystemId })
+        <br />
+
+    }
+}
+
+
+
+
+
+
 
 <link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
 
@@ -18,8 +43,12 @@
 
     <script>
         $(function () {
-            $(".datepicker").datepicker();
+            $(".datepicker").datepicker()
+
         });
     </script>
 
 }
+
+
+
