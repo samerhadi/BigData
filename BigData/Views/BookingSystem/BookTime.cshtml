@@ -16,24 +16,21 @@
     @Html.HiddenFor(model => model.BookingSystem.BookningSystemId)
     <input type="submit" value="Välj dag" onclick="location.href='@Url.Action("BookTime", "BookingSystem", new { Model = Model })'" />
 }
-@using (Html.BeginForm("TimeBooked", "BookingSystem", FormMethod.Post))
+
+@if (Model.DateChoosen)
 {
-    if (Model.DateChoosen)
+    @Html.HiddenFor(model => model.BookingSystem.BookningSystemId)
+    @Html.HiddenFor(model => model.Time)
+    foreach (var item in Model.ListOfTimes)
     {
+        @Html.ActionLink(item, "TimeBooked", new { Model = Model, time = item })
+        <br />
 
-        foreach (var item in Model.ListOfTimes)
-        {
-            @Html.DisplayFor(Model => item)
-            <input type="radio" name="item" value=@Model.ListOfTimes />
-            <br />
-
-        }
-        @Html.HiddenFor(model => model.BookingSystem.BookningSystemId)
-        @Html.HiddenFor(model => model.Time)
-
-        <input type="submit" value="Boka tid" onclick="location.href='@Url.Action("TimeBooked", "BookingSystem", new { Model = Model })'" />
     }
+
+
 }
+
 
 
 

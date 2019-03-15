@@ -84,8 +84,7 @@ namespace BigData.Controllers
             return listOfTimes;
         }
 
-        [HttpPost]
-        public ActionResult TimeBooked(FindTimeModel findTimeModel)
+        public ActionResult TimeBooked(FindTimeModel findTimeModel, string time)
         {
             findTimeModel.BookingSystem = db.BookingSystems.Find(findTimeModel.BookingSystem.BookningSystemId);
             SaveBookedTime(findTimeModel);
