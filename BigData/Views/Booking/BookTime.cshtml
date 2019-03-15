@@ -1,7 +1,9 @@
 ﻿@model DataLogic.Models.FindTimeModel
 
 @{
-    ViewBag.Title = "BookTime";
+                /**/
+
+                ViewBag.Title = "BookTime";
 }
 
 <h2>Booka Tid</h2>
@@ -23,8 +25,19 @@
     @Html.HiddenFor(model => model.Time)
     foreach (var item in Model.ListOfTimes)
     {
-        @Html.ActionLink(item.StartTime.ToString() + ":00 -" + item.EndTime.ToString() + ":00", "TimeBooked", new { date = Model.Time, startTime = item.StartTime, endTime = item.EndTime, id = Model.BookingSystem.BookningSystemId })
-        <br />
+        if (!item.TimeBooked)
+        {
+            @Html.ActionLink(item.StartTime.ToString() + ":00 -" + item.EndTime.ToString() + ":00", "TimeBooked", new { date = Model.Time, startTime = item.StartTime, endTime = item.EndTime, id = Model.BookingSystem.BookningSystemId })
+            <br />
+        }
+
+        else
+        {
+            @Html.DisplayFor(modelItem => item.StartTime)
+            @Html.DisplayFor(modelItem => item.EndTime)
+            <br />
+        }
+
 
     }
 }

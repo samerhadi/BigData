@@ -27,7 +27,7 @@ namespace BigData.Controllers
         {
             findTimeModel.BookingSystem = db.BookingSystems.Find(findTimeModel.BookingSystem.BookningSystemId);
             findTimeModel.DateChoosen = true;
-            findTimeModel.ListOfTimes = CreateListOfTimes();
+            findTimeModel.ListOfTimes = CreateListOfTimes(findTimeModel);
             return View(findTimeModel);
         }
 
@@ -47,7 +47,7 @@ namespace BigData.Controllers
         //}
 
         //Returnerar en lista med alla tider
-        public List<Times> CreateListOfTimes()
+        public List<Times> CreateListOfTimes(FindTimeModel findTimeModel)
         {
             var listOfTimes = new List<Times>();
             int startTime = 8;
@@ -58,11 +58,36 @@ namespace BigData.Controllers
                 var times = new Times();
                 times.StartTime = startTime;
                 times.EndTime = endTime;
+                times.TimeBooked = CheckIfTimeIsBooked(findTimeModel, times);
                 listOfTimes.Add(times);
                 startTime++;
                 endTime++;
             }
             return listOfTimes;
+        }
+
+        public bool CheckIfTimeIsBooked(FindTimeModel findTimeModel, Times times)
+        {
+            var timeBooked = false;
+
+            var bookingTableEntity = new BookingTableEntity();
+
+            bookingTableEntity.StartTime = times.StartTime;
+            bookingTableEntity.Date = findTimeModel.Time;
+            bookingTableEntity.BookingSystem = findTimeModel.BookingSystem;
+
+            var databaseBookingTableList = new List<BookingTableEntity>();
+            databaseBookingTableList = db.BookingTabels.ToList();
+
+            foreach (var item in databaseBookingTableList)
+            {
+                if(item.Date == bookingTableEntity.Date && item.StartTime == bookingTableEntity.StartTime && item.BookingSystem == bookingTableEntity.BookingSystem)
+                {
+                    timeBooked = true;
+                }
+            }
+            
+            return timeBooked;
         }
 
         //GET: TimeBooked

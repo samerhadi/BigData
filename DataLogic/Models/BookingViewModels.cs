@@ -21,5 +21,6 @@ namespace DataLogic.Models
     {
         public int StartTime { get; set; }
         public int EndTime { get; set; }
+        public bool TimeBooked { get; set; }
     }
 }
