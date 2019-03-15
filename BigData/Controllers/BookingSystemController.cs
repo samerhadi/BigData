@@ -53,6 +53,7 @@ namespace BigData.Controllers
             return View(bookingSystem);
         }
 
+        // GET: BookTime första gången den besöks
         public ActionResult BookTime(int id)
         {
             var findTimeModel = new FindTimeModel();
@@ -61,6 +62,7 @@ namespace BigData.Controllers
             return View(findTimeModel);
         }
 
+        //GET: BookTime med en vald dag
         [HttpPost]
         public ActionResult BookTime(FindTimeModel findTimeModel)
         {
@@ -70,6 +72,7 @@ namespace BigData.Controllers
             return View(findTimeModel);
         }
 
+        //Returnerar en lista med alla tider
         public List<string> CreateListOfTimes()
         {
             var listOfTimes = new List<string>();
@@ -84,6 +87,7 @@ namespace BigData.Controllers
             return listOfTimes;
         }
 
+        //GET: TimeBooked
         public ActionResult TimeBooked(FindTimeModel findTimeModel, string time, int id)
         {
             findTimeModel.BookingSystem = db.BookingSystems.Find(id);
@@ -92,6 +96,7 @@ namespace BigData.Controllers
             return View();
         }
 
+        //Sparar en vald tid i databasen
         public void SaveBookedTime(FindTimeModel findTimeModel)
         {
 
