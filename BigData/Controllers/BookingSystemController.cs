@@ -84,9 +84,10 @@ namespace BigData.Controllers
             return listOfTimes;
         }
 
-        public ActionResult TimeBooked(FindTimeModel findTimeModel, string time)
+        public ActionResult TimeBooked(FindTimeModel findTimeModel, string time, int id)
         {
-            findTimeModel.BookingSystem = db.BookingSystems.Find(findTimeModel.BookingSystem.BookningSystemId);
+            findTimeModel.BookingSystem = db.BookingSystems.Find(id);
+            findTimeModel.ChoosenTime = time;
             SaveBookedTime(findTimeModel);
             return View();
         }

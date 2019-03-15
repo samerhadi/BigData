@@ -23,12 +23,10 @@
     @Html.HiddenFor(model => model.Time)
     foreach (var item in Model.ListOfTimes)
     {
-        @Html.ActionLink(item, "TimeBooked", new { Model = Model, time = item })
+        @Html.ActionLink(item, "TimeBooked", new { Model = Model, time = item, id = Model.BookingSystem.BookningSystemId })
         <br />
 
     }
-
-
 }
 
 
