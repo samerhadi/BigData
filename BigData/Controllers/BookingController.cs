@@ -66,14 +66,22 @@ namespace BigData.Controllers
         }
 
         //GET: TimeBooked
-        public ActionResult TimeBooked(DateTime time, int startTime, int endTime, int id)
+        public ActionResult TimeBooked(DateTime date, int startTime, int endTime, int id)
         {
+            var bookingTable = new BookingTableEntity();
+            bookingTable.BookingSystem = db.BookingSystems.Find(id);
+            bookingTable.Date = date;
+            bookingTable.StartTime = startTime;
+            bookingTable.EndTime = endTime;
+            SaveBookedTime(bookingTable);
             return View();
         }
 
         //Sparar en vald tid i databasen
-        public void SaveBookedTime(FindTimeModel findTimeModel)
+        public void SaveBookedTime(BookingTableEntity bookingTable)
         {
+            db.BookingTabels.Add(bookingTable);
+            db.SaveChanges();
 
         }
     }
