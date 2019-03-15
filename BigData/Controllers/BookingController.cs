@@ -32,26 +32,41 @@ namespace BigData.Controllers
         }
 
         //Returnerar en lista med alla tider
-        public List<string> CreateListOfTimes()
+        //public List<string> CreateListOfTimes()
+        //{
+        //    var listOfTimes = new List<string>();
+        //    int startTid = 8;
+        //    string skapaTid;
+        //    for (int i = 0; i <= 8; i++)
+        //    {
+        //        skapaTid = Convert.ToString(startTid) + ":00-" + Convert.ToString(startTid + 1) + ":00";
+        //        listOfTimes.Add(skapaTid);
+        //        startTid++;
+        //    }
+        //    return listOfTimes;
+        //}
+
+        //Returnerar en lista med alla tider
+        public List<Times> CreateListOfTimes()
         {
-            var listOfTimes = new List<string>();
-            int startTid = 8;
-            string skapaTid;
-            for (int i = 0; i <= 8; i++)
+            var listOfTimes = new List<Times>();
+            var times = new Times();
+            int startTime = 8;
+            int endTime = startTime + 1;
+            for (int i = 0; i < 8; i++)
             {
-                skapaTid = Convert.ToString(startTid) + ":00-" + Convert.ToString(startTid + 1) + ":00";
-                listOfTimes.Add(skapaTid);
-                startTid++;
+                times.StartTime = startTime;
+                times.EndTime = endTime;
+                listOfTimes.Add(times);
+                startTime++;
+                endTime++;
             }
             return listOfTimes;
         }
 
         //GET: TimeBooked
-        public ActionResult TimeBooked(FindTimeModel findTimeModel, string time, int id)
+        public ActionResult TimeBooked(DateTime time, int startTime, int endTime, int id)
         {
-            findTimeModel.BookingSystem = db.BookingSystems.Find(id);
-            findTimeModel.ChoosenTime = time;
-            SaveBookedTime(findTimeModel);
             return View();
         }
 

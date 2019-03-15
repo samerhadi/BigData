@@ -14,7 +14,7 @@
 
     @Html.EditorFor(model => model.Time, new { htmlAttributes = new { @class = "datepicker" } })
     @Html.HiddenFor(model => model.BookingSystem.BookningSystemId)
-    <input type="submit" value="Välj dag" onclick="location.href='@Url.Action("BookTime", "Booking", new { Model = Model })'" />
+    <input type="submit" value="Välj dag" onclick="location.href='@Url.Action("BookTime", "BookingS", new { Model = Model })'" />
 }
 
 @if (Model.DateChoosen)
@@ -23,7 +23,7 @@
     @Html.HiddenFor(model => model.Time)
     foreach (var item in Model.ListOfTimes)
     {
-        @Html.ActionLink(item, "TimeBooked", new { Model = Model, time = item, id = Model.BookingSystem.BookningSystemId })
+        @Html.ActionLink(item.StartTime.ToString(), "TimeBooked", new { time = Model.Time, startTime = item.StartTime, endTime = item.EndTime, id = Model.BookingSystem.BookningSystemId })
         <br />
 
     }

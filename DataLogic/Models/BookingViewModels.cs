@@ -13,7 +13,13 @@ namespace DataLogic.Models
         public DateTime Time { get; set; }
         public BookingSystemEntity BookingSystem { get; set; }
         public Boolean DateChoosen { get; set; }
-        public List<string> ListOfTimes { get; set; }
-        public string ChoosenTime { get; set; }
+        public List<Times> ListOfTimes { get; set; }
+        public Times ChoosenTime { get; set; }
+    }
+
+    public class Times
+    {
+        public int StartTime { get; set; }
+        public int EndTime { get; set; }
     }
 }
