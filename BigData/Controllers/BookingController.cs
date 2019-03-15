@@ -50,11 +50,12 @@ namespace BigData.Controllers
         public List<Times> CreateListOfTimes()
         {
             var listOfTimes = new List<Times>();
-            var times = new Times();
             int startTime = 8;
             int endTime = startTime + 1;
+
             for (int i = 0; i < 8; i++)
             {
+                var times = new Times();
                 times.StartTime = startTime;
                 times.EndTime = endTime;
                 listOfTimes.Add(times);

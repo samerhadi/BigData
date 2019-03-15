@@ -23,7 +23,7 @@
     @Html.HiddenFor(model => model.Time)
     foreach (var item in Model.ListOfTimes)
     {
-        @Html.ActionLink(item.StartTime.ToString(), "TimeBooked", new { time = Model.Time, startTime = item.StartTime, endTime = item.EndTime, id = Model.BookingSystem.BookningSystemId })
+        @Html.ActionLink(item.StartTime.ToString() + ":00 -" + item.EndTime.ToString() + ":00", "TimeBooked", new { time = Model.Time, startTime = item.StartTime, endTime = item.EndTime, id = Model.BookingSystem.BookningSystemId })
         <br />
 
     }

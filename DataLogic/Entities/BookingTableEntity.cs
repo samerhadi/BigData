@@ -14,6 +14,7 @@ namespace DataLogic.Entities
         public string UserMail { get; set; }
         public int UserMobile { get; set; }
         public string Subject { get; set; }
+        public DateTime Date { get; set; }
         public int StartTime { get; set; }
         public int EndTime { get; set; }
         public int Price { get; set; }
