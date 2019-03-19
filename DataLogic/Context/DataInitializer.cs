@@ -46,6 +46,24 @@ namespace DataLogic.Context
                 City = "Örebro",
             };
             context.BookingSystems.Add(bookingsystem2);
+
+            var bookingsystem3 = new BookingSystemEntity()
+            {
+                BookningSystemId = 0,
+                SystemName = "Borrmaskiner AB",
+                SystemDescription = "Borrmaskin",
+                Email = "0",
+                PhoneNumber = "00000000",
+                Website = "0",
+                CompanyName = "0",
+                ContactEmail = "0",
+                ContactPhone = "0",
+                Adress = "Sandkullsvägen 24",
+                LatitudeAndLongitude = "0",
+                PostaICode = "0",
+                City = "Stockholm",
+            };
+            context.BookingSystems.Add(bookingsystem3);
             context.SaveChanges();
             base.Seed(context);
         }

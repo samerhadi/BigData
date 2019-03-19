@@ -7,35 +7,25 @@
 <h2>Dina tider</h2>
 
 <div>
-
     <hr />
     <table class="table table-striped" style="width:40%">
-
-
         <tr>
             <td>
-
-
                 @Html.DisplayFor(model => model.BookingSystem.SystemName)
                 <br />
 
                 @Html.DisplayFor(model => model.BookingSystem.SystemDescription)
                 <br />
 
-                <br />
                 <p>Tiden du har bokat:</p>
                 @string.Format("{0: yyyy-MM-dd}", Model.Date)
                 <br />
+
                 @string.Format(" Tid  " + Model.StartTime + ":00-" + Model.EndTime + ":00")
-
-
-
             </td>
         </tr>
-
     </table>
 </div>
 <p>
-
     @Html.ActionLink("Alla tjänster", "AllServices")
 </p>
