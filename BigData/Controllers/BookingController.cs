@@ -32,21 +32,6 @@ namespace BigData.Controllers
         }
 
         //Returnerar en lista med alla tider
-        //public List<string> CreateListOfTimes()
-        //{
-        //    var listOfTimes = new List<string>();
-        //    int startTid = 8;
-        //    string skapaTid;
-        //    for (int i = 0; i <= 8; i++)
-        //    {
-        //        skapaTid = Convert.ToString(startTid) + ":00-" + Convert.ToString(startTid + 1) + ":00";
-        //        listOfTimes.Add(skapaTid);
-        //        startTid++;
-        //    }
-        //    return listOfTimes;
-        //}
-
-        //Returnerar en lista med alla tider
         public List<Times> CreateListOfTimes(FindTimeModel findTimeModel)
         {
             var listOfTimes = new List<Times>();
@@ -66,15 +51,17 @@ namespace BigData.Controllers
             return listOfTimes;
         }
 
+        //Returnerar en bool beroende på om en tid är bokad eller inte
         public bool CheckIfTimeIsBooked(FindTimeModel findTimeModel, Times times)
         {
             var timeBooked = false;
 
-            var bookingTableEntity = new BookingTableEntity();
-
-            bookingTableEntity.StartTime = times.StartTime;
-            bookingTableEntity.Date = findTimeModel.Time;
-            bookingTableEntity.BookingSystem = findTimeModel.BookingSystem;
+            var bookingTableEntity = new BookingTableEntity
+            {
+                StartTime = times.StartTime,
+                Date = findTimeModel.Time,
+                BookingSystem = findTimeModel.BookingSystem
+            };
 
             var databaseBookingTableList = new List<BookingTableEntity>();
             databaseBookingTableList = db.BookingTabels.ToList();
