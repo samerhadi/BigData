@@ -99,7 +99,7 @@ namespace BigData.Controllers
             bookingTable.StartTime = startTime;
             bookingTable.EndTime = endTime;
             SaveBookedTime(bookingTable);
-            return View();
+            return View(bookingTable);
         }
 
         //Sparar en vald tid i databasen
