@@ -1,4 +1,4 @@
-﻿@model DataLogic.Models.FindTimeModel
+﻿@model DataLogic.Entities.BookingTableEntity
 
 @{
     ViewBag.Title = "TimeBooked";
@@ -6,3 +6,43 @@
 
 <h2>TimeBooked</h2>
 
+<div>
+    <h4>BookingTableEntity</h4>
+    <hr />
+    <table class="table table-striped" style="width:40%">
+
+
+        <p>Tider du har valt</p>
+        <tr>
+            <td>
+                @Html.DisplayNameFor(model => model.Date)
+            </td>
+
+            <td>
+                @Html.DisplayFor(model => model.Date)
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                @Html.DisplayNameFor(model => model.StartTime)
+            </td>
+
+            <td>
+                @Html.DisplayFor(model => model.StartTime)
+            </td>
+            <td>
+                @Html.DisplayNameFor(model => model.EndTime)
+            </td>
+
+            <td>
+                @Html.DisplayFor(model => model.EndTime)
+            </td>
+        </tr>
+
+    </table>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.BookingId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
