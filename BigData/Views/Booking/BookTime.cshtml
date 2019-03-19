@@ -1,9 +1,9 @@
 ﻿@model DataLogic.Models.FindTimeModel
 
 @{
-                /**/
+    /**/
 
-                ViewBag.Title = "BookTime";
+    ViewBag.Title = "BookTime";
 }
 
 <h2>Booka Tid</h2>
@@ -34,8 +34,11 @@
         else
         {
             @Html.DisplayFor(modelItem => item.StartTime)
+            @Html.Label(":00-")
             @Html.DisplayFor(modelItem => item.EndTime)
-            <br />
+            @Html.Label(":00")
+
+            <br>
         }
 
 
