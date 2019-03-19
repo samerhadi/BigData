@@ -28,6 +28,7 @@ namespace BigData.Controllers
             findTimeModel.BookingSystem = db.BookingSystems.Find(findTimeModel.BookingSystem.BookningSystemId);
             findTimeModel.DateChoosen = true;
             findTimeModel.ListOfTimes = CreateListOfTimes(findTimeModel);
+            
             return View(findTimeModel);
         }
 

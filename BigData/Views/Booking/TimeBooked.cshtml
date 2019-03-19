@@ -4,45 +4,38 @@
     ViewBag.Title = "TimeBooked";
 }
 
-<h2>TimeBooked</h2>
+<h2>Dina tider</h2>
 
 <div>
-    <h4>BookingTableEntity</h4>
+   
     <hr />
     <table class="table table-striped" style="width:40%">
 
 
-        <p>Tider du har valt</p>
         <tr>
             <td>
-                @Html.DisplayNameFor(model => model.Date)
-            </td>
 
-            <td>
-                @Html.DisplayFor(model => model.Date)
-            </td>
-        </tr>
 
-        <tr>
-            <td>
-                @Html.DisplayNameFor(model => model.StartTime)
-            </td>
+                @Html.DisplayFor(model => model.BookingSystem.SystemName)
+                <br />
 
-            <td>
-                @Html.DisplayFor(model => model.StartTime)
-            </td>
-            <td>
-                @Html.DisplayNameFor(model => model.EndTime)
-            </td>
+                @Html.DisplayFor(model => model.BookingSystem.SystemDescription)
+                <br />
 
-            <td>
-                @Html.DisplayFor(model => model.EndTime)
+                <br />
+                <p>Tiden du har bokat:</p>
+                @string.Format("{0: yyyy-MM-dd}", Model.Date)
+                <br />
+                @string.Format(" Tid  " + Model.StartTime + ":00-" + Model.EndTime + ":00")
+
+
+
             </td>
         </tr>
 
     </table>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.BookingId }) |
-    @Html.ActionLink("Back to List", "Index")
+   
+    @Html.ActionLink("Alla tjänster", "AllServices")
 </p>
