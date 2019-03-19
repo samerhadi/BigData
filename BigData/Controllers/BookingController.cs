@@ -81,13 +81,24 @@ namespace BigData.Controllers
         //GET: TimeBooked
         public ActionResult TimeBooked(DateTime date, int startTime, int endTime, int id)
         {
-            var bookingTable = new BookingTableEntity();
-            bookingTable.BookingSystem = db.BookingSystems.Find(id);
-            bookingTable.Date = date;
-            bookingTable.StartTime = startTime;
-            bookingTable.EndTime = endTime;
+            
+            var bookingTable = new BookingTableEntity
+            {
+                BookingSystem = db.BookingSystems.Find(id),
+                Date = date,
+                StartTime = startTime,
+                EndTime = endTime
+            };
+
             SaveBookedTime(bookingTable);
-            return View(bookingTable);
+
+            var timeBookedModel = new TimeBookedModel
+            {
+                ListOfBookingSystem = ServicesSuggestionList(bookingTable.BookingSystem),
+                BookingTableEntity = bookingTable
+            };
+
+            return View(timeBookedModel);
         }
 
         //Sparar en vald tid i databasen
@@ -96,6 +107,14 @@ namespace BigData.Controllers
             db.BookingTabels.Add(bookingTable);
             db.SaveChanges();
 
+        }
+
+        public List<BookingSystemEntity> ServicesSuggestionList(BookingSystemEntity bookingSystem)
+        {
+            var listOfSuggestedServices = new List<BookingSystemEntity>();
+            listOfSuggestedServices = db.BookingSystems.Where(b => b.City == bookingSystem.City && b.BookningSystemId != bookingSystem.BookningSystemId).ToList();
+
+            return listOfSuggestedServices;
         }
     }
 }

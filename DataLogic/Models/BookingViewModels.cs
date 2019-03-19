@@ -23,4 +23,10 @@ namespace DataLogic.Models
         public int EndTime { get; set; }
         public bool TimeBooked { get; set; }
     }
+
+    public class TimeBookedModel
+    {
+        public BookingTableEntity BookingTableEntity { get; set; }
+        public List<BookingSystemEntity> ListOfBookingSystem { get; set; }
+    }
 }

@@ -1,4 +1,4 @@
-﻿@model DataLogic.Entities.BookingTableEntity
+﻿@model DataLogic.Models.TimeBookedModel
 
 @{
     ViewBag.Title = "TimeBooked";
@@ -11,17 +11,17 @@
     <table class="table table-striped" style="width:40%">
         <tr>
             <td>
-                @Html.DisplayFor(model => model.BookingSystem.SystemName)
+                @Html.DisplayFor(model => model.BookingTableEntity.BookingSystem.SystemName)
                 <br />
 
-                @Html.DisplayFor(model => model.BookingSystem.SystemDescription)
+                @Html.DisplayFor(model => model.BookingTableEntity.BookingSystem.SystemDescription)
                 <br />
 
                 <p>Tiden du har bokat:</p>
-                @string.Format("{0: yyyy-MM-dd}", Model.Date)
+                @string.Format("{0: yyyy-MM-dd}", Model.BookingTableEntity.Date)
                 <br />
 
-                @string.Format(" Tid  " + Model.StartTime + ":00-" + Model.EndTime + ":00")
+                @string.Format(" Tid  " + Model.BookingTableEntity.StartTime + ":00-" + Model.BookingTableEntity.EndTime + ":00")
             </td>
         </tr>
     </table>
@@ -29,3 +29,23 @@
 <p>
     @Html.ActionLink("Alla tjänster", "AllServices")
 </p>
+@if (Model.ListOfBookingSystem.Count() >= 1)
+{
+    <div>
+        <p>Andra bokningssystem i samma stad</p>
+        <table>
+            <tr>
+                <td>
+                    @foreach (var item in Model.ListOfBookingSystem)
+                    {
+                        @Html.DisplayFor(model => item.CompanyName)
+                    }
+                </td>
+            </tr>
+        </table>
+    </div>
+}
+else
+{
+    <p>Inga system hittades</p>
+}
