@@ -98,7 +98,40 @@ namespace BigData.Controllers
                 BookingTableEntity = bookingTable
             };
 
+            var listOfBookingSystem = new List<BookingSystemEntity>();
+            listOfBookingSystem = ServicesSuggestionList(bookingTable.BookingSystem);
+
+            timeBookedModel = FindTimesForAllBookingSystems(bookingTable, listOfBookingSystem);
+
             return View(timeBookedModel);
+        }
+
+        public TimeBookedModel FindTimesForAllBookingSystems(BookingTableEntity bookingTable, List<BookingSystemEntity> listOfBookingSystem)
+        {
+            var timeBookedModel = new TimeBookedModel();
+
+            foreach (var item in listOfBookingSystem)
+            {
+                var findTimeModel = new FindTimeModel();
+                findTimeModel.BookingSystem = item;
+                findTimeModel.Time = bookingTable.Date;
+
+                var time = new Times
+                {
+                    StartTime = bookingTable.StartTime,
+                    EndTime = bookingTable.EndTime
+                };
+
+                findTimeModel.ChoosenTime = time;
+                findTimeModel.ListOfTimes = CreateListOfTimes(findTimeModel);
+
+                var listOfFindTimeModels = new List<FindTimeModel>();
+                listOfFindTimeModels.Add(findTimeModel);
+
+                timeBookedModel.ListOfFindTimeModels = listOfFindTimeModels;
+            }
+
+            return timeBookedModel;
         }
 
         //Sparar en vald tid i databasen

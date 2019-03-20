@@ -6,8 +6,6 @@ using DataLogic.Entities;
 
 namespace DataLogic.Models
 {
-   
-
     public class FindTimeModel
     {
         public DateTime Time { get; set; }
@@ -28,5 +26,6 @@ namespace DataLogic.Models
     {
         public BookingTableEntity BookingTableEntity { get; set; }
         public List<BookingSystemEntity> ListOfBookingSystem { get; set; }
+        public List<FindTimeModel> ListOfFindTimeModels { get; set; }
     }
 }
