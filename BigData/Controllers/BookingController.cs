@@ -52,6 +52,28 @@ namespace BigData.Controllers
             return listOfTimes;
         }
 
+        public List<Times> CreateListOfTimes(FindTimeModel findTimeModel, BookingTableEntity bookingTable)
+        {
+            var listOfTimes = new List<Times>();
+            int startTime = bookingTable.StartTime - 1;
+            int endTime = startTime + 1;
+
+            for (int i = 0; i < 3; i++)
+            {
+                if(startTime != bookingTable.StartTime)
+                {
+                    var times = new Times();
+                    times.StartTime = startTime;
+                    times.EndTime = endTime;
+                    times.TimeBooked = CheckIfTimeIsBooked(findTimeModel, times);
+                    listOfTimes.Add(times);
+                }
+                startTime++;
+                endTime++;
+            }
+            return listOfTimes;
+        }
+
         //Returnerar en bool beroende på om en tid är bokad eller inte
         public bool CheckIfTimeIsBooked(FindTimeModel findTimeModel, Times times)
         {
@@ -91,12 +113,12 @@ namespace BigData.Controllers
             };
 
             SaveBookedTime(bookingTable);
+
             var listOfBookingSystem = new List<BookingSystemEntity>();
             listOfBookingSystem = ServicesSuggestionList(bookingTable.BookingSystem);
 
             var timeBookedModel = new TimeBookedModel();
             timeBookedModel = FindTimesForAllBookingSystems(bookingTable, listOfBookingSystem);
-            timeBookedModel.ListOfBookingSystem = ServicesSuggestionList(bookingTable.BookingSystem);
             timeBookedModel.BookingTableEntity = bookingTable;
 
             return View(timeBookedModel);
@@ -119,7 +141,7 @@ namespace BigData.Controllers
                 };
 
                 findTimeModel.ChoosenTime = time;
-                findTimeModel.ListOfTimes = CreateListOfTimes(findTimeModel);
+                findTimeModel.ListOfTimes = CreateListOfTimes(findTimeModel, bookingTable);
 
                 var listOfFindTimeModels = new List<FindTimeModel>();
                 listOfFindTimeModels.Add(findTimeModel);
