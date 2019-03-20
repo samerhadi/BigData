@@ -36,9 +36,14 @@
         <table>
             <tr>
                 <td>
-                    @foreach (var item in Model.ListOfBookingSystem)
+                    @foreach (var item in Model.ListOfFindTimeModels)
                     {
-                        @Html.DisplayFor(model => item.CompanyName)
+                        @Html.DisplayFor(model => item.BookingSystem.CompanyName)
+                        foreach(var i in item.ListOfTimes)
+                        {
+                            @Html.DisplayFor(imodel => i.StartTime)
+                            @Html.DisplayFor(imodel => i.EndTime)
+                        }
                     }
                 </td>
             </tr>

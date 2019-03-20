@@ -91,17 +91,13 @@ namespace BigData.Controllers
             };
 
             SaveBookedTime(bookingTable);
-
-            var timeBookedModel = new TimeBookedModel
-            {
-                ListOfBookingSystem = ServicesSuggestionList(bookingTable.BookingSystem),
-                BookingTableEntity = bookingTable
-            };
-
             var listOfBookingSystem = new List<BookingSystemEntity>();
             listOfBookingSystem = ServicesSuggestionList(bookingTable.BookingSystem);
 
+            var timeBookedModel = new TimeBookedModel();
             timeBookedModel = FindTimesForAllBookingSystems(bookingTable, listOfBookingSystem);
+            timeBookedModel.ListOfBookingSystem = ServicesSuggestionList(bookingTable.BookingSystem);
+            timeBookedModel.BookingTableEntity = bookingTable;
 
             return View(timeBookedModel);
         }
