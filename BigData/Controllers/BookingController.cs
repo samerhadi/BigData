@@ -60,7 +60,7 @@ namespace BigData.Controllers
 
             for (int i = 0; i < 3; i++)
             {
-                if(startTime != bookingTable.StartTime)
+                if(startTime != bookingTable.StartTime && startTime >= 8 && startTime < 16)
                 {
                     var times = new Times();
                     times.StartTime = startTime;
@@ -71,7 +71,6 @@ namespace BigData.Controllers
                     {
                         listOfTimes.Add(times);
                     }
-                    
                 }
                 startTime++;
                 endTime++;
