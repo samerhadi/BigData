@@ -66,7 +66,12 @@ namespace BigData.Controllers
                     times.StartTime = startTime;
                     times.EndTime = endTime;
                     times.TimeBooked = CheckIfTimeIsBooked(findTimeModel, times);
-                    listOfTimes.Add(times);
+
+                    if (!times.TimeBooked)
+                    {
+                        listOfTimes.Add(times);
+                    }
+                    
                 }
                 startTime++;
                 endTime++;
@@ -142,9 +147,12 @@ namespace BigData.Controllers
 
                 findTimeModel.ChoosenTime = time;
                 findTimeModel.ListOfTimes = CreateListOfTimes(findTimeModel, bookingTable);
-
                 var listOfFindTimeModels = new List<FindTimeModel>();
-                listOfFindTimeModels.Add(findTimeModel);
+
+                if (findTimeModel.ListOfTimes.Count() > 0)
+                {
+                    listOfFindTimeModels.Add(findTimeModel);
+                }
 
                 timeBookedModel.ListOfFindTimeModels = listOfFindTimeModels;
             }
