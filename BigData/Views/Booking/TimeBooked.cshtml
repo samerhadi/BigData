@@ -29,7 +29,7 @@
 <p>
     @Html.ActionLink("Alla tjänster", "AllServices")
 </p>
-@if (Model.ListOfFindTimeModels.Count() >= 1)
+@if (Model.ListOfFindTimeModels != null)
 {
     <div>
         <p>Andra bokningssystem i samma stad</p>
