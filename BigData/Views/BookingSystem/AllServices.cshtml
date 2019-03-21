@@ -11,6 +11,9 @@
 </p>
 <table class="table">
     <tr>
+        <td>
+            @Html.DisplayNameFor(model => model.ServiceType)
+        </td>
         <th>
             @Html.DisplayNameFor(model => model.SystemName)
         </th>
@@ -50,6 +53,9 @@
     @foreach (var item in Model)
     {
             <tr>
+                <td>
+                    @Html.DisplayFor(modelitem => item.ServiceType)
+                </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.SystemName)
                 </td>

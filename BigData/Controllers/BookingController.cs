@@ -28,7 +28,7 @@ namespace BigData.Controllers
             findTimeModel.BookingSystem = db.BookingSystems.Find(findTimeModel.BookingSystem.BookningSystemId);
             findTimeModel.DateChoosen = true;
             findTimeModel.ListOfTimes = CreateListOfTimes(findTimeModel);
-            
+
             return View(findTimeModel);
         }
 
@@ -69,19 +69,19 @@ namespace BigData.Controllers
 
             foreach (var item in databaseBookingTableList)
             {
-                if(item.Date == bookingTableEntity.Date && item.StartTime == bookingTableEntity.StartTime && item.BookingSystem == bookingTableEntity.BookingSystem)
+                if (item.Date == bookingTableEntity.Date && item.StartTime == bookingTableEntity.StartTime && item.BookingSystem == bookingTableEntity.BookingSystem)
                 {
                     timeBooked = true;
                 }
             }
-            
+
             return timeBooked;
         }
 
         //GET: TimeBooked
         public ActionResult TimeBooked(DateTime date, int startTime, int endTime, int id)
         {
-            
+
             var bookingTable = new BookingTableEntity
             {
                 BookingSystem = db.BookingSystems.Find(id),
@@ -110,5 +110,8 @@ namespace BigData.Controllers
             db.SaveChanges();
 
         }
+
+     
+
     }
 }
