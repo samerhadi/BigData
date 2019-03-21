@@ -21,7 +21,8 @@ namespace DataLogic.Entities
         public string ContactEmail { get; set; }
         public string ContactPhone { get; set; }
         public string Adress { get; set; }
-        public string LatitudeAndLongitude { get; set; }
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
         public string PostaICode { get; set; }
         public string City { get; set; }
         //skapar en variabel av enum klassen

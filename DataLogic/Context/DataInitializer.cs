@@ -23,7 +23,8 @@ namespace DataLogic.Context
                 ContactEmail = "samersbilochdack@gmail.com",
                 ContactPhone = "0",
                 Adress = "Glanshammarsvägen 16",
-                LatitudeAndLongitude = "0",
+                Latitude = 59.294810,
+                Longitude = 15.231510,
                 PostaICode = "0",
                 City = "Örebro",
             };
@@ -41,7 +42,8 @@ namespace DataLogic.Context
                 ContactEmail = "frisorniklas@gmail.com",
                 ContactPhone = "0",
                 Adress = "Skolgatan 42",
-                LatitudeAndLongitude = "0",
+                Latitude = 59.280750,
+                Longitude = 15.223650,
                 PostaICode = "0",
                 City = "Örebro",
             };
@@ -59,7 +61,8 @@ namespace DataLogic.Context
                 ContactEmail = "0",
                 ContactPhone = "0",
                 Adress = "Sandkullsvägen 24",
-                LatitudeAndLongitude = "0",
+                Latitude = 0,
+                Longitude = 0,
                 PostaICode = "0",
                 City = "Stockholm",
             };
