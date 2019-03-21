@@ -67,6 +67,25 @@ namespace DataLogic.Context
                 City = "Stockholm",
             };
             context.BookingSystems.Add(bookingsystem3);
+
+            var bookingsystem4 = new BookingSystemEntity()
+            {
+                BookningSystemId = 0,
+                SystemName = "Bam",
+                SystemDescription = "Hej",
+                Email = "frisorniklas@gmail.com",
+                PhoneNumber = "00000000",
+                Website = "0",
+                CompanyName = "Frisör Niklas",
+                ContactEmail = "frisorniklas@gmail.com",
+                ContactPhone = "0",
+                Adress = "Sandkullsvägen 24",
+                Latitude = 59.382950,
+                Longitude = 17.917660,
+                PostaICode = "0",
+                City = "Örebro",
+            };
+            context.BookingSystems.Add(bookingsystem4);
             context.SaveChanges();
             base.Seed(context);
         }

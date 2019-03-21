@@ -121,8 +121,10 @@ namespace BigData.Controllers
             var listOfBookingSystem = new List<BookingSystemEntity>();
             listOfBookingSystem = ServicesSuggestionList(bookingTable.BookingSystem);
 
+            var listOfBookingSystemInRadius = new SuggestionController().AllSystemsInRadius(listOfBookingSystem, bookingTable);
+
             var timeBookedModel = new TimeBookedModel();
-            timeBookedModel = FindTimesForAllBookingSystems(bookingTable, listOfBookingSystem);
+            timeBookedModel = FindTimesForAllBookingSystems(bookingTable, listOfBookingSystemInRadius);
             timeBookedModel.BookingTableEntity = bookingTable;
 
             return View(timeBookedModel);
