@@ -32,7 +32,7 @@ namespace BigData.Controllers
             return View(findTimeModel);
         }
 
-        //Returnerar en lista med alla tider
+        //Returnerar en lista med alla tider för ett bokningssystem
         public List<Times> CreateListOfTimes(FindTimeModel findTimeModel)
         {
             var listOfTimes = new List<Times>();
@@ -46,32 +46,6 @@ namespace BigData.Controllers
                 times.EndTime = endTime;
                 times.TimeBooked = CheckIfTimeIsBooked(findTimeModel, times);
                 listOfTimes.Add(times);
-                startTime++;
-                endTime++;
-            }
-            return listOfTimes;
-        }
-
-        public List<Times> CreateListOfTimes(FindTimeModel findTimeModel, BookingTableEntity bookingTable)
-        {
-            var listOfTimes = new List<Times>();
-            int startTime = bookingTable.StartTime - 1;
-            int endTime = startTime + 1;
-
-            for (int i = 0; i < 3; i++)
-            {
-                if(startTime != bookingTable.StartTime && startTime >= 8 && startTime < 16)
-                {
-                    var times = new Times();
-                    times.StartTime = startTime;
-                    times.EndTime = endTime;
-                    times.TimeBooked = CheckIfTimeIsBooked(findTimeModel, times);
-
-                    if (!times.TimeBooked)
-                    {
-                        listOfTimes.Add(times);
-                    }
-                }
                 startTime++;
                 endTime++;
             }
@@ -118,47 +92,15 @@ namespace BigData.Controllers
 
             SaveBookedTime(bookingTable);
 
-            var listOfBookingSystem = new List<BookingSystemEntity>();
-            listOfBookingSystem = ServicesSuggestionList(bookingTable.BookingSystem);
+            var listOfBookingSystem = new SuggestionController().ListOfServicesInSameCity(bookingTable.BookingSystem);
 
-            var listOfBookingSystemInRadius = new SuggestionController().AllSystemsInRadius(listOfBookingSystem, bookingTable);
+            var listOfBookingSystemInRadius = new SuggestionController().ListOfAllSystemsInRadius(listOfBookingSystem, bookingTable);
 
             var timeBookedModel = new TimeBookedModel();
-            timeBookedModel = FindTimesForAllBookingSystems(bookingTable, listOfBookingSystemInRadius);
+            timeBookedModel = new SuggestionController().FindTimesForListOfBookingSystems(bookingTable, listOfBookingSystemInRadius);
             timeBookedModel.BookingTableEntity = bookingTable;
 
             return View(timeBookedModel);
-        }
-
-        public TimeBookedModel FindTimesForAllBookingSystems(BookingTableEntity bookingTable, List<BookingSystemEntity> listOfBookingSystem)
-        {
-            var timeBookedModel = new TimeBookedModel();
-
-            foreach (var item in listOfBookingSystem)
-            {
-                var findTimeModel = new FindTimeModel();
-                findTimeModel.BookingSystem = item;
-                findTimeModel.Time = bookingTable.Date;
-
-                var time = new Times
-                {
-                    StartTime = bookingTable.StartTime,
-                    EndTime = bookingTable.EndTime
-                };
-
-                findTimeModel.ChoosenTime = time;
-                findTimeModel.ListOfTimes = CreateListOfTimes(findTimeModel, bookingTable);
-                var listOfFindTimeModels = new List<FindTimeModel>();
-
-                if (findTimeModel.ListOfTimes.Count() > 0)
-                {
-                    listOfFindTimeModels.Add(findTimeModel);
-                }
-
-                timeBookedModel.ListOfFindTimeModels = listOfFindTimeModels;
-            }
-
-            return timeBookedModel;
         }
 
         //Sparar en vald tid i databasen
@@ -167,14 +109,6 @@ namespace BigData.Controllers
             db.BookingTabels.Add(bookingTable);
             db.SaveChanges();
 
-        }
-
-        public List<BookingSystemEntity> ServicesSuggestionList(BookingSystemEntity bookingSystem)
-        {
-            var listOfSuggestedServices = new List<BookingSystemEntity>();
-            listOfSuggestedServices = db.BookingSystems.Where(b => b.City == bookingSystem.City && b.BookningSystemId != bookingSystem.BookningSystemId).ToList();
-
-            return listOfSuggestedServices;
         }
     }
 }
