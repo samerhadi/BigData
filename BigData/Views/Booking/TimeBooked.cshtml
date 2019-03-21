@@ -41,8 +41,17 @@
                         @Html.DisplayFor(model => item.BookingSystem.CompanyName)
                         foreach(var i in item.ListOfTimes)
                         {
+                    <ul>
+                        <li>
+                            <br />
+                            <p>Lediga tider</p>
                             @Html.DisplayFor(imodel => i.StartTime)
+                            @Html.Label(":00 -")
                             @Html.DisplayFor(imodel => i.EndTime)
+                            @Html.Label(":00")
+
+                        </li>
+                    </ul>
                         }
                     }
                 </td>
