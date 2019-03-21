@@ -41,9 +41,9 @@ namespace BigData.Controllers
 
             foreach(var item in listOfIncBookingSystems)
             {
-                var distance = DistanceTo(bookingTable.BookingSystem.Latitude, bookingTable.BookingSystem.Longitude, item.Latitude, item.Longitude);
+                item.Distance = DistanceTo(bookingTable.BookingSystem.Latitude, bookingTable.BookingSystem.Longitude, item.Latitude, item.Longitude);
 
-                if (distance <= 5)
+                if (item.Distance <= 5)
                 {
                     listOfBookingSystems.Add(item);
                 }
