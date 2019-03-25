@@ -42,16 +42,44 @@ namespace BigData.Controllers
         // GET: AllServices
         public ActionResult AllServices()
         {
-            var listOfAllServices = db.BookingSystems.ToList();
-            return View(listOfAllServices);
+
+            return View();
         }
 
         // GET: ChoosenService
         public ActionResult ChoosenService(int id)
         {
             var bookingSystem = db.BookingSystems.Find(id);
+
             return View(bookingSystem);
         }
-    }
 
+
+
+        public ActionResult ChooseCityOrebro()
+        {
+            var bookingSystems = db.BookingSystems.Where(model => model.City == "Örebro").ToList();
+            var sortedList = bookingSystems
+  .OrderByDescending(x => (int)(x.ServiceType))
+  .ToList();
+
+            return View(sortedList);
+
+        }
+
+
+
+        public ActionResult ChooseCityStockholm()
+        {
+            var bookingSystems = db.BookingSystems.Where(model => model.City == "Stockholm").ToList();
+            var sortedList = bookingSystems
+.OrderByDescending(x => (int)(x.ServiceType))
+.ToList();
+
+
+            return View(sortedList);
+
+        }
+
+    }
 }
