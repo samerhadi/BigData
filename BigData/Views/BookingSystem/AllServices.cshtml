@@ -9,3 +9,27 @@
 @Html.ActionLink("Örebro ", "ChooseCityOrebro")
 <br />
 @Html.ActionLink("Stockholm ", "ChooseCityStockholm")
+
+<button id="button-hej">heeeej</button>
+
+<script type="text/javascript">
+
+     console.log("gasdfasdf")
+     var systemDate = "2018-04-23"
+     $("#button-hej").click(function () {
+                console.log("asdfa")
+                $.ajax({
+                    url: "http://localhost:60295/api/createsystem",
+                    type: "POST",
+                    data: {
+                        Time: systemDate
+
+                    },
+                    success: function (result) {
+                        alert(result);
+                    }
+                });
+            });
+
+
+</script>
