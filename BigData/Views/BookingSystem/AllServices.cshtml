@@ -49,45 +49,68 @@
 
     @foreach (var item in Model)
     {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.SystemName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.SystemDescription)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Email)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.PhoneNumber)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Website)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CompanyName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ContactEmail)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ContactPhone)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Adress)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.PostaICode)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.City)
-                </td>
-                <td>
-                    @Html.ActionLink("Gå till " + item.SystemName , "ChoosenService", new { id = item.BookningSystemId })
-                </td>
-            </tr>
-           
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.SystemName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SystemDescription)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PhoneNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Website)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CompanyName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ContactEmail)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ContactPhone)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Adress)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PostaICode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.City)
+            </td>
+            <td>
+                @Html.ActionLink("Gå till " + item.SystemName, "ChoosenService", new { id = item.BookningSystemId })
+            </td>
+        </tr>
+
     }
 
 </table>
+
+<button id="button-hej">heeeej</button>
+
+ <script type="text/javascript">    
+     console.log("gasdfasdf")
+     var systemDate = "2018-04-23"
+     $("#button-hej").click(function () {
+                console.log("asdfa")
+                $.ajax({
+                    url: "http://localhost:60295/api/createsystem",
+                    type: "POST", 
+                    data: {
+                        Time: systemDate
+                        
+                    },
+                    success: function (result) {
+                        alert(result);
+                    }
+                });
+            });
+
+     
+    </script>

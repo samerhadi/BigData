@@ -6,6 +6,12 @@ using System.Web;
 using System.Web.Mvc;
 using DataLogic.Entities;
 using DataLogic.Context;
+using System.Net.Http;
+using Newtonsoft.Json;
+using System.Text;
+using System.Threading.Tasks;
+using BigData.APIController;
+using DataLogic.Repository;
 
 namespace BigData.Controllers
 {
@@ -18,25 +24,54 @@ namespace BigData.Controllers
             return View();
         }
 
-        //Skapar ett nytt bokningssystem
         [HttpPost]
-        public ActionResult CreateBookingSystem(BookingSystemEntity system)
+        public async Task<ActionResult> CreateBookingSystem(BookingSystemEntity bookingSystem)
         {
-            try
+
+            var url = "http://localhost:60295/api/addbookingsystem";
+
+            using (var client = new HttpClient())
             {
-                if (ModelState.IsValid)
+
+                var content = new StringContent(JsonConvert.SerializeObject(bookingSystem), Encoding.UTF8, "application/json");
+
+                var result = await client.PostAsync(url, content);
+
+                if (result.IsSuccessStatusCode)
                 {
-                    db.BookingSystems.Add(system);
-                    db.SaveChanges();
+
+                    return RedirectToAction("AllServices");
+
                 }
+
+                return View(bookingSystem);
+
             }
 
-            catch (Exception ex)
+        }
+
+        // GET: ChoosenService
+        public async Task<ActionResult> ChoosenService(int id)
+        {
+            var url = "http://localhost:60295/api/findbookingsystem";
+
+            using (var client = new HttpClient())
             {
-                throw ex;
-            }
 
-            return View();
+                var content = new StringContent(JsonConvert.SerializeObject(id), Encoding.UTF8, "application/json");
+
+                var result = await client.PostAsync(url, content);
+
+                if (result.IsSuccessStatusCode)
+                {
+                    var bookingSystem = db.BookingSystems.Find(id);
+                    return View(bookingSystem);
+
+                }
+
+                return RedirectToAction("AllServices");
+
+            }
         }
 
         // GET: AllServices
@@ -46,12 +81,12 @@ namespace BigData.Controllers
             return View(listOfAllServices);
         }
 
-        // GET: ChoosenService
-        public ActionResult ChoosenService(int id)
-        {
-            var bookingSystem = db.BookingSystems.Find(id);
-            return View(bookingSystem);
-        }
+        //// GET: ChoosenService
+        //public ActionResult ChoosenService(int id)
+        //{
+        //    var bookingSystem = new BookingSystemRepo().GetBookingSystem(id);
+        //    return View(bookingSystem);
+        //}
     }
 
 }
