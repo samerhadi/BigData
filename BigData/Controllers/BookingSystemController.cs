@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Net.Http;
 using Newtonsoft.Json;
 using System.Text;
+using DataLogic.Repository;
 
 namespace BigData.Controllers
 {
@@ -76,14 +77,13 @@ namespace BigData.Controllers
         // GET: AllServices
         public ActionResult AllServices()
         {
-
             return View();
         }
 
         // GET: ChoosenService
         public ActionResult ChoosenService(int id)
         {
-            var bookingSystem = db.BookingSystems.Find(id);
+            var bookingSystem = new BookingSystemRepo().GetBookingSystem(id);
 
             return View(bookingSystem);
         }
@@ -92,21 +92,21 @@ namespace BigData.Controllers
         {
             var bookingSystems = db.BookingSystems.Where(model => model.City == "Örebro").ToList();
             var sortedList = bookingSystems.OrderByDescending(x => (int)(x.ServiceType)).ToList();
-            return View(sortedList);
 
+            return View(sortedList);
         }
 
         public ActionResult ChooseCityStockholm()
         {
             var bookingSystems = db.BookingSystems.Where(model => model.City == "Stockholm").ToList();
             var sortedList = bookingSystems.OrderByDescending(x => (int)(x.ServiceType)).ToList();
+
             return View(sortedList);
         }
 
         public async Task<BookingSystemEntity> GetCoordinatesAsync(BookingSystemEntity system)
         {
             var client = new HttpClient();
-            var location = new Location();
 
             string cityName = system.City;
             string streetName = system.Adress;
@@ -114,6 +114,7 @@ namespace BigData.Controllers
             string url = $"https://maps.googleapis.com/maps/api/geocode/json?address={cityName}+{streetName}&key=AIzaSyAxzPnxjGlRXDkjvVNamfloAAx1eMYqyBw";
             var response = await client.GetAsync(string.Format(url, cityName));
             string result = await response.Content.ReadAsStringAsync();
+
             RootObject root = JsonConvert.DeserializeObject<RootObject>(result);
 
             foreach (var item in root.results)
