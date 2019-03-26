@@ -52,6 +52,32 @@ namespace BigData.Controllers
 
         }
 
+        [HttpGet]
+        public async Task<ActionResult> ChoosenService(int id)
+        {
+
+            var url = "http://localhost:60295/api/getbookingsystem/" + id;
+
+            using (var client = new HttpClient())
+            {
+
+                var content = new StringContent(JsonConvert.SerializeObject(id), Encoding.UTF8, "application/json");
+                var response = await client.GetAsync(string.Format(url, content));
+                string result = await response.Content.ReadAsStringAsync();
+
+                var bookingSystem = JsonConvert.DeserializeObject<BookingSystemEntity>(result);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return View(bookingSystem);
+                }
+
+                return RedirectToAction("AllServices");
+
+            }
+
+        }
+
         ////Skapar ett nytt bokningssystem
         //[HttpPost]
         //public async Task<ActionResult> CreateBookingSystem(BookingSystemEntity system)
@@ -80,13 +106,13 @@ namespace BigData.Controllers
             return View();
         }
 
-        // GET: ChoosenService
-        public ActionResult ChoosenService(int id)
-        {
-            var bookingSystem = new BookingSystemRepo().GetBookingSystem(id);
+        //// GET: ChoosenService
+        //public ActionResult ChoosenService(int id)
+        //{
+        //    var bookingSystem = new BookingSystemRepo().GetBookingSystem(id);
 
-            return View(bookingSystem);
-        }
+        //    return View(bookingSystem);
+        //}
 
         public ActionResult ChooseCityOrebro()
         {

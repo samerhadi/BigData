@@ -19,7 +19,8 @@ namespace BigData.APIController
         public async Task<IHttpActionResult> AddBookingSystem(BookingSystemEntity bookingSystemEntity)
         {
             new BookingSystemRepo().AddBookingSystem(bookingSystemEntity);
-            return Ok(bookingSystemEntity);
+
+            return Ok();
         }
 
         [HttpGet]
@@ -27,6 +28,7 @@ namespace BigData.APIController
         public async Task<IHttpActionResult> GetBookingSystem(int id)
         {
             var bookingSystem = new BookingSystemRepo().GetBookingSystem(id);
+
             return Ok(bookingSystem);
         }
 
