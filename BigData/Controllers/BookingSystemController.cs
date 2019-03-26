@@ -6,7 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using DataLogic.Entities;
 using DataLogic.Context;
-using static DataLogic.Models.GoogleGeocoding;
+using static DataLogic.Models.GoogleGeocodingModel;
 using System.Threading.Tasks;
 using System.Net.Http;
 using Newtonsoft.Json;

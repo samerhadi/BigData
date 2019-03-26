@@ -125,6 +125,7 @@
     <Compile Include="Entities\BookingTableEntity.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\BookingViewModels.cs" />
+    <Compile Include="Models\GoogleGeocodingModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\BookingSystemRepo.cs" />
