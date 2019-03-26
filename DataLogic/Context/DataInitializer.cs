@@ -13,6 +13,7 @@ namespace DataLogic.Context
         {
             var bookingsystem1 = new BookingSystemEntity()
             {
+                ServiceType = ServiceType.Frisör,
                 BookningSystemId = 0,
                 SystemName = "Samers Bil och Däck",
                 SystemDescription = "Verkstad",
@@ -32,6 +33,7 @@ namespace DataLogic.Context
 
             var bookingsystem2 = new BookingSystemEntity()
             {
+                ServiceType = ServiceType.Ansiktebehandling,
                 BookningSystemId = 0,
                 SystemName = "Frisör Niklas",
                 SystemDescription = "Frisör",
@@ -51,6 +53,7 @@ namespace DataLogic.Context
 
             var bookingsystem3 = new BookingSystemEntity()
             {
+                ServiceType = ServiceType.Frisör,
                 BookningSystemId = 0,
                 SystemName = "Borrmaskiner AB",
                 SystemDescription = "Borrmaskin",
@@ -70,6 +73,7 @@ namespace DataLogic.Context
 
             var bookingsystem4 = new BookingSystemEntity()
             {
+                ServiceType = ServiceType.Massage,
                 BookningSystemId = 0,
                 SystemName = "Bam",
                 SystemDescription = "Hej",

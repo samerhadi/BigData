@@ -26,37 +26,40 @@
         </tr>
     </table>
 </div>
-<p>
-    @Html.ActionLink("Alla tjänster", "AllServices")
-</p>
+
 @if (Model.ListOfFindTimeModels != null)
 {
+
     <div>
         <p>Andra bokningssystem i samma stad</p>
-        <table>
+        <table class="table table-info" style="width:20%" >
             <tr>
                 <td>
                     @foreach (var item in Model.ListOfFindTimeModels)
                     {
                         @Html.DisplayFor(model => item.BookingSystem.CompanyName)
-                        foreach(var i in item.ListOfTimes)
+                        <br />
+                        <p>Lediga tider</p>
+                        foreach (var i in item.ListOfTimes)
                         {
-                    <ul>
-                        <li>
-                            <br />
-                            <p>Lediga tider</p>
-                            @Html.DisplayFor(imodel => i.StartTime)
-                            @Html.Label(":00 -")
-                            @Html.DisplayFor(imodel => i.EndTime)
-                            @Html.Label(":00")
 
-                        </li>
-                    </ul>
+
+                            <ul>
+
+                                <li>
+
+                                   
+                                    @Html.ActionLink(i.StartTime.ToString() + ":00 -" + i.EndTime.ToString() + ":00", "BookTime", new { id = item.BookingSystem.BookningSystemId })
+                                    <br />
+
+                                </li>
+                            </ul>
                         }
                     }
                 </td>
             </tr>
         </table>
+
     </div>
 }
 else

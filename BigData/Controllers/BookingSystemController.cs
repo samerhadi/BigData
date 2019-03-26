@@ -6,12 +6,6 @@ using System.Web;
 using System.Web.Mvc;
 using DataLogic.Entities;
 using DataLogic.Context;
-using System.Net.Http;
-using Newtonsoft.Json;
-using System.Text;
-using System.Threading.Tasks;
-using BigData.APIController;
-using DataLogic.Repository;
 
 namespace BigData.Controllers
 {
@@ -24,69 +18,68 @@ namespace BigData.Controllers
             return View();
         }
 
+        //Skapar ett nytt bokningssystem
         [HttpPost]
-        public async Task<ActionResult> CreateBookingSystem(BookingSystemEntity bookingSystem)
+        public ActionResult CreateBookingSystem(BookingSystemEntity system)
         {
-
-            var url = "http://localhost:60295/api/addbookingsystem";
-
-            using (var client = new HttpClient())
+            try
             {
-
-                var content = new StringContent(JsonConvert.SerializeObject(bookingSystem), Encoding.UTF8, "application/json");
-
-                var result = await client.PostAsync(url, content);
-
-                if (result.IsSuccessStatusCode)
+                if (ModelState.IsValid)
                 {
-
-                    return RedirectToAction("AllServices");
-
+                    db.BookingSystems.Add(system);
+                    db.SaveChanges();
                 }
-
-                return View(bookingSystem);
-
             }
 
-        }
-
-        // GET: ChoosenService
-        public async Task<ActionResult> ChoosenService(int id)
-        {
-            var url = "http://localhost:60295/api/findbookingsystem";
-
-            using (var client = new HttpClient())
+            catch (Exception ex)
             {
-
-                var content = new StringContent(JsonConvert.SerializeObject(id), Encoding.UTF8, "application/json");
-
-                var result = await client.PostAsync(url, content);
-
-                if (result.IsSuccessStatusCode)
-                {
-                    var bookingSystem = db.BookingSystems.Find(id);
-                    return View(bookingSystem);
-
-                }
-
-                return RedirectToAction("AllServices");
-
+                throw ex;
             }
+
+            return View();
         }
 
         // GET: AllServices
         public ActionResult AllServices()
         {
-            var listOfAllServices = db.BookingSystems.ToList();
-            return View(listOfAllServices);
+
+            return View();
         }
 
-        //// GET: ChoosenService
-        //public ActionResult ChoosenService(int id)
-        //{
-        //    var bookingSystem = new BookingSystemRepo().GetBookingSystem(id);
-        //    return View(bookingSystem);
-        //}
-    }
+        // GET: ChoosenService
+        public ActionResult ChoosenService(int id)
+        {
+            var bookingSystem = db.BookingSystems.Find(id);
 
+            return View(bookingSystem);
+        }
+
+
+
+        public ActionResult ChooseCityOrebro()
+        {
+            var bookingSystems = db.BookingSystems.Where(model => model.City == "Örebro").ToList();
+            var sortedList = bookingSystems
+  .OrderByDescending(x => (int)(x.ServiceType))
+  .ToList();
+
+            return View(sortedList);
+
+        }
+
+
+
+        public ActionResult ChooseCityStockholm()
+        {
+            var bookingSystems = db.BookingSystems.Where(model => model.City == "Stockholm").ToList();
+            var sortedList = bookingSystems
+.OrderByDescending(x => (int)(x.ServiceType))
+.ToList();
+
+
+            return View(sortedList);
+
+        }
+
+    }
 }
