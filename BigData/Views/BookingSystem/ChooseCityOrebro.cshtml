@@ -9,7 +9,7 @@
 <p>
     @Html.ActionLink("Registera nytt system", "CreateBookingSystem")
 </p>
-<table class="table">
+<table class="table"style="stroke-width:40%">
     <tr>
         <td>
             @Html.DisplayNameFor(model => model.ServiceType)
@@ -44,9 +44,7 @@
         <th>
             @Html.DisplayNameFor(model => model.PostaICode)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.City)
-        </th>
+    
         <th></th>
     </tr>
 
@@ -86,14 +84,14 @@
             <td>
                 @Html.DisplayFor(modelItem => item.PostaICode)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.City)
-            </td>
+        
             <td>
                 @Html.ActionLink("Gå till " + item.SystemName, "ChoosenService", new { id = item.BookningSystemId })
             </td>
         </tr>
-
+          <td>
+                @Html.ActionLink("Gå till " + item.SystemName, "ChoosenService", new { id = item.BookningSystemId })
+            </td>
     }
 
 </table>
