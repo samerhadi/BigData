@@ -9,6 +9,7 @@ using DataLogic.Context;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using System.Text;
 
 namespace BigData.Controllers
 {
@@ -74,11 +75,12 @@ namespace BigData.Controllers
                 string result = await response.Content.ReadAsStringAsync();
 
                 var listOfBookingTables = JsonConvert.DeserializeObject<List<BookingTableEntity>>(result);
-
+                
                 if (response.IsSuccessStatusCode)
                 {
                     foreach (var item in listOfBookingTables)
                     {
+                        
                         if (item.Date == bookingTableEntity.Date && item.StartTime == bookingTableEntity.StartTime && item.BookingSystem == bookingTableEntity.BookingSystem)
                         {
                             timeBooked = true;
@@ -102,25 +104,33 @@ namespace BigData.Controllers
                 EndTime = endTime
             };
 
-            SaveBookedTime(bookingTable);
+            AddBooking(bookingTable);
 
             var listOfBookingSystem = new SuggestionController().ListOfServicesInSameCity(bookingTable.BookingSystem);
+      
 
             var listOfBookingSystemInRadius = new SuggestionController().ListOfAllSystemsInRadius(listOfBookingSystem, bookingTable);
 
             var timeBookedModel = new TimeBookedModel();
             timeBookedModel = await new SuggestionController().FindTimesForListOfBookingSystems(bookingTable, listOfBookingSystemInRadius);
             timeBookedModel.BookingTableEntity = bookingTable;
-
+            
             return View(timeBookedModel);
         }
-
         //Sparar en vald tid i databasen
-        public void SaveBookedTime(BookingTableEntity bookingTable)
+        [HttpPost]
+        public async void AddBooking(BookingTableEntity bookingTable)
         {
-            db.BookingTabels.Add(bookingTable);
-            db.SaveChanges();
 
+            var url = "http://localhost:60295/api/addbooking/";
+
+            using (var client = new HttpClient())
+            {
+
+                var content = new StringContent(JsonConvert.SerializeObject(bookingTable), Encoding.UTF8, "application/json");
+
+                var result = await client.PostAsync(url, content);
+            }
         }
     }
 }

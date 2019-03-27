@@ -16,5 +16,13 @@ namespace DataLogic.Repository
             var listOfBookingTables = context.BookingTabels.ToList();
             return listOfBookingTables;
         }
+
+
+        public void AddBooking(BookingTableEntity bookingTable)
+        {
+            context.BookingTabels.Add(bookingTable);
+            context.SaveChanges();
+
+        }
     }
 }

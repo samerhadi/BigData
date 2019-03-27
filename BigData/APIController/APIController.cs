@@ -62,5 +62,14 @@ namespace BigData.APIController
             return Ok(listOfAllBookings);
         }
 
+
+        [HttpPost]
+        [Route("api/addbooking/")]
+        public async Task<IHttpActionResult> AddBooking(BookingTableEntity bookingTable)
+        {
+            new BookingRepo().AddBooking(bookingTable);
+            return Ok();
+        }
+
     }
 }
