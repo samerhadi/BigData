@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using DataLogic.Entities;
@@ -65,7 +66,7 @@ namespace BigData.Controllers
         }
 
         //Returnerar en TimeBookedModel med bokningsystem och deras lediga tider 1h innan och efter gjord bokning
-        public TimeBookedModel FindTimesForListOfBookingSystems(BookingTableEntity bookingTable, List<BookingSystemEntity> listOfBookingSystem)
+        public async Task<TimeBookedModel> FindTimesForListOfBookingSystems(BookingTableEntity bookingTable, List<BookingSystemEntity> listOfBookingSystem)
         {
             var timeBookedModel = new TimeBookedModel();
 
@@ -82,7 +83,7 @@ namespace BigData.Controllers
                 };
 
                 findTimeModel.ChoosenTime = time;
-                findTimeModel.ListOfTimes = CreateListOfTimes(findTimeModel, bookingTable);
+                findTimeModel.ListOfTimes = await CreateListOfTimes(findTimeModel, bookingTable);
                 var listOfFindTimeModels = new List<FindTimeModel>();
 
                 if (findTimeModel.ListOfTimes.Count() > 0)
@@ -97,7 +98,7 @@ namespace BigData.Controllers
         }
 
         //Returnerar en lista med tider för ett bokningssystem 1h innan och efter en bokad tid
-        public List<Times> CreateListOfTimes(FindTimeModel findTimeModel, BookingTableEntity bookingTable)
+        public async Task<List<Times>> CreateListOfTimes(FindTimeModel findTimeModel, BookingTableEntity bookingTable)
         {
             var listOfTimes = new List<Times>();
             int startTime = bookingTable.StartTime - 1;
@@ -110,7 +111,7 @@ namespace BigData.Controllers
                     var times = new Times();
                     times.StartTime = startTime;
                     times.EndTime = endTime;
-                    times.TimeBooked = new BookingController().CheckIfTimeIsBooked(findTimeModel, times);
+                    times.TimeBooked = await new BookingController().CheckIfTimeIsBooked(findTimeModel, times);
 
                     if (!times.TimeBooked)
                     {
