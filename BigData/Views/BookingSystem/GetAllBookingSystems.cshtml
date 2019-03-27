@@ -38,21 +38,11 @@
         <th>
             @Html.DisplayNameFor(model => model.Adress)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Latitude)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Longitude)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Distance)
-        </th>
+  
         <th>
             @Html.DisplayNameFor(model => model.PostaICode)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.City)
-        </th>
+ 
         <th></th>
     </tr>
 
@@ -85,26 +75,15 @@
         <td>
             @Html.DisplayFor(modelItem => item.Adress)
         </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Latitude)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Longitude)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Distance)
-        </td>
+   
+      
         <td>
             @Html.DisplayFor(modelItem => item.PostaICode)
         </td>
+    
         <td>
-            @Html.DisplayFor(modelItem => item.City)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.BookningSystemId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.BookningSystemId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.BookningSystemId })
-        </td>
+            @Html.ActionLink("Gå till " + item.SystemName, "ChoosenService", new { id = item.BookningSystemId })
+        </td> 
     </tr>
 }
 
