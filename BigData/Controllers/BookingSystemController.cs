@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Net.Http;
 using Newtonsoft.Json;
 using System.Text;
+using DataLogic.Repository;
 
 namespace BigData.Controllers
 {
@@ -51,62 +52,121 @@ namespace BigData.Controllers
 
         }
 
-        ////Skapar ett nytt bokningssystem
-        //[HttpPost]
-        //public async Task<ActionResult> CreateBookingSystem(BookingSystemEntity system)
-        //{
-        //    try
-        //    {
-        //        if (ModelState.IsValid)
-        //        {
-        //            system = await GetCoordinatesAsync(system);
-        //            db.BookingSystems.Add(system);
-        //            db.SaveChanges();
-        //        }
-        //    }
+        [HttpGet]
+        public async Task<ActionResult> ChoosenService(int id)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var url = "http://localhost:60295/api/getbookingsystem/" + id;
 
-        //    catch (Exception ex)
-        //    {
-        //        throw ex;
-        //    }
+                    using (var client = new HttpClient())
+                    {
 
-        //    return View();
-        //}
+                        var content = new StringContent(JsonConvert.SerializeObject(id), Encoding.UTF8, "application/json");
+                        var response = await client.GetAsync(string.Format(url, content));
+                        string result = await response.Content.ReadAsStringAsync();
+
+                        var bookingSystem = JsonConvert.DeserializeObject<BookingSystemEntity>(result);
+
+                        if (response.IsSuccessStatusCode)
+                        {
+                            return View(bookingSystem);
+                        }
+                    }
+                }
+            }
+
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return RedirectToAction("AllServices");
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> GetAllBookingSystems()
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var url = "http://localhost:60295/api/getallbookingsystems/";
+
+                    using (var client = new HttpClient())
+                    {
+                        var response = await client.GetAsync(string.Format(url));
+                        string result = await response.Content.ReadAsStringAsync();
+
+                        var listOfAllBookingSystem = JsonConvert.DeserializeObject<List<BookingSystemEntity>>(result);
+
+                        if (response.IsSuccessStatusCode)
+                        {
+                            return View(listOfAllBookingSystem);
+                        }
+                    }
+                }
+            }
+
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return RedirectToAction("AllServices");
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> ChoosenCity(string city)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var url = "http://localhost:60295/api/getbookingsystemsfromcity/" + city;
+
+                    using (var client = new HttpClient())
+                    {
+                        var content = new StringContent(JsonConvert.SerializeObject(city), Encoding.UTF8, "application/json");
+                        var response = await client.GetAsync(string.Format(url, content));
+                        string result = await response.Content.ReadAsStringAsync();
+
+                        var bookingSystems = JsonConvert.DeserializeObject<List<BookingSystemEntity>>(result);
+                        var sortedList = SortListByServiceType(bookingSystems);
+
+                        if (response.IsSuccessStatusCode)
+                        {
+                            return View(sortedList);
+                        }
+                    }
+                }
+            }
+
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return RedirectToAction("AllServices");
+        }
 
         // GET: AllServices
         public ActionResult AllServices()
         {
-
             return View();
         }
 
-        // GET: ChoosenService
-        public ActionResult ChoosenService(int id)
+        public List<BookingSystemEntity> SortListByServiceType(List<BookingSystemEntity> listOfBookingSystems)
         {
-            var bookingSystem = db.BookingSystems.Find(id);
-
-            return View(bookingSystem);
-        }
-
-        public ActionResult ChooseCityOrebro()
-        {
-            var bookingSystems = db.BookingSystems.Where(model => model.City == "Örebro").ToList();
-            var sortedList = bookingSystems.OrderByDescending(x => (int)(x.ServiceType)).ToList();
-            return View(sortedList);
-
-        }
-
-        public ActionResult ChooseCityStockholm()
-        {
-            var bookingSystems = db.BookingSystems.Where(model => model.City == "Stockholm").ToList();
-            var sortedList = bookingSystems.OrderByDescending(x => (int)(x.ServiceType)).ToList();
-            return View(sortedList);
+            listOfBookingSystems.OrderByDescending(x => (int)(x.ServiceType)).ToList();
+            return listOfBookingSystems;
         }
 
         public async Task<BookingSystemEntity> GetCoordinatesAsync(BookingSystemEntity system)
         {
             var client = new HttpClient();
-            var location = new Location();
 
             string cityName = system.City;
             string streetName = system.Adress;
@@ -114,6 +174,7 @@ namespace BigData.Controllers
             string url = $"https://maps.googleapis.com/maps/api/geocode/json?address={cityName}+{streetName}&key=AIzaSyAxzPnxjGlRXDkjvVNamfloAAx1eMYqyBw";
             var response = await client.GetAsync(string.Format(url, cityName));
             string result = await response.Content.ReadAsStringAsync();
+
             RootObject root = JsonConvert.DeserializeObject<RootObject>(result);
 
             foreach (var item in root.results)

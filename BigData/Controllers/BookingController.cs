@@ -6,7 +6,9 @@ using System.Web;
 using System.Web.Mvc;
 using DataLogic.Entities;
 using DataLogic.Context;
-
+using System.Net.Http;
+using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace BigData.Controllers
 {
@@ -23,17 +25,17 @@ namespace BigData.Controllers
 
         //GET: BookTime med en vald dag
         [HttpPost]
-        public ActionResult BookTime(FindTimeModel findTimeModel)
+        public async Task<ActionResult> BookTime(FindTimeModel findTimeModel)
         {
             findTimeModel.BookingSystem = db.BookingSystems.Find(findTimeModel.BookingSystem.BookningSystemId);
             findTimeModel.DateChoosen = true;
-            findTimeModel.ListOfTimes = CreateListOfTimes(findTimeModel);
+            findTimeModel.ListOfTimes = await CreateListOfTimes(findTimeModel);
 
             return View(findTimeModel);
         }
 
         //Returnerar en lista med alla tider för ett bokningssystem
-        public List<Times> CreateListOfTimes(FindTimeModel findTimeModel)
+        public async Task<List<Times>> CreateListOfTimes(FindTimeModel findTimeModel)
         {
             var listOfTimes = new List<Times>();
             int startTime = 8;
@@ -44,7 +46,7 @@ namespace BigData.Controllers
                 var times = new Times();
                 times.StartTime = startTime;
                 times.EndTime = endTime;
-                times.TimeBooked = CheckIfTimeIsBooked(findTimeModel, times);
+                times.TimeBooked = await CheckIfTimeIsBooked(findTimeModel, times);
                 listOfTimes.Add(times);
                 startTime++;
                 endTime++;
@@ -53,7 +55,7 @@ namespace BigData.Controllers
         }
 
         //Returnerar en bool beroende på om en tid är bokad eller inte
-        public bool CheckIfTimeIsBooked(FindTimeModel findTimeModel, Times times)
+        public async Task<bool> CheckIfTimeIsBooked(FindTimeModel findTimeModel, Times times)
         {
             var timeBooked = false;
 
@@ -64,14 +66,24 @@ namespace BigData.Controllers
                 BookingSystem = findTimeModel.BookingSystem
             };
 
-            var databaseBookingTableList = new List<BookingTableEntity>();
-            databaseBookingTableList = db.BookingTabels.ToList();
+            var url = "http://localhost:60295/api/getallbookings/";
 
-            foreach (var item in databaseBookingTableList)
+            using (var client = new HttpClient())
             {
-                if (item.Date == bookingTableEntity.Date && item.StartTime == bookingTableEntity.StartTime && item.BookingSystem == bookingTableEntity.BookingSystem)
+                var response = await client.GetAsync(string.Format(url));
+                string result = await response.Content.ReadAsStringAsync();
+
+                var listOfBookingTables = JsonConvert.DeserializeObject<List<BookingTableEntity>>(result);
+
+                if (response.IsSuccessStatusCode)
                 {
-                    timeBooked = true;
+                    foreach (var item in listOfBookingTables)
+                    {
+                        if (item.Date == bookingTableEntity.Date && item.StartTime == bookingTableEntity.StartTime && item.BookingSystem == bookingTableEntity.BookingSystem)
+                        {
+                            timeBooked = true;
+                        }
+                    }
                 }
             }
 
@@ -79,7 +91,7 @@ namespace BigData.Controllers
         }
 
         //GET: TimeBooked
-        public ActionResult TimeBooked(DateTime date, int startTime, int endTime, int id)
+        public async Task<ActionResult> TimeBooked(DateTime date, int startTime, int endTime, int id)
         {
 
             var bookingTable = new BookingTableEntity
@@ -97,7 +109,7 @@ namespace BigData.Controllers
             var listOfBookingSystemInRadius = new SuggestionController().ListOfAllSystemsInRadius(listOfBookingSystem, bookingTable);
 
             var timeBookedModel = new TimeBookedModel();
-            timeBookedModel = new SuggestionController().FindTimesForListOfBookingSystems(bookingTable, listOfBookingSystemInRadius);
+            timeBookedModel = await new SuggestionController().FindTimesForListOfBookingSystems(bookingTable, listOfBookingSystemInRadius);
             timeBookedModel.BookingTableEntity = bookingTable;
 
             return View(timeBookedModel);

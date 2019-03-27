@@ -459,8 +459,8 @@
     <Content Include="Views\BookingSystem\ChoosenService.cshtml" />
     <Content Include="Views\Booking\BookTime.cshtml" />
     <Content Include="Views\Booking\TimeBooked.cshtml" />
-    <Content Include="Views\BookingSystem\ChooseCityOrebro.cshtml" />
-    <Content Include="Views\BookingSystem\ChooseCityStockholm.cshtml" />
+    <Content Include="Views\BookingSystem\GetAllBookingSystems.cshtml" />
+    <Content Include="Views\BookingSystem\ChoosenCity.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -27,10 +27,23 @@ namespace DataLogic.Repository
         }
 
         //Hämtar ut alla bokningssystem
-        public List<BookingSystemEntity> GetAllBookingSystem()
+        public List<BookingSystemEntity> GetAllBookingSystems()
         {
-            var listOfAllServices = context.BookingSystems.ToList();
-            return listOfAllServices;
+            var listOfAllBookingSystems = context.BookingSystems.ToList();
+            return listOfAllBookingSystems;
+        }
+
+        public List<BookingSystemEntity> GetBookingSystemsFromCity(string city)
+        {
+            var listOfBookingSystemFromACity = context.BookingSystems.Where(b => b.City == city).ToList();
+            return listOfBookingSystemFromACity;
+        }
+
+        public void DeleteBookingSystem(int id)
+        {
+            var bookingSystem = GetBookingSystem(id);
+            context.BookingSystems.Remove(bookingSystem);
+            context.SaveChanges();
         }
     }
 }
