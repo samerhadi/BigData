@@ -122,8 +122,5 @@ namespace BigData.Controllers
             db.SaveChanges();
 
         }
-
-     
-
     }
 }
