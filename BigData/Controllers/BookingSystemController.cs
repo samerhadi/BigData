@@ -157,7 +157,7 @@ namespace BigData.Controllers
         {
             return View();
         }
-
+#pragma warning disable 1998
         public async Task<List<BookingSystemEntity>> SortListByServiceType(List<BookingSystemEntity> listOfBookingSystems)
         {
             listOfBookingSystems.OrderByDescending(x => (int)(x.ServiceType)).ToList();
