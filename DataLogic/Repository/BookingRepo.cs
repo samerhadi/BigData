@@ -12,7 +12,7 @@ namespace DataLogic.Repository
     {
         ApplicationDbContext context = new ApplicationDbContext();
 
-        public async Task<List<BookingTableEntity>> GetAllBookingTables()
+        public List<BookingTableEntity> GetAllBookingTables()
         {
             var listOfBookingTables = context.BookingTabels.ToList();
             return listOfBookingTables;

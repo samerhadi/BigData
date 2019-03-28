@@ -80,7 +80,7 @@ namespace BigData.Controllers
                 {
                     foreach (var item in listOfBookingTables)
                     {
-                        
+
                         if (item.Date == bookingTableEntity.Date && item.StartTime == bookingTableEntity.StartTime && item.BookingSystemId == bookingTableEntity.BookingSystemId)
                         {
                             timeBooked = true;
