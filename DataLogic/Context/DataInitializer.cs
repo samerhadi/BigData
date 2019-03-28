@@ -90,8 +90,31 @@ namespace DataLogic.Context
                 City = "Örebro",
             };
             context.BookingSystems.Add(bookingsystem4);
+
+            var bookedTime1 = new BookingTableEntity()
+            {
+                BookingId = 1,
+                Date = DateTime.Now,
+                StartTime = 8,
+                EndTime = 9,
+                BookingSystemId = 1
+            };
+            context.BookingTabels.Add(bookedTime1);
+
+            var bookedTime2 = new BookingTableEntity()
+            {
+                BookingId = 1,
+                Date = DateTime.Now,
+                StartTime = 9,
+                EndTime = 10,
+                BookingSystemId = 1
+            };
+            context.BookingTabels.Add(bookedTime2);
+
             context.SaveChanges();
             base.Seed(context);
         }
+
+
     }
 }

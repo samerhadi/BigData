@@ -18,6 +18,6 @@ namespace DataLogic.Entities
         public int StartTime { get; set; }
         public int EndTime { get; set; }
         public int Price { get; set; }
-        public BookingSystemEntity BookingSystem { get; set; }
+        public int BookingSystemId { get; set; }
     }
 }
