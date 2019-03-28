@@ -64,7 +64,7 @@ namespace BigData.Controllers
             {
                 StartTime = times.StartTime,
                 Date = findTimeModel.Time,
-                BookingSystem = findTimeModel.BookingSystem
+                BookingSystemId = findTimeModel.BookingSystem.BookningSystemId
             };
 
             var url = "http://localhost:60295/api/getallbookings/";
@@ -82,7 +82,7 @@ namespace BigData.Controllers
                     foreach (var item in listOfBookingTables)
                     {
                         
-                        if (item.Date == bookingTableEntity.Date && item.StartTime == bookingTableEntity.StartTime && item.BookingSystem == bookingTableEntity.BookingSystem)
+                        if (item.Date == bookingTableEntity.Date && item.StartTime == bookingTableEntity.StartTime && item.BookingSystemId == bookingTableEntity.BookingSystemId)
                         {
                             timeBooked = true;
                         }
@@ -99,7 +99,7 @@ namespace BigData.Controllers
 
             var bookingTable = new BookingTableEntity
             {
-                BookingSystem = db.BookingSystems.Find(id),
+                BookingSystemId = id,
                 Date = date,
                 StartTime = startTime,
                 EndTime = endTime
@@ -107,14 +107,16 @@ namespace BigData.Controllers
 
             AddBooking(bookingTable);
 
-            var listOfBookingSystem = new SuggestionController().ListOfServicesInSameCity(bookingTable.BookingSystem);
-      
+            var bookingSystem = db.BookingSystems.Find(id);
+
+            var listOfBookingSystem = new SuggestionController().ListOfServicesInSameCity(bookingSystem);
 
             var listOfBookingSystemInRadius = new SuggestionController().ListOfAllSystemsInRadius(listOfBookingSystem, bookingTable);
 
             var timeBookedModel = new TimeBookedModel();
             timeBookedModel = await new SuggestionController().FindTimesForListOfBookingSystems(bookingTable, listOfBookingSystemInRadius);
             timeBookedModel.BookingTableEntity = bookingTable;
+            timeBookedModel.BookingSystemEntity = bookingSystem;
             
             return View(timeBookedModel);
         }

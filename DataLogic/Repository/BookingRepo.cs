@@ -3,6 +3,7 @@ using DataLogic.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 
 namespace DataLogic.Repository
@@ -11,7 +12,7 @@ namespace DataLogic.Repository
     {
         ApplicationDbContext context = new ApplicationDbContext();
 
-        public List<BookingTableEntity> GetAllBookingTables()
+        public async Task<List<BookingTableEntity>> GetAllBookingTables()
         {
             var listOfBookingTables = context.BookingTabels.ToList();
             return listOfBookingTables;

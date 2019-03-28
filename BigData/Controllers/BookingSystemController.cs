@@ -134,7 +134,7 @@ namespace BigData.Controllers
                         string result = await response.Content.ReadAsStringAsync();
 
                         var bookingSystems = JsonConvert.DeserializeObject<List<BookingSystemEntity>>(result);
-                        var sortedList = SortListByServiceType(bookingSystems);
+                        var sortedList = await SortListByServiceType(bookingSystems);
 
                         if (response.IsSuccessStatusCode)
                         {
@@ -158,7 +158,7 @@ namespace BigData.Controllers
             return View();
         }
 
-        public List<BookingSystemEntity> SortListByServiceType(List<BookingSystemEntity> listOfBookingSystems)
+        public async Task<List<BookingSystemEntity>> SortListByServiceType(List<BookingSystemEntity> listOfBookingSystems)
         {
             listOfBookingSystems.OrderByDescending(x => (int)(x.ServiceType)).ToList();
             return listOfBookingSystems;

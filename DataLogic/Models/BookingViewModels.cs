@@ -26,5 +26,6 @@ namespace DataLogic.Models
     {
         public BookingTableEntity BookingTableEntity { get; set; }
         public List<FindTimeModel> ListOfFindTimeModels { get; set; }
+        public BookingSystemEntity BookingSystemEntity { get; set; }
     }
 }

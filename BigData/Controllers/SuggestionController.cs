@@ -42,10 +42,11 @@ namespace BigData.Controllers
         public List<BookingSystemEntity> ListOfAllSystemsInRadius(List<BookingSystemEntity> listOfIncBookingSystems, BookingTableEntity bookingTable)
         {
             var listOfBookingSystems = new List<BookingSystemEntity>();
+            var bookingSystem = db.BookingSystems.Find(bookingTable.BookingSystemId);
 
             foreach(var item in listOfIncBookingSystems)
             {
-                item.Distance = DistanceTo(bookingTable.BookingSystem.Latitude, bookingTable.BookingSystem.Longitude, item.Latitude, item.Longitude);
+                item.Distance = DistanceTo(bookingSystem.Latitude, bookingSystem.Longitude, item.Latitude, item.Longitude);
 
                 if (item.Distance <= 5)
                 {
