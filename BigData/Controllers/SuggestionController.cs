@@ -70,6 +70,7 @@ namespace BigData.Controllers
         public async Task<TimeBookedModel> FindTimesForListOfBookingSystems(BookingTableEntity bookingTable, List<BookingSystemEntity> listOfBookingSystem)
         {
             var timeBookedModel = new TimeBookedModel();
+            var listOfFindTimeModels = new List<FindTimeModel>();
 
             foreach (var item in listOfBookingSystem)
             {
@@ -85,7 +86,7 @@ namespace BigData.Controllers
 
                 findTimeModel.ChoosenTime = time;
                 findTimeModel.ListOfTimes = await CreateListOfTimes(findTimeModel, bookingTable);
-                var listOfFindTimeModels = new List<FindTimeModel>();
+                
 
                 if (findTimeModel.ListOfTimes.Count() > 0)
                 {

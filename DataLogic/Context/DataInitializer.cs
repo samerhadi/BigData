@@ -80,7 +80,7 @@ namespace DataLogic.Context
                 Email = "frisorniklas@gmail.com",
                 PhoneNumber = "00000000",
                 Website = "0",
-                CompanyName = "Frisör Niklas",
+                CompanyName = "Bam",
                 ContactEmail = "frisorniklas@gmail.com",
                 ContactPhone = "0",
                 Adress = "Sandkullsvägen 24",
@@ -90,6 +90,46 @@ namespace DataLogic.Context
                 City = "Örebro",
             };
             context.BookingSystems.Add(bookingsystem4);
+
+            var bookingsystem5 = new BookingSystemEntity()
+            {
+                ServiceType = ServiceType.Ansiktebehandling,
+                BookningSystemId = 0,
+                SystemName = "Petters Ansiktesbehandling",
+                SystemDescription = "Frisör",
+                Email = "frisorniklas@gmail.com",
+                PhoneNumber = "00000000",
+                Website = "0",
+                CompanyName = "Petters Ansiktesbehandling",
+                ContactEmail = "frisorniklas@gmail.com",
+                ContactPhone = "0",
+                Adress = "Skolgatan 42",
+                Latitude = 59.281750,
+                Longitude = 15.223650,
+                PostaICode = "0",
+                City = "Örebro",
+            };
+            context.BookingSystems.Add(bookingsystem5);
+
+            var bookingsystem6 = new BookingSystemEntity()
+            {
+                ServiceType = ServiceType.Ansiktebehandling,
+                BookningSystemId = 0,
+                SystemName = "Salong Nageltrång",
+                SystemDescription = "Frisör",
+                Email = "frisorniklas@gmail.com",
+                PhoneNumber = "00000000",
+                Website = "0",
+                CompanyName = "Salong Nageltrång",
+                ContactEmail = "frisorniklas@gmail.com",
+                ContactPhone = "0",
+                Adress = "Skolgatan 42",
+                Latitude = 59.280750,
+                Longitude = 15.233650,
+                PostaICode = "0",
+                City = "Örebro",
+            };
+            context.BookingSystems.Add(bookingsystem6);
 
             var bookedTime1 = new BookingTableEntity()
             {
