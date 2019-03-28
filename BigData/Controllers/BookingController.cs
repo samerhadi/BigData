@@ -75,7 +75,8 @@ namespace BigData.Controllers
                 string result = await response.Content.ReadAsStringAsync();
 
                 var listOfBookingTables = JsonConvert.DeserializeObject<List<BookingTableEntity>>(result);
-                
+
+             
                 if (response.IsSuccessStatusCode)
                 {
                     foreach (var item in listOfBookingTables)
@@ -121,12 +122,13 @@ namespace BigData.Controllers
         [HttpPost]
         public async void AddBooking(BookingTableEntity bookingTable)
         {
-
+         
+           
             var url = "http://localhost:60295/api/addbooking/";
 
             using (var client = new HttpClient())
             {
-
+              
                 var content = new StringContent(JsonConvert.SerializeObject(bookingTable), Encoding.UTF8, "application/json");
 
                 var result = await client.PostAsync(url, content);
