@@ -35,11 +35,39 @@ namespace BigData.Controllers
             return View(findTimeModel);
         }
 
-        //[HttpPost]
-        //public async Task<ActionResult> GetAllBookingTables()
-        //{
-        //    var url = "";
-        //}
+        [HttpGet]
+       public async Task<ActionResult> GetAllBookingTables()
+       {
+            try
+            {
+                var url = "http://localhost:60295/api/getallbookings/";
+
+            using (var client = new HttpClient())
+            {
+                var response = await client.GetAsync(string.Format(url));
+                string result = await response.Content.ReadAsStringAsync();
+
+                var bookingTables = JsonConvert.DeserializeObject<List<BookingTableEntity>>(result);
+
+                if (response.IsSuccessStatusCode)
+                {
+
+                    return View(bookingTables);
+                }
+            }
+        }
+
+                  
+      catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return RedirectToAction("AllServices");
+        }
+
+        
+           
 
         //Returnerar en lista med alla tider för ett bokningssystem
         public async Task<List<Times>> CreateListOfTimes(FindTimeModel findTimeModel)
