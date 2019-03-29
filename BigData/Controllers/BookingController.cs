@@ -111,19 +111,12 @@ namespace BigData.Controllers
                 EndTime = endTime
             };
 
-            AddBooking(bookingTable);
+            await Task.Run(() => AddBooking(bookingTable));
 
             var bookingSystem = db.BookingSystems.Find(id);
 
-            var listOfBookingSystem = new SuggestionController().ListOfServicesInSameCity(bookingSystem);
+            var timeBookedModel = await new SuggestionController().GetSuggestions(bookingSystem, bookingTable);
 
-            var listOfBookingSystemInRadius = new SuggestionController().ListOfAllSystemsInRadius(listOfBookingSystem, bookingTable);
-
-            var timeBookedModel = new TimeBookedModel();
-            timeBookedModel = await new SuggestionController().FindTimesForListOfBookingSystems(bookingTable, listOfBookingSystemInRadius);
-            timeBookedModel.BookingTableEntity = bookingTable;
-            timeBookedModel.BookingSystemEntity = bookingSystem;
-            
             return View(timeBookedModel);
         }
         //Sparar en vald tid i databasen

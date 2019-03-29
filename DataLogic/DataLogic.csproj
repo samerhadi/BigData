@@ -130,7 +130,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\BookingRepo.cs" />
     <Compile Include="Repository\BookingSystemRepo.cs" />
-    <Compile Include="Repository\SuggestionRepo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

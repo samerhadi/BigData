@@ -126,5 +126,19 @@ namespace BigData.Controllers
             }
             return listOfTimes;
         }
+
+        public async Task<TimeBookedModel> GetSuggestions(BookingSystemEntity bookingSystem, BookingTableEntity bookingTable)
+        {
+            var listOfBookingSystem = ListOfServicesInSameCity(bookingSystem);
+
+            var listOfBookingSystemInRadius = ListOfAllSystemsInRadius(listOfBookingSystem, bookingTable);
+
+            var timeBookedModel = new TimeBookedModel();
+            timeBookedModel = await FindTimesForListOfBookingSystems(bookingTable, listOfBookingSystemInRadius);
+            timeBookedModel.BookingTableEntity = bookingTable;
+            timeBookedModel.BookingSystemEntity = bookingSystem;
+
+            return timeBookedModel;
+        }
     }
 }
