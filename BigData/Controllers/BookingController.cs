@@ -113,9 +113,7 @@ namespace BigData.Controllers
 
             await Task.Run(() => AddBooking(bookingTable));
 
-            var bookingSystem = db.BookingSystems.Find(id);
-
-            var timeBookedModel = await new SuggestionController().GetSuggestions(bookingSystem, bookingTable);
+            var timeBookedModel = await new SuggestionController().GetSuggestions(bookingTable);
 
             return View(timeBookedModel);
         }

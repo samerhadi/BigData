@@ -127,8 +127,11 @@ namespace BigData.Controllers
             return listOfTimes;
         }
 
-        public async Task<TimeBookedModel> GetSuggestions(BookingSystemEntity bookingSystem, BookingTableEntity bookingTable)
+        public async Task<TimeBookedModel> GetSuggestions(BookingTableEntity bookingTable)
         {
+
+            var bookingSystem = db.BookingSystems.Find(bookingTable.BookingSystemId);
+
             var listOfBookingSystem = ListOfServicesInSameCity(bookingSystem);
 
             var listOfBookingSystemInRadius = ListOfAllSystemsInRadius(listOfBookingSystem, bookingTable);
