@@ -35,6 +35,12 @@ namespace BigData.Controllers
             return View(findTimeModel);
         }
 
+        //[HttpPost]
+        //public async Task<ActionResult> GetAllBookingTables()
+        //{
+        //    var url = "";
+        //}
+
         //Returnerar en lista med alla tider för ett bokningssystem
         public async Task<List<Times>> CreateListOfTimes(FindTimeModel findTimeModel)
         {

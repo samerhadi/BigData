@@ -23,7 +23,19 @@ namespace DataLogic.Repository
         {
             context.BookingTabels.Add(bookingTable);
             context.SaveChanges();
+        }
 
+        public BookingTableEntity GetBookingTable(int id)
+        {
+            var bookingTable = context.BookingTabels.Find(id);
+            return bookingTable;
+        }
+
+        public void DeleteBookingTable(int id)
+        {
+            var bookingTable = GetBookingTable(id);
+            context.BookingTabels.Remove(bookingTable);
+            context.SaveChanges();
         }
     }
 }

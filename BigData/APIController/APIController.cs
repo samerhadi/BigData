@@ -62,12 +62,28 @@ namespace BigData.APIController
             return Ok(listOfAllBookings);
         }
 
+        [HttpGet]
+        [Route("api/getbooking/{id}")]
+        public async Task<IHttpActionResult> GetBooking(int id)
+        {
+            var bookingTable = new BookingRepo().GetBookingTable(id);
+            return Ok(bookingTable);
+        }
+
 
         [HttpPost]
         [Route("api/addbooking/")]
         public async Task<IHttpActionResult> AddBooking(BookingTableEntity bookingTable)
         {
             new BookingRepo().AddBooking(bookingTable);
+            return Ok();
+        }
+
+        [HttpDelete]
+        [Route("api/deletebooking/{id}")]
+        public async Task<IHttpActionResult> DeleteBooking(int id)
+        {
+            new BookingRepo().DeleteBookingTable(id);
             return Ok();
         }
 
