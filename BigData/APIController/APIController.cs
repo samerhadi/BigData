@@ -90,6 +90,14 @@ namespace BigData.APIController
             return Ok();
         }
 
+        [HttpGet]
+        [Route ("api/getsuggestions/")]
+        public async Task<IHttpActionResult> GetSuggestions(BookingTableEntity bookingTable)
+        {
+            var timeBooked = await new SuggestionController().GetSuggestions(bookingTable);
+            return Ok(timeBooked);
+        }
+
     }
     
 }
