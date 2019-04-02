@@ -117,6 +117,38 @@ namespace BigData.Controllers
 
             return RedirectToAction("AllServices");
         }
+        [HttpGet]
+        public async Task<ActionResult> GetAllBookingSystems(int id)
+        {
+            try
+            {
+                await Task.Run(() => DeleteSystem(id));
+                if (ModelState.IsValid)
+                {
+                    var url = "http://localhost:60295/api/getallbookingsystems/";
+
+                    using (var client = new HttpClient())
+                    {
+                        var response = await client.GetAsync(string.Format(url));
+                        string result = await response.Content.ReadAsStringAsync();
+
+                        var listOfAllBookingSystem = JsonConvert.DeserializeObject<List<BookingSystemEntity>>(result);
+
+                        if (response.IsSuccessStatusCode)
+                        {
+                            return View(listOfAllBookingSystem);
+                        }
+                    }
+                }
+            }
+
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return RedirectToAction("AllServices");
+        }
 
         [HttpGet]
         public async Task<ActionResult> ChoosenCity(string city)
@@ -184,6 +216,19 @@ namespace BigData.Controllers
             }
 
             return system;
+        }
+
+      
+
+        [HttpDelete]
+        public async void DeleteSystem(int id)
+        {
+            var url = "http://localhost:60295/api/deletebookingsystem/" + id;
+            using (var client = new HttpClient())
+            {
+                var content = new StringContent(JsonConvert.SerializeObject(id), Encoding.UTF8, "application/json");
+                var result = await client.DeleteAsync(string.Format(url, content));
+            }
         }
 
     }

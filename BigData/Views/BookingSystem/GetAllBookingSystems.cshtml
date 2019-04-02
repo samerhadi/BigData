@@ -83,6 +83,9 @@
         <td>
             @Html.ActionLink("Gå till " + item.SystemName, "ChoosenService", new { id = item.BookningSystemId })
         </td> 
+        <td>
+            @Html.ActionLink("Delete", "GetAllBookingSystems", new { id = item.BookningSystemId })
+        </td>
     </tr>
 }
 
