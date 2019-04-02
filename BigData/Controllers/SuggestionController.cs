@@ -61,7 +61,8 @@ namespace BigData.Controllers
         public List<BookingSystemEntity> ListOfServicesInSameCity(BookingSystemEntity bookingSystem)
         {
             var listOfSuggestedServices = new List<BookingSystemEntity>();
-            listOfSuggestedServices = db.BookingSystems.Where(b => b.City == bookingSystem.City && b.BookningSystemId != bookingSystem.BookningSystemId).ToList();
+            listOfSuggestedServices = db.BookingSystems.Where(b => b.City == bookingSystem.City && b.BookningSystemId != bookingSystem.BookningSystemId
+            && bookingSystem.ServiceType != b.ServiceType).ToList();
 
             return listOfSuggestedServices;
         }
