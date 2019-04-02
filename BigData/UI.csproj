@@ -462,6 +462,7 @@
     <Content Include="Views\BookingSystem\GetAllBookingSystems.cshtml" />
     <Content Include="Views\BookingSystem\ChoosenCity.cshtml" />
     <Content Include="Views\Booking\GetAllBookingTables.cshtml" />
+    <Content Include="Views\Booking\DeleteBookingTable.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

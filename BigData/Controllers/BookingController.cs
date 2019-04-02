@@ -128,6 +128,7 @@ namespace BigData.Controllers
         }
 
         //GET: TimeBooked
+        [HttpGet]
         public async Task<ActionResult> TimeBooked(DateTime date, int startTime, int endTime, int id)
         {
 
@@ -141,25 +142,50 @@ namespace BigData.Controllers
 
             await Task.Run(() => AddBooking(bookingTable));
 
-            var timeBookedModel = await new SuggestionController().GetSuggestions(bookingTable);
+            var url = "http://localhost:60295/api/getsuggestions/";
 
-            return View(timeBookedModel);
+            using (var client = new HttpClient())
+            {
+                var content = new StringContent(JsonConvert.SerializeObject(bookingTable), Encoding.UTF8, "application/json");
+                var response = await client.GetAsync(string.Format(url, content));
+                string result = await response.Content.ReadAsStringAsync();
+
+                var timeBookedModel = JsonConvert.DeserializeObject<TimeBookedModel>(result);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return View(timeBookedModel);
+                }
+            }
+
+            return RedirectToAction("AllServices");
+
+            //var timeBookedModel = await new SuggestionController().GetSuggestions(bookingTable);
+
+            //return View(timeBookedModel);
         }
+
         //Sparar en vald tid i databasen
         [HttpPost]
         public async void AddBooking(BookingTableEntity bookingTable)
         {
-         
-           
             var url = "http://localhost:60295/api/addbooking/";
-
             using (var client = new HttpClient())
             {
-              
                 var content = new StringContent(JsonConvert.SerializeObject(bookingTable), Encoding.UTF8, "application/json");
-
                 var result = await client.PostAsync(url, content);
             }
+        }
+
+        public async Task<ActionResult> DeleteBookingTable(int id)
+        {
+            var url = "http://localhost:60295/api/deletebooking/" + id;
+            using (var client = new HttpClient())
+            {
+                var content = new StringContent(JsonConvert.SerializeObject(id), Encoding.UTF8, "application/json");
+                var result = await client.PostAsync(url, content);
+            }
+            return View();
         }
     }
 }
