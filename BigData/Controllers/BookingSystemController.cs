@@ -86,68 +86,40 @@ namespace BigData.Controllers
             return RedirectToAction("AllServices");
         }
 
-        [HttpGet]
-        public async Task<ActionResult> GetAllBookingSystems()
+        public async Task<ActionResult> GetAllBookingSystems(int? id)
         {
-            try
-            {
-                if (ModelState.IsValid)
-                {
-                    var url = "http://localhost:60295/api/getallbookingsystems/";
-
-                    using (var client = new HttpClient())
-                    {
-                        var response = await client.GetAsync(string.Format(url));
-                        string result = await response.Content.ReadAsStringAsync();
-
-                        var listOfAllBookingSystem = JsonConvert.DeserializeObject<List<BookingSystemEntity>>(result);
-
-                        if (response.IsSuccessStatusCode)
-                        {
-                            return View(listOfAllBookingSystem);
-                        }
-                    }
-                }
-            }
-
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-
-            return RedirectToAction("AllServices");
-        }
-        [HttpGet]
-        public async Task<ActionResult> GetAllBookingSystems(int id)
-        {
-            try
+            if (id != null)
             {
                 await Task.Run(() => DeleteSystem(id));
-                if (ModelState.IsValid)
+            }
+
+            var listOfBookingSystems = await GetBookingSystems();
+
+            return View(listOfBookingSystems);
+        }
+
+        [HttpGet]
+        public async Task<List<BookingSystemEntity>> GetBookingSystems()
+        {
+            if (ModelState.IsValid)
+            {
+                var url = "http://localhost:60295/api/getallbookingsystems/";
+
+                using (var client = new HttpClient())
                 {
-                    var url = "http://localhost:60295/api/getallbookingsystems/";
+                    var response = await client.GetAsync(string.Format(url));
+                    string result = await response.Content.ReadAsStringAsync();
 
-                    using (var client = new HttpClient())
+                    var listOfAllBookingSystem = JsonConvert.DeserializeObject<List<BookingSystemEntity>>(result);
+
+                    if (response.IsSuccessStatusCode)
                     {
-                        var response = await client.GetAsync(string.Format(url));
-                        string result = await response.Content.ReadAsStringAsync();
-
-                        var listOfAllBookingSystem = JsonConvert.DeserializeObject<List<BookingSystemEntity>>(result);
-
-                        if (response.IsSuccessStatusCode)
-                        {
-                            return View(listOfAllBookingSystem);
-                        }
+                        return listOfAllBookingSystem;
                     }
                 }
             }
-
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-
-            return RedirectToAction("AllServices");
+            var fail = new List<BookingSystemEntity>();
+            return fail;
         }
 
         [HttpGet]
@@ -218,10 +190,8 @@ namespace BigData.Controllers
             return system;
         }
 
-      
-
         [HttpDelete]
-        public async void DeleteSystem(int id)
+        public async void DeleteSystem(int? id)
         {
             var url = "http://localhost:60295/api/deletebookingsystem/" + id;
             using (var client = new HttpClient())
