@@ -3,13 +3,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using System.Web.Mvc;
 using DataLogic.Entities;
 using DataLogic.Context;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using System.Text;
+using System.Web.Mvc;
 
 namespace BigData.Controllers
 {
@@ -35,7 +35,7 @@ namespace BigData.Controllers
             return View(findTimeModel);
         }
 
-        [HttpGet]
+       [HttpGet]
        public async Task<ActionResult> GetAllBookingTables()
        {
             try
@@ -128,7 +128,6 @@ namespace BigData.Controllers
         }
 
         //GET: TimeBooked
-        [HttpGet]
         public async Task<ActionResult> TimeBooked(DateTime date, int startTime, int endTime, int id)
         {
 
@@ -142,28 +141,34 @@ namespace BigData.Controllers
 
             await Task.Run(() => AddBooking(bookingTable));
 
+            var timeBookedModel = await GetSuggestion(bookingTable);
+
+            return View(timeBookedModel);
+        }
+
+        [HttpPost]
+        public async Task<TimeBookedModel> GetSuggestion(BookingTableEntity bookingTable)
+        {
+            var failtimeBookedModel = new TimeBookedModel();
             var url = "http://localhost:60295/api/getsuggestions/";
 
             using (var client = new HttpClient())
             {
                 var content = new StringContent(JsonConvert.SerializeObject(bookingTable), Encoding.UTF8, "application/json");
-                var response = await client.GetAsync(string.Format(url, content));
+                var response = await client.PostAsync(url, content);
                 string result = await response.Content.ReadAsStringAsync();
 
                 var timeBookedModel = JsonConvert.DeserializeObject<TimeBookedModel>(result);
 
                 if (response.IsSuccessStatusCode)
                 {
-                    return View(timeBookedModel);
+                    return timeBookedModel;
                 }
             }
 
-            return RedirectToAction("AllServices");
-
-            //var timeBookedModel = await new SuggestionController().GetSuggestions(bookingTable);
-
-            //return View(timeBookedModel);
+            return failtimeBookedModel;
         }
+
 
         //Sparar en vald tid i databasen
         [HttpPost]
@@ -179,13 +184,19 @@ namespace BigData.Controllers
 
         public async Task<ActionResult> DeleteBookingTable(int id)
         {
+            await Task.Run(() => DeleteBooking(id));
+            return View();
+        }
+
+        [HttpDelete]
+        public async void DeleteBooking(int id)
+        {
             var url = "http://localhost:60295/api/deletebooking/" + id;
             using (var client = new HttpClient())
             {
                 var content = new StringContent(JsonConvert.SerializeObject(id), Encoding.UTF8, "application/json");
-                var result = await client.PostAsync(url, content);
-            }
-            return View();
+                var result = await client.DeleteAsync(string.Format(url, content));
+            } 
         }
     }
 }

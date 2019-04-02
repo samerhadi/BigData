@@ -24,7 +24,6 @@ namespace BigData.APIController
            
         }
 
-
         [HttpGet]
         [Route("api/getbookingsystem/{id}")]
         public async Task<IHttpActionResult> GetBookingSystem(int id)
@@ -73,7 +72,6 @@ namespace BigData.APIController
             return Ok(bookingTable);
         }
 
-
         [HttpPost]
         [Route("api/addbooking/")]
         public async Task<IHttpActionResult> AddBooking(BookingTableEntity bookingTable)
@@ -90,7 +88,7 @@ namespace BigData.APIController
             return Ok();
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route ("api/getsuggestions/")]
         public async Task<IHttpActionResult> GetSuggestions(BookingTableEntity bookingTable)
         {
