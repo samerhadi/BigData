@@ -85,7 +85,7 @@ namespace BigData.Controllers
             }
 
             var listOfBookingSystems = await GetBookingSystems();
-
+            UpdateModel(listOfBookingSystems);
             return View(listOfBookingSystems);
         }
 
@@ -150,8 +150,8 @@ namespace BigData.Controllers
 #pragma warning disable 1998
         public async Task<List<BookingSystemEntity>> SortListByServiceType(List<BookingSystemEntity> listOfBookingSystems)
         {
-            listOfBookingSystems.OrderByDescending(x => (int)(x.ServiceType)).ToList();
-            return listOfBookingSystems;
+            var sortedlist = listOfBookingSystems.OrderByDescending(x => (int)(x.ServiceType)).ToList();
+            return sortedlist;
         }
 
         public async Task<BookingSystemEntity> GetCoordinatesAsync(BookingSystemEntity system)
