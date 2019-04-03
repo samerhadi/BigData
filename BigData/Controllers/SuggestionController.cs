@@ -78,7 +78,7 @@ namespace BigData.Controllers
                 var findTimeModel = new FindTimeModel();
                 findTimeModel.BookingSystem = item;
 
-                findTimeModel.Time = bookingTable.Date;
+                findTimeModel.Date = bookingTable.Date;
 
                 var time = new Times
                 {

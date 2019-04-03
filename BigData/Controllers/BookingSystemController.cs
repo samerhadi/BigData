@@ -17,7 +17,8 @@ namespace BigData.Controllers
 {
     public class BookingSystemController : BaseController
     {
-
+        public static HttpClient client = new HttpClient();
+        
         // GET: CreateBookingSystem
         public ActionResult CreateBookingSystem()
         {
@@ -32,24 +33,17 @@ namespace BigData.Controllers
 
             var url = "http://localhost:60295/api/addbookingsystem";
 
-            using (var client = new HttpClient())
+            var content = new StringContent(JsonConvert.SerializeObject(bookingSystem), Encoding.UTF8, "application/json");
+            var result = await client.PostAsync(url, content);
+
+            if (result.IsSuccessStatusCode)
             {
 
-                var content = new StringContent(JsonConvert.SerializeObject(bookingSystem), Encoding.UTF8, "application/json");
-
-                var result = await client.PostAsync(url, content);
-
-                if (result.IsSuccessStatusCode)
-                {
-
-                    return RedirectToAction("AllServices");
-
-                }
-
-                return View(bookingSystem);
+                return RedirectToAction("AllServices");
 
             }
 
+            return View(bookingSystem);
         }
 
         [HttpGet]
@@ -61,20 +55,17 @@ namespace BigData.Controllers
                 {
                     var url = "http://localhost:60295/api/getbookingsystem/" + id;
 
-                    using (var client = new HttpClient())
+                    var content = new StringContent(JsonConvert.SerializeObject(id), Encoding.UTF8, "application/json");
+                    var response = await client.GetAsync(string.Format(url, content));
+                    string result = await response.Content.ReadAsStringAsync();
+
+                    var bookingSystem = JsonConvert.DeserializeObject<BookingSystemEntity>(result);
+
+                    if (response.IsSuccessStatusCode)
                     {
-
-                        var content = new StringContent(JsonConvert.SerializeObject(id), Encoding.UTF8, "application/json");
-                        var response = await client.GetAsync(string.Format(url, content));
-                        string result = await response.Content.ReadAsStringAsync();
-
-                        var bookingSystem = JsonConvert.DeserializeObject<BookingSystemEntity>(result);
-
-                        if (response.IsSuccessStatusCode)
-                        {
-                            return View(bookingSystem);
-                        }
+                        return View(bookingSystem);
                     }
+
                 }
             }
 
@@ -104,19 +95,16 @@ namespace BigData.Controllers
             if (ModelState.IsValid)
             {
                 var url = "http://localhost:60295/api/getallbookingsystems/";
+                var response = await client.GetAsync(string.Format(url));
+                string result = await response.Content.ReadAsStringAsync();
 
-                using (var client = new HttpClient())
+                var listOfAllBookingSystem = JsonConvert.DeserializeObject<List<BookingSystemEntity>>(result);
+
+                if (response.IsSuccessStatusCode)
                 {
-                    var response = await client.GetAsync(string.Format(url));
-                    string result = await response.Content.ReadAsStringAsync();
-
-                    var listOfAllBookingSystem = JsonConvert.DeserializeObject<List<BookingSystemEntity>>(result);
-
-                    if (response.IsSuccessStatusCode)
-                    {
-                        return listOfAllBookingSystem;
-                    }
+                    return listOfAllBookingSystem;
                 }
+
             }
             var fail = new List<BookingSystemEntity>();
             return fail;
@@ -131,20 +119,18 @@ namespace BigData.Controllers
                 {
                     var url = "http://localhost:60295/api/getbookingsystemsfromcity/" + city;
 
-                    using (var client = new HttpClient())
+                    var content = new StringContent(JsonConvert.SerializeObject(city), Encoding.UTF8, "application/json");
+                    var response = await client.GetAsync(string.Format(url, content));
+                    string result = await response.Content.ReadAsStringAsync();
+
+                    var bookingSystems = JsonConvert.DeserializeObject<List<BookingSystemEntity>>(result);
+                    var sortedList = await SortListByServiceType(bookingSystems);
+
+                    if (response.IsSuccessStatusCode)
                     {
-                        var content = new StringContent(JsonConvert.SerializeObject(city), Encoding.UTF8, "application/json");
-                        var response = await client.GetAsync(string.Format(url, content));
-                        string result = await response.Content.ReadAsStringAsync();
-
-                        var bookingSystems = JsonConvert.DeserializeObject<List<BookingSystemEntity>>(result);
-                        var sortedList = await SortListByServiceType(bookingSystems);
-
-                        if (response.IsSuccessStatusCode)
-                        {
-                            return View(sortedList);
-                        }
+                        return View(sortedList);
                     }
+
                 }
             }
 
@@ -170,7 +156,6 @@ namespace BigData.Controllers
 
         public async Task<BookingSystemEntity> GetCoordinatesAsync(BookingSystemEntity system)
         {
-            var client = new HttpClient();
 
             string cityName = system.City;
             string streetName = system.Adress;
@@ -194,12 +179,10 @@ namespace BigData.Controllers
         public async void DeleteSystem(int? id)
         {
             var url = "http://localhost:60295/api/deletebookingsystem/" + id;
-            using (var client = new HttpClient())
-            {
-                var content = new StringContent(JsonConvert.SerializeObject(id), Encoding.UTF8, "application/json");
-                var result = await client.DeleteAsync(string.Format(url, content));
-            }
-        }
 
+            var content = new StringContent(JsonConvert.SerializeObject(id), Encoding.UTF8, "application/json");
+            var result = await client.DeleteAsync(string.Format(url, content));
+
+        }
     }
 }

@@ -8,11 +8,12 @@ namespace DataLogic.Models
 {
     public class FindTimeModel
     {
-        public DateTime Time { get; set; }
+        public DateTime Date { get; set; }
         public BookingSystemEntity BookingSystem { get; set; }
         public Boolean DateChoosen { get; set; }
         public List<Times> ListOfTimes { get; set; }
         public Times ChoosenTime { get; set; }
+        public double TimeLength { get; set; }
     }
 
     public class Times

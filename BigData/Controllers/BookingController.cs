@@ -15,6 +15,8 @@ namespace BigData.Controllers
 {
     public class BookingController : BaseController
     {
+        public static HttpClient client = new HttpClient();
+        
         // GET: BookTime första gången den besöks
         public ActionResult BookTime(int id)
         {
@@ -35,15 +37,13 @@ namespace BigData.Controllers
             return View(findTimeModel);
         }
 
-       [HttpGet]
-       public async Task<ActionResult> GetAllBookingTables()
-       {
+        [HttpGet]
+        public async Task<ActionResult> GetAllBookingTables()
+        {
             try
             {
                 var url = "http://localhost:60295/api/getallbookings/";
 
-            using (var client = new HttpClient())
-            {
                 var response = await client.GetAsync(string.Format(url));
                 string result = await response.Content.ReadAsStringAsync();
 
@@ -54,20 +54,16 @@ namespace BigData.Controllers
 
                     return View(bookingTables);
                 }
-            }
-        }
 
-                  
-      catch (Exception ex)
+            }
+
+            catch (Exception ex)
             {
                 throw ex;
             }
 
             return RedirectToAction("AllServices");
         }
-
-        
-           
 
         //Returnerar en lista med alla tider för ett bokningssystem
         public async Task<List<Times>> CreateListOfTimes(FindTimeModel findTimeModel)
@@ -89,6 +85,45 @@ namespace BigData.Controllers
             return listOfTimes;
         }
 
+        //public async Task<List<Times>> CreateListOfTimes(FindTimeModel findTimeModel)
+        //{
+        //    if(findTimeModel.TimeLength == 1)
+        //    {
+        //        var listOfTimes = new List<Times>();
+        //        int startTime = 8;
+        //        int endTime = startTime + 1;
+
+        //        for (int i = 0; i < 8; i++)
+        //        {
+        //            var times = new Times();
+        //            times.StartTime = startTime;
+        //            times.EndTime = endTime;
+        //            times.TimeBooked = await CheckIfTimeIsBooked(findTimeModel, times);
+        //            listOfTimes.Add(times);
+        //            startTime++;
+        //            endTime++;
+        //        }
+        //    }
+
+        //    if(findTimeModel.TimeLength == 0.30)
+        //    {
+        //        var listOfTimes = new List<Times>();
+        //        int startTime = 8;
+        //        int endTime = startTime + 0.5;
+
+        //        for (int i = 0; i < 8; i++)
+        //        {
+        //            var times = new Times();
+        //            times.StartTime = startTime;
+        //            times.EndTime = endTime;
+        //            times.TimeBooked = await CheckIfTimeIsBooked(findTimeModel, times);
+        //            listOfTimes.Add(times);
+        //            startTime + 0.5;
+        //            endTime + 0.5;
+        //        }
+        //    }
+        //}
+
         //Returnerar en bool beroende på om en tid är bokad eller inte
         public async Task<bool> CheckIfTimeIsBooked(FindTimeModel findTimeModel, Times times)
         {
@@ -97,29 +132,23 @@ namespace BigData.Controllers
             var bookingTableEntity = new BookingTableEntity
             {
                 StartTime = times.StartTime,
-                Date = findTimeModel.Time,
+                Date = findTimeModel.Date,
                 BookingSystemId = findTimeModel.BookingSystem.BookningSystemId
             };
 
             var url = "http://localhost:60295/api/getallbookings/";
+            var response = await client.GetAsync(string.Format(url));
+            string result = await response.Content.ReadAsStringAsync();
 
-            using (var client = new HttpClient())
+            var listOfBookingTables = JsonConvert.DeserializeObject<List<BookingTableEntity>>(result);
+
+            if (response.IsSuccessStatusCode)
             {
-                var response = await client.GetAsync(string.Format(url));
-                string result = await response.Content.ReadAsStringAsync();
-
-                var listOfBookingTables = JsonConvert.DeserializeObject<List<BookingTableEntity>>(result);
-
-             
-                if (response.IsSuccessStatusCode)
+                foreach (var item in listOfBookingTables)
                 {
-                    foreach (var item in listOfBookingTables)
+                    if (item.Date == bookingTableEntity.Date && item.StartTime == bookingTableEntity.StartTime && item.BookingSystemId == bookingTableEntity.BookingSystemId)
                     {
-
-                        if (item.Date == bookingTableEntity.Date && item.StartTime == bookingTableEntity.StartTime && item.BookingSystemId == bookingTableEntity.BookingSystemId)
-                        {
-                            timeBooked = true;
-                        }
+                        timeBooked = true;
                     }
                 }
             }
@@ -152,18 +181,15 @@ namespace BigData.Controllers
             var failtimeBookedModel = new TimeBookedModel();
             var url = "http://localhost:60295/api/getsuggestions/";
 
-            using (var client = new HttpClient())
+            var content = new StringContent(JsonConvert.SerializeObject(bookingTable), Encoding.UTF8, "application/json");
+            var response = await client.PostAsync(url, content);
+            string result = await response.Content.ReadAsStringAsync();
+
+            var timeBookedModel = JsonConvert.DeserializeObject<TimeBookedModel>(result);
+
+            if (response.IsSuccessStatusCode)
             {
-                var content = new StringContent(JsonConvert.SerializeObject(bookingTable), Encoding.UTF8, "application/json");
-                var response = await client.PostAsync(url, content);
-                string result = await response.Content.ReadAsStringAsync();
-
-                var timeBookedModel = JsonConvert.DeserializeObject<TimeBookedModel>(result);
-
-                if (response.IsSuccessStatusCode)
-                {
-                    return timeBookedModel;
-                }
+                return timeBookedModel;
             }
 
             return failtimeBookedModel;
@@ -175,11 +201,10 @@ namespace BigData.Controllers
         public async void AddBooking(BookingTableEntity bookingTable)
         {
             var url = "http://localhost:60295/api/addbooking/";
-            using (var client = new HttpClient())
-            {
-                var content = new StringContent(JsonConvert.SerializeObject(bookingTable), Encoding.UTF8, "application/json");
-                var result = await client.PostAsync(url, content);
-            }
+
+            var content = new StringContent(JsonConvert.SerializeObject(bookingTable), Encoding.UTF8, "application/json");
+            var result = await client.PostAsync(url, content);
+
         }
 
         public async Task<ActionResult> DeleteBookingTable(int id)
@@ -192,11 +217,10 @@ namespace BigData.Controllers
         public async void DeleteBooking(int id)
         {
             var url = "http://localhost:60295/api/deletebooking/" + id;
-            using (var client = new HttpClient())
-            {
-                var content = new StringContent(JsonConvert.SerializeObject(id), Encoding.UTF8, "application/json");
-                var result = await client.DeleteAsync(string.Format(url, content));
-            } 
+
+            var content = new StringContent(JsonConvert.SerializeObject(id), Encoding.UTF8, "application/json");
+            var result = await client.DeleteAsync(string.Format(url, content));
+
         }
     }
 }
