@@ -15,8 +15,8 @@ namespace DataLogic.Entities
         public int UserMobile { get; set; }
         public string Subject { get; set; }
         public DateTime Date { get; set; }
-        public int StartTime { get; set; }
-        public int EndTime { get; set; }
+        public DateTime StartTime { get; set; }
+        public DateTime EndTime { get; set; }
         public int Price { get; set; }
         public int BookingSystemId { get; set; }
     }

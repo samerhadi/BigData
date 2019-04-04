@@ -10,13 +10,14 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using System.Text;
 using System.Web.Mvc;
+using DataLogic.Repository;
 
 namespace BigData.Controllers
 {
     public class BookingController : BaseController
     {
         public static HttpClient client = new HttpClient();
-        
+
         // GET: BookTime första gången den besöks
         public ActionResult BookTime(int id)
         {
@@ -76,96 +77,29 @@ namespace BigData.Controllers
         //Returnerar en lista med alla tider för ett bokningssystem
         public async Task<List<Times>> CreateListOfTimes(FindTimeModel findTimeModel)
         {
+
             var listOfTimes = new List<Times>();
-            int startTime = 8;
-            int endTime = startTime + 1;
+            DateTime startTime = findTimeModel.Time;  
+            DateTime time = DateTime.MinValue.Date.Add(new TimeSpan(08, 00, 00));
+            startTime = startTime.Date.Add(time.TimeOfDay);
+            DateTime endTime = startTime.AddMinutes(60);
 
             for (int i = 0; i < 8; i++)
             {
                 var times = new Times();
                 times.StartTime = startTime;
                 times.EndTime = endTime;
-                times.TimeBooked = await CheckIfTimeIsBooked(findTimeModel, times);
+                times.TimeBooked = await new BookingRepo().CheckIfTimeIsBooked(findTimeModel, times);
                 listOfTimes.Add(times);
-                startTime++;
-                endTime++;
+                startTime = startTime.AddMinutes(60);
+                endTime = endTime.AddMinutes(60);
+
             }
             return listOfTimes;
         }
 
-        //public async Task<List<Times>> CreateListOfTimes(FindTimeModel findTimeModel)
-        //{
-        //    if(findTimeModel.TimeLength == 1)
-        //    {
-        //        var listOfTimes = new List<Times>();
-        //        int startTime = 8;
-        //        int endTime = startTime + 1;
-
-        //        for (int i = 0; i < 8; i++)
-        //        {
-        //            var times = new Times();
-        //            times.StartTime = startTime;
-        //            times.EndTime = endTime;
-        //            times.TimeBooked = await CheckIfTimeIsBooked(findTimeModel, times);
-        //            listOfTimes.Add(times);
-        //            startTime++;
-        //            endTime++;
-        //        }
-        //    }
-
-        //    if(findTimeModel.TimeLength == 0.30)
-        //    {
-        //        var listOfTimes = new List<Times>();
-        //        int startTime = 8;
-        //        int endTime = startTime + 0.5;
-
-        //        for (int i = 0; i < 8; i++)
-        //        {
-        //            var times = new Times();
-        //            times.StartTime = startTime;
-        //            times.EndTime = endTime;
-        //            times.TimeBooked = await CheckIfTimeIsBooked(findTimeModel, times);
-        //            listOfTimes.Add(times);
-        //            startTime + 0.5;
-        //            endTime + 0.5;
-        //        }
-        //    }
-        //}
-
-        //Returnerar en bool beroende på om en tid är bokad eller inte
-        public async Task<bool> CheckIfTimeIsBooked(FindTimeModel findTimeModel, Times times)
-        {
-            var timeBooked = false;
-
-            var bookingTableEntity = new BookingTableEntity
-            {
-                StartTime = times.StartTime,
-                Date = findTimeModel.Date,
-                BookingSystemId = findTimeModel.BookingSystem.BookningSystemId
-            };
-
-            var url = "http://localhost:60295/api/getallbookings/";
-            var response = await client.GetAsync(string.Format(url));
-            string result = await response.Content.ReadAsStringAsync();
-
-            var listOfBookingTables = JsonConvert.DeserializeObject<List<BookingTableEntity>>(result);
-
-            if (response.IsSuccessStatusCode)
-            {
-                foreach (var item in listOfBookingTables)
-                {
-                    if (item.Date == bookingTableEntity.Date && item.StartTime == bookingTableEntity.StartTime && item.BookingSystemId == bookingTableEntity.BookingSystemId)
-                    {
-                        timeBooked = true;
-                    }
-                }
-            }
-
-            return timeBooked;
-        }
-
         //GET: TimeBooked
-        public async Task<ActionResult> TimeBooked(DateTime date, int startTime, int endTime, int id)
+        public async Task<ActionResult> TimeBooked(DateTime date, DateTime startTime, DateTime endTime, int id)
         {
 
             var bookingTable = new BookingTableEntity
