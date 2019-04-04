@@ -77,25 +77,37 @@ namespace BigData.Controllers
         //Returnerar en lista med alla tider för ett bokningssystem
         public async Task<List<Times>> CreateListOfTimes(FindTimeModel findTimeModel)
         {
-
+            double timeLength = 20;
             var listOfTimes = new List<Times>();
             DateTime startTime = findTimeModel.Time;  
             DateTime time = DateTime.MinValue.Date.Add(new TimeSpan(08, 00, 00));
             startTime = startTime.Date.Add(time.TimeOfDay);
-            DateTime endTime = startTime.AddMinutes(60);
+            DateTime endTime = startTime.AddMinutes(timeLength);
+            var timesPerDay = SetTimes(timeLength);
 
-            for (int i = 0; i < 8; i++)
+            for (int i = 0; i < timesPerDay; i++)
             {
                 var times = new Times();
                 times.StartTime = startTime;
                 times.EndTime = endTime;
                 times.TimeBooked = await new BookingRepo().CheckIfTimeIsBooked(findTimeModel, times);
                 listOfTimes.Add(times);
-                startTime = startTime.AddMinutes(60);
-                endTime = endTime.AddMinutes(60);
+                startTime = startTime.AddMinutes(timeLength);
+                endTime = endTime.AddMinutes(timeLength);
 
             }
             return listOfTimes;
+        }
+
+        public double SetTimes(double timeLength)
+        {
+            double openingTime = 8;
+            double closingTime = 16;
+            double timeOpen = closingTime - openingTime;
+            double timeOpenMinutes = timeOpen * 60;
+            double timesPerDay = timeOpenMinutes / timeLength;
+
+            return timesPerDay;
         }
 
         //GET: TimeBooked
@@ -136,7 +148,6 @@ namespace BigData.Controllers
 
             return failtimeBookedModel;
         }
-
 
         //Sparar en vald tid i databasen
         [HttpPost]
