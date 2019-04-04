@@ -51,39 +51,34 @@ namespace BigData.Controllers
         }
 
         [HttpGet]
-        public async Task<List<BookingTableEntity>>GetBookingTables()
+        public async Task<List<BookingTableEntity>> GetBookingTables()
         {
-           
-                var url = "http://localhost:60295/api/getallbookings/";
 
-                var response = await client.GetAsync(string.Format(url));
-                string result = await response.Content.ReadAsStringAsync();
+            var url = "http://localhost:60295/api/getallbookings/";
 
-                var bookingTables = JsonConvert.DeserializeObject<List<BookingTableEntity>>(result);
+            var response = await client.GetAsync(string.Format(url));
+            string result = await response.Content.ReadAsStringAsync();
 
-                if (response.IsSuccessStatusCode)
-                {
+            var bookingTables = JsonConvert.DeserializeObject<List<BookingTableEntity>>(result);
 
-                    return bookingTables;
-                }
-                var fail = new List<BookingTableEntity>();
-                return fail;
+            if (response.IsSuccessStatusCode)
+            {
+
+                return bookingTables;
             }
-
-           
-           
-        
+            var fail = new List<BookingTableEntity>();
+            return fail;
+        }
 
         //Returnerar en lista med alla tider för ett bokningssystem
         public async Task<List<Times>> CreateListOfTimes(FindTimeModel findTimeModel)
         {
-            double timeLength = 20;
+            double timeLength = 60;
             var listOfTimes = new List<Times>();
-            DateTime startTime = findTimeModel.Time;  
-            DateTime time = DateTime.MinValue.Date.Add(new TimeSpan(08, 00, 00));
-            startTime = startTime.Date.Add(time.TimeOfDay);
+
+            DateTime startTime = SetStartTime(findTimeModel);
             DateTime endTime = startTime.AddMinutes(timeLength);
-            var timesPerDay = SetTimes(timeLength);
+            var timesPerDay = SetTimesPerDay(timeLength);
 
             for (int i = 0; i < timesPerDay; i++)
             {
@@ -99,7 +94,16 @@ namespace BigData.Controllers
             return listOfTimes;
         }
 
-        public double SetTimes(double timeLength)
+        public DateTime SetStartTime(FindTimeModel findTimeModel)
+        {
+            DateTime startTime = findTimeModel.Time;
+            DateTime time = DateTime.MinValue.Date.Add(new TimeSpan(08, 00, 00));
+            startTime = startTime.Date.Add(time.TimeOfDay);
+
+            return startTime;
+        }
+
+        public double SetTimesPerDay(double timeLength)
         {
             double openingTime = 8;
             double closingTime = 16;
@@ -160,7 +164,7 @@ namespace BigData.Controllers
 
         }
 
-   
+
 
         [HttpDelete]
         public async void DeleteBooking(int? id)
