@@ -38,11 +38,22 @@ namespace BigData.Controllers
             return View(findTimeModel);
         }
 
-        [HttpGet]
-        public async Task<ActionResult> GetAllBookingTables()
+        public async Task<ActionResult> GetAllBookingTables(int? id)
         {
-            try
+            if (id != null)
             {
+                await Task.Run(() => DeleteBooking(id));
+            }
+
+            var listOfBookingSystems = await GetBookingTables();
+            UpdateModel(listOfBookingSystems);
+            return View(listOfBookingSystems);
+        }
+
+        [HttpGet]
+        public async Task<List<BookingTableEntity>>GetBookingTables()
+        {
+           
                 var url = "http://localhost:60295/api/getallbookings/";
 
                 var response = await client.GetAsync(string.Format(url));
@@ -53,18 +64,15 @@ namespace BigData.Controllers
                 if (response.IsSuccessStatusCode)
                 {
 
-                    return View(bookingTables);
+                    return bookingTables;
                 }
-
+                var fail = new List<BookingTableEntity>();
+                return fail;
             }
 
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-
-            return RedirectToAction("AllServices");
-        }
+           
+           
+        
 
         //Returnerar en lista med alla tider för ett bokningssystem
         public async Task<List<Times>> CreateListOfTimes(FindTimeModel findTimeModel)
@@ -141,14 +149,10 @@ namespace BigData.Controllers
 
         }
 
-        public async Task<ActionResult> DeleteBookingTable(int id)
-        {
-            await Task.Run(() => DeleteBooking(id));
-            return View();
-        }
+   
 
         [HttpDelete]
-        public async void DeleteBooking(int id)
+        public async void DeleteBooking(int? id)
         {
             var url = "http://localhost:60295/api/deletebooking/" + id;
 
