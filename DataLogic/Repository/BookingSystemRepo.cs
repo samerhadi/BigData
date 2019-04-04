@@ -45,5 +45,13 @@ namespace DataLogic.Repository
             context.BookingSystems.Remove(bookingSystem);
             context.SaveChanges();
         }
+
+        public List<BookingSystemEntity> GetSuggestedServices(BookingSystemEntity bookingSystem)
+        {
+            var listOfServices = context.BookingSystems.Where(b => b.City == bookingSystem.City && b.BookningSystemId != bookingSystem.BookningSystemId
+            && bookingSystem.ServiceType != b.ServiceType).ToList();
+
+            return listOfServices;
+        }
     }
 }

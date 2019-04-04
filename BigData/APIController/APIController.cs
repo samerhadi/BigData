@@ -76,7 +76,7 @@ namespace BigData.APIController
         [Route("api/addbooking/")]
         public async Task<IHttpActionResult> AddBooking(BookingTableEntity bookingTable)
         {
-            new BookingRepo().AddBooking(bookingTable);
+            await Task.Run(() => new BookingRepo().AddBooking(bookingTable));
             return Ok();
         }
 
@@ -92,7 +92,7 @@ namespace BigData.APIController
         [Route ("api/getsuggestions/")]
         public async Task<IHttpActionResult> GetSuggestions(BookingTableEntity bookingTable)
         {
-            var timeBooked = await new SuggestionController().GetSuggestions(bookingTable);
+            var timeBooked = await new SuggestionRepo().GetSuggestions(bookingTable);
             return Ok(timeBooked);
         }
 

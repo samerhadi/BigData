@@ -1,15 +1,14 @@
-﻿using System;
+﻿using DataLogic.Entities;
+using DataLogic.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
-using System.Web.Mvc;
-using DataLogic.Entities;
-using DataLogic.Models;
 
-namespace BigData.Controllers
+namespace DataLogic.Repository
 {
-    public class SuggestionController : BaseController
+    public class SuggestionRepo
     {
         //Returnerar distansen i KM mellan bokad tjänst och alla tjänster i samma stad
         public double DistanceTo(double lat1, double lon1, double lat2, double lon2, char unit = 'K')
@@ -42,9 +41,9 @@ namespace BigData.Controllers
         public List<BookingSystemEntity> ListOfAllSystemsInRadius(List<BookingSystemEntity> listOfIncBookingSystems, BookingTableEntity bookingTable)
         {
             var listOfBookingSystems = new List<BookingSystemEntity>();
-            var bookingSystem = db.BookingSystems.Find(bookingTable.BookingSystemId);
+            var bookingSystem = new BookingSystemRepo().GetBookingSystem(bookingTable.BookingSystemId);
 
-            foreach(var item in listOfIncBookingSystems)
+            foreach (var item in listOfIncBookingSystems)
             {
                 item.Distance = DistanceTo(bookingSystem.Latitude, bookingSystem.Longitude, item.Latitude, item.Longitude);
 
@@ -60,9 +59,7 @@ namespace BigData.Controllers
         //Returnerar en list med alla tjänster i samma stad
         public List<BookingSystemEntity> ListOfServicesInSameCity(BookingSystemEntity bookingSystem)
         {
-            var listOfSuggestedServices = new List<BookingSystemEntity>();
-            listOfSuggestedServices = db.BookingSystems.Where(b => b.City == bookingSystem.City && b.BookningSystemId != bookingSystem.BookningSystemId
-            && bookingSystem.ServiceType != b.ServiceType).ToList();
+            var listOfSuggestedServices = new BookingSystemRepo().GetSuggestedServices(bookingSystem);
 
             return listOfSuggestedServices;
         }
@@ -78,7 +75,7 @@ namespace BigData.Controllers
                 var findTimeModel = new FindTimeModel();
                 findTimeModel.BookingSystem = item;
 
-                findTimeModel.Date = bookingTable.Date;
+                findTimeModel.Time = bookingTable.Date;
 
                 var time = new Times
                 {
@@ -88,7 +85,7 @@ namespace BigData.Controllers
 
                 findTimeModel.ChoosenTime = time;
                 findTimeModel.ListOfTimes = await CreateListOfTimes(findTimeModel, bookingTable);
-                
+
 
                 if (findTimeModel.ListOfTimes.Count() > 0)
                 {
@@ -105,32 +102,36 @@ namespace BigData.Controllers
         public async Task<List<Times>> CreateListOfTimes(FindTimeModel findTimeModel, BookingTableEntity bookingTable)
         {
             var listOfTimes = new List<Times>();
-            int startTime = bookingTable.StartTime - 1;
-            int endTime = startTime + 1;
+
+            DateTime startTime = findTimeModel.Time;
+            DateTime time = DateTime.MinValue.Date.Add(new TimeSpan(08, 00, 00));
+            startTime = startTime.Date.Add(time.TimeOfDay);
+            DateTime endTime = startTime.AddMinutes(60);
 
             for (int i = 0; i < 3; i++)
             {
-                if (startTime != bookingTable.StartTime && startTime >= 8 && startTime < 16)
+                                                        //&& startTime >= 8 && startTime < 16
+                if (startTime != bookingTable.StartTime)
                 {
                     var times = new Times();
                     times.StartTime = startTime;
                     times.EndTime = endTime;
-                    times.TimeBooked = await new BookingController().CheckIfTimeIsBooked(findTimeModel, times);
+                    times.TimeBooked = await new BookingRepo().CheckIfTimeIsBooked(findTimeModel, times);
 
                     if (!times.TimeBooked)
                     {
                         listOfTimes.Add(times);
                     }
                 }
-                startTime++;
-                endTime++;
+                startTime.AddMinutes(60);
+                endTime.AddMinutes(60);
             }
             return listOfTimes;
         }
 
         public async Task<TimeBookedModel> GetSuggestions(BookingTableEntity bookingTable)
         {
-            var bookingSystem = db.BookingSystems.Find(bookingTable.BookingSystemId);
+            var bookingSystem = new BookingSystemRepo().GetBookingSystem(bookingTable.BookingSystemId);
 
             var listOfBookingSystem = ListOfServicesInSameCity(bookingSystem);
 

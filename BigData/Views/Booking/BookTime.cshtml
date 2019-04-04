@@ -27,7 +27,9 @@
     {
         if (!item.TimeBooked)
         {
-            @Html.ActionLink(item.StartTime.ToString() + ":00 -" + item.EndTime.ToString() + ":00", "TimeBooked", new { date = Model.Time, startTime = item.StartTime, endTime = item.EndTime, id = Model.BookingSystem.BookningSystemId })
+            @Html.ActionLink(item.StartTime.Hour.ToString() + ":" + item.StartTime.Minute.ToString() + item.StartTime.Second.ToString() + "-" + item.EndTime.Hour.ToString()
+            + ":" + item.EndTime.Minute.ToString() + item.EndTime.Second.ToString(), "TimeBooked", new { date = Model.Time, startTime = item.StartTime, endTime = item.EndTime,
+            id = Model.BookingSystem.BookningSystemId })
             <br />
         }
 

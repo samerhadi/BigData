@@ -135,8 +135,8 @@ namespace DataLogic.Context
             {
                 BookingId = 1,
                 Date = DateTime.Now,
-                StartTime = 8,
-                EndTime = 9,
+                StartTime = DateTime.Now,
+                EndTime = DateTime.Now,
                 BookingSystemId = 1
             };
             context.BookingTabels.Add(bookedTime1);
@@ -145,8 +145,8 @@ namespace DataLogic.Context
             {
                 BookingId = 1,
                 Date = DateTime.Now,
-                StartTime = 9,
-                EndTime = 10,
+                StartTime = DateTime.Now,
+                EndTime = DateTime.Now,
                 BookingSystemId = 1
             };
             context.BookingTabels.Add(bookedTime2);
