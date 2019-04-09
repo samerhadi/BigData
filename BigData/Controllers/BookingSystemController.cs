@@ -24,7 +24,7 @@ namespace BigData.Controllers
         {
             return View();
         }
-
+        //skapar ett bookingsystem
         [HttpPost]
         public async Task<ActionResult> CreateBookingSystem(BookingSystemEntity bookingSystem)
         {
@@ -45,7 +45,7 @@ namespace BigData.Controllers
 
             return View(bookingSystem);
         }
-
+        //hämtar den valda systemet
         [HttpGet]
         public async Task<ActionResult> ChoosenService(int id)
         {
@@ -76,7 +76,7 @@ namespace BigData.Controllers
 
             return RedirectToAction("AllServices");
         }
-
+        //hämtar alla bookingsystem
         public async Task<ActionResult> GetAllBookingSystems(int? id)
         {
             if (id != null)
@@ -109,7 +109,7 @@ namespace BigData.Controllers
             var fail = new List<BookingSystemEntity>();
             return fail;
         }
-
+        //hämtar alla bookningsystem som ligger i samma stad
         [HttpGet]
         public async Task<ActionResult> ChoosenCity(string city)
         {
@@ -148,12 +148,13 @@ namespace BigData.Controllers
             return View();
         }
 #pragma warning disable 1998
+        //sorterar system efter servicetype
         public async Task<List<BookingSystemEntity>> SortListByServiceType(List<BookingSystemEntity> listOfBookingSystems)
         {
             var sortedlist = listOfBookingSystems.OrderByDescending(x => (int)(x.ServiceType)).ToList();
             return sortedlist;
         }
-
+        //hämtar kordinater för en adress
         public async Task<BookingSystemEntity> GetCoordinatesAsync(BookingSystemEntity system)
         {
 
@@ -174,7 +175,7 @@ namespace BigData.Controllers
 
             return system;
         }
-
+        //tar bort ett system
         [HttpDelete]
         public async void DeleteSystem(int? id)
         {

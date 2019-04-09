@@ -37,7 +37,7 @@ namespace BigData.Controllers
 
             return View(findTimeModel);
         }
-
+        //hämtar alla bookingtables 
         public async Task<ActionResult> GetAllBookingTables(int? id)
         {
             if (id != null)
@@ -93,7 +93,7 @@ namespace BigData.Controllers
             }
             return listOfTimes;
         }
-
+        //sätter när en bookningssystem öppnar
         public DateTime SetStartTime(FindTimeModel findTimeModel)
         {
             DateTime startTime = findTimeModel.Time;
@@ -102,7 +102,7 @@ namespace BigData.Controllers
 
             return startTime;
         }
-
+        //räknar ut hur många gånger per dag den valda tiden är
         public double SetTimesPerDay(double timeLength)
         {
             double openingTime = 8;
@@ -114,7 +114,7 @@ namespace BigData.Controllers
             return timesPerDay;
         }
 
-        //GET: TimeBooked
+        //skickar in en model, med tiden man har valt.
         public async Task<ActionResult> TimeBooked(DateTime date, DateTime startTime, DateTime endTime, int id)
         {
 
@@ -165,7 +165,7 @@ namespace BigData.Controllers
         }
 
 
-
+        //tar bort en bokningtable
         [HttpDelete]
         public async void DeleteBooking(int? id)
         {
