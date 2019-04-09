@@ -21,7 +21,7 @@
                 @string.Format("{0: yyyy-MM-dd}", Model.BookingTableEntity.Date)
                 <br />
 
-                @string.Format(" Tid  " + Model.BookingTableEntity.StartTime + ":00-" + Model.BookingTableEntity.EndTime + ":00")
+                @string.Format(" Tid  " + Model.BookingTableEntity.StartTime.ToString("HH':'mm") + "-" + Model.BookingTableEntity.EndTime.ToString("HH':'mm"))
             </td>
         </tr>
     </table>
@@ -49,7 +49,7 @@
                                 <li>
 
                                    
-                                    @Html.ActionLink(i.StartTime.ToString() + ":00 -" + i.EndTime.ToString() + ":00", "BookTime", new { id = item.BookingSystem.BookningSystemId })
+                                    @Html.ActionLink(i.StartTime.ToString("HH':'mm") + "-" + i.EndTime.ToString("HH':'mm"), "BookTime", new { id = item.BookingSystem.BookningSystemId })
                                     <br />
 
                                 </li>

@@ -51,51 +51,67 @@ namespace BigData.Controllers
         }
 
         [HttpGet]
-        public async Task<List<BookingTableEntity>>GetBookingTables()
+        public async Task<List<BookingTableEntity>> GetBookingTables()
         {
-           
-                var url = "http://localhost:60295/api/getallbookings/";
 
-                var response = await client.GetAsync(string.Format(url));
-                string result = await response.Content.ReadAsStringAsync();
+            var url = "http://localhost:60295/api/getallbookings/";
 
-                var bookingTables = JsonConvert.DeserializeObject<List<BookingTableEntity>>(result);
+            var response = await client.GetAsync(string.Format(url));
+            string result = await response.Content.ReadAsStringAsync();
 
-                if (response.IsSuccessStatusCode)
-                {
+            var bookingTables = JsonConvert.DeserializeObject<List<BookingTableEntity>>(result);
 
-                    return bookingTables;
-                }
-                var fail = new List<BookingTableEntity>();
-                return fail;
+            if (response.IsSuccessStatusCode)
+            {
+
+                return bookingTables;
             }
-
-           
-           
-        
+            var fail = new List<BookingTableEntity>();
+            return fail;
+        }
 
         //Returnerar en lista med alla tider för ett bokningssystem
         public async Task<List<Times>> CreateListOfTimes(FindTimeModel findTimeModel)
         {
-
+            double timeLength = 60;
             var listOfTimes = new List<Times>();
-            DateTime startTime = findTimeModel.Time;  
-            DateTime time = DateTime.MinValue.Date.Add(new TimeSpan(08, 00, 00));
-            startTime = startTime.Date.Add(time.TimeOfDay);
-            DateTime endTime = startTime.AddMinutes(60);
 
-            for (int i = 0; i < 8; i++)
+            DateTime startTime = SetStartTime(findTimeModel);
+            DateTime endTime = startTime.AddMinutes(timeLength);
+            var timesPerDay = SetTimesPerDay(timeLength);
+
+            for (int i = 0; i < timesPerDay; i++)
             {
                 var times = new Times();
                 times.StartTime = startTime;
                 times.EndTime = endTime;
                 times.TimeBooked = await new BookingRepo().CheckIfTimeIsBooked(findTimeModel, times);
                 listOfTimes.Add(times);
-                startTime = startTime.AddMinutes(60);
-                endTime = endTime.AddMinutes(60);
+                startTime = startTime.AddMinutes(timeLength);
+                endTime = endTime.AddMinutes(timeLength);
 
             }
             return listOfTimes;
+        }
+
+        public DateTime SetStartTime(FindTimeModel findTimeModel)
+        {
+            DateTime startTime = findTimeModel.Time;
+            DateTime time = DateTime.MinValue.Date.Add(new TimeSpan(08, 00, 00));
+            startTime = startTime.Date.Add(time.TimeOfDay);
+
+            return startTime;
+        }
+
+        public double SetTimesPerDay(double timeLength)
+        {
+            double openingTime = 8;
+            double closingTime = 16;
+            double timeOpen = closingTime - openingTime;
+            double timeOpenMinutes = timeOpen * 60;
+            double timesPerDay = timeOpenMinutes / timeLength;
+
+            return timesPerDay;
         }
 
         //GET: TimeBooked
@@ -137,7 +153,6 @@ namespace BigData.Controllers
             return failtimeBookedModel;
         }
 
-
         //Sparar en vald tid i databasen
         [HttpPost]
         public async void AddBooking(BookingTableEntity bookingTable)
@@ -149,7 +164,7 @@ namespace BigData.Controllers
 
         }
 
-   
+
 
         [HttpDelete]
         public async void DeleteBooking(int? id)

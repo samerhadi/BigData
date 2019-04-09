@@ -103,15 +103,16 @@ namespace DataLogic.Repository
         {
             var listOfTimes = new List<Times>();
 
-            DateTime startTime = findTimeModel.Time;
-            DateTime time = DateTime.MinValue.Date.Add(new TimeSpan(08, 00, 00));
-            startTime = startTime.Date.Add(time.TimeOfDay);
+            DateTime startTime = bookingTable.StartTime.AddMinutes(-60);
             DateTime endTime = startTime.AddMinutes(60);
+
+            DateTime openingTime = SetOpeningTime(findTimeModel);
+            DateTime closingTime = SetClosingTime(findTimeModel);
 
             for (int i = 0; i < 3; i++)
             {
                                                         //&& startTime >= 8 && startTime < 16
-                if (startTime != bookingTable.StartTime)
+                if (startTime != bookingTable.StartTime && startTime >= openingTime && startTime < closingTime)
                 {
                     var times = new Times();
                     times.StartTime = startTime;
@@ -123,10 +124,28 @@ namespace DataLogic.Repository
                         listOfTimes.Add(times);
                     }
                 }
-                startTime.AddMinutes(60);
-                endTime.AddMinutes(60);
+                startTime = startTime.AddMinutes(60);
+                endTime = endTime.AddMinutes(60);
             }
             return listOfTimes;
+        }
+
+        public DateTime SetOpeningTime(FindTimeModel findTimeModel)
+        {
+            DateTime timeEarly = DateTime.MinValue.Date.Add(new TimeSpan(08, 00, 00));
+            DateTime openingTime = findTimeModel.Time;
+            openingTime = openingTime.Date.Add(timeEarly.TimeOfDay);
+
+            return openingTime;
+        }
+
+        public DateTime SetClosingTime(FindTimeModel findTimeModel)
+        {
+            DateTime timeLate = DateTime.MinValue.Date.Add(new TimeSpan(16, 00, 00));
+            DateTime closingTime = findTimeModel.Time;
+            closingTime = closingTime.Date.Add(timeLate.TimeOfDay);
+
+            return closingTime;
         }
 
         public async Task<TimeBookedModel> GetSuggestions(BookingTableEntity bookingTable)

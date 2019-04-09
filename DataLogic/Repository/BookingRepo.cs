@@ -51,6 +51,7 @@ namespace DataLogic.Repository
             var bookingTableEntity = new BookingTableEntity
             {
                 StartTime = times.StartTime,
+                EndTime = times.EndTime,
                 Date = findTimeModel.Time,
                 BookingSystemId = findTimeModel.BookingSystem.BookningSystemId
             };
@@ -65,7 +66,8 @@ namespace DataLogic.Repository
             {
                 foreach (var item in listOfBookingTables)
                 {
-                    if (item.Date == bookingTableEntity.Date && item.StartTime == bookingTableEntity.StartTime && item.BookingSystemId == bookingTableEntity.BookingSystemId)
+                    if (item.Date == bookingTableEntity.Date && item.StartTime < bookingTableEntity.EndTime && item.EndTime > bookingTableEntity.StartTime
+                        && item.BookingSystemId == bookingTableEntity.BookingSystemId)
                     {
                         timeBooked = true;
                     }
@@ -74,5 +76,37 @@ namespace DataLogic.Repository
 
             return timeBooked;
         }
+
+        ////Returnerar en bool beroende på om en tid är bokad eller inte
+        //public async Task<bool> CheckIfTimeIsBooked(FindTimeModel findTimeModel, Times times)
+        //{
+        //    var timeBooked = false;
+
+        //    var bookingTableEntity = new BookingTableEntity
+        //    {
+        //        StartTime = times.StartTime,
+        //        Date = findTimeModel.Time,
+        //        BookingSystemId = findTimeModel.BookingSystem.BookningSystemId
+        //    };
+
+        //    var url = "http://localhost:60295/api/getallbookings/";
+        //    var response = await client.GetAsync(string.Format(url));
+        //    string result = await response.Content.ReadAsStringAsync();
+
+        //    var listOfBookingTables = JsonConvert.DeserializeObject<List<BookingTableEntity>>(result);
+
+        //    if (response.IsSuccessStatusCode)
+        //    {
+        //        foreach (var item in listOfBookingTables)
+        //        {
+        //            if (item.Date == bookingTableEntity.Date && item.StartTime == bookingTableEntity.StartTime && item.BookingSystemId == bookingTableEntity.BookingSystemId)
+        //            {
+        //                timeBooked = true;
+        //            }
+        //        }
+        //    }
+
+        //    return timeBooked;
+        //}
     }
 }
