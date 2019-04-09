@@ -74,7 +74,7 @@ namespace BigData.Controllers
                 throw ex;
             }
 
-            return RedirectToAction("AllServices");
+            return RedirectToAction("ChooseCity");
         }
 
         public async Task<ActionResult> GetAllBookingSystems(int? id)
@@ -86,6 +86,7 @@ namespace BigData.Controllers
 
             var listOfBookingSystems = await GetBookingSystems();
             UpdateModel(listOfBookingSystems);
+
             return View(listOfBookingSystems);
         }
 
@@ -139,7 +140,7 @@ namespace BigData.Controllers
                 throw ex;
             }
 
-            return RedirectToAction("AllServices");
+            return RedirectToAction("ChooseCity");
         }
 
         // GET: AllServices
@@ -147,7 +148,9 @@ namespace BigData.Controllers
         {
             return View();
         }
-#pragma warning disable 1998
+
+        #pragma warning disable 1998
+
         public async Task<List<BookingSystemEntity>> SortListByServiceType(List<BookingSystemEntity> listOfBookingSystems)
         {
             var sortedlist = listOfBookingSystems.OrderByDescending(x => (int)(x.ServiceType)).ToList();
