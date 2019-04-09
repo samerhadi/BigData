@@ -143,7 +143,7 @@ namespace BigData.Controllers
         }
 
         // GET: AllServices
-        public ActionResult AllServices()
+        public ActionResult ChooseCity()
         {
             return View();
         }
