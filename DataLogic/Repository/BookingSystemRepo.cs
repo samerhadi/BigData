@@ -13,9 +13,9 @@ namespace DataLogic.Repository
         ApplicationDbContext context = new ApplicationDbContext();
         
         //Spara ett nytt bokningssystem
-        public void AddBookingSystem(BookingSystemEntity system)
+        public void AddBookingSystem(BookingSystemEntity bookingSystem)
         {
-            context.BookingSystems.Add(system);
+            context.BookingSystems.Add(bookingSystem);
             context.SaveChanges();
         }
 
