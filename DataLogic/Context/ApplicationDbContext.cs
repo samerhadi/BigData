@@ -10,19 +10,20 @@ using DataLogic.Entities;
 namespace DataLogic.Context
 {
 
-        public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+    {
+        public ApplicationDbContext()
+            : base("DefaultConnection", throwIfV1Schema: false)
         {
-            public ApplicationDbContext()
-                : base("DefaultConnection", throwIfV1Schema: false)
-            {
-            }
-
-            public static ApplicationDbContext Create()
-            {
-                return new ApplicationDbContext();
-            }
-
-            public DbSet<BookingSystemEntity> BookingSystems { get; set; }
-            public DbSet<BookingTableEntity> BookingTabels { get; set; }
         }
+
+        public static ApplicationDbContext Create()
+        {
+            return new ApplicationDbContext();
+        }
+
+        public DbSet<BookingSystemEntity> BookingSystems { get; set; }
+        public DbSet<BookingTableEntity> BookingTabels { get; set; }
+        public DbSet<ArticleEntity> Articles { get; set; }
     }
+}

@@ -133,7 +133,7 @@ namespace DataLogic.Context
 
             var bookedTime1 = new BookingTableEntity()
             {
-                BookingId = 1,
+                BookingTableId = 1,
                 Date = DateTime.Now,
                 StartTime = DateTime.Now,
                 EndTime = DateTime.Now,
@@ -143,7 +143,7 @@ namespace DataLogic.Context
 
             var bookedTime2 = new BookingTableEntity()
             {
-                BookingId = 1,
+                BookingTableId = 1,
                 Date = DateTime.Now,
                 StartTime = DateTime.Now,
                 EndTime = DateTime.Now,

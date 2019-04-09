@@ -9,7 +9,7 @@ namespace DataLogic.Entities
     public class BookingTableEntity
     {
         [Key]
-        public int BookingId { get; set; }
+        public int BookingTableId { get; set; }
         public string UserName { get; set; }
         public string UserMail { get; set; }
         public int UserMobile { get; set; }
