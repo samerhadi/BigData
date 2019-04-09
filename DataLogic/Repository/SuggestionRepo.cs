@@ -111,7 +111,6 @@ namespace DataLogic.Repository
 
             for (int i = 0; i < 3; i++)
             {
-                                                        //&& startTime >= 8 && startTime < 16
                 if (startTime != bookingTable.StartTime && startTime >= openingTime && startTime < closingTime)
                 {
                     var times = new Times();

@@ -74,17 +74,22 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Adress)
-        </td>  
-     
+        </td>
+
         <td>
             @Html.DisplayFor(modelItem => item.PostaICode)
         </td>
-    
+
         <td>
             @Html.ActionLink("Gå till " + item.SystemName, "ChoosenService", new { id = item.BookningSystemId })
-        </td> 
+        </td>
+
         <td>
             @Html.ActionLink("Delete", "GetAllBookingSystems", new { id = item.BookningSystemId })
+        </td>
+
+        <td>
+            @Html.ActionLink("Lägg till artikel", "AddArticle", "Article", new { id = item.BookningSystemId }, null)
         </td>
     </tr>
 }

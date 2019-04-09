@@ -220,6 +220,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ArticleController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\BookingController.cs" />
     <Compile Include="Controllers\BookingSystemController.cs" />
@@ -467,6 +468,7 @@
     <Content Include="Views\BookingSystem\GetAllBookingSystems.cshtml" />
     <Content Include="Views\BookingSystem\ChoosenCity.cshtml" />
     <Content Include="Views\Booking\GetAllBookingTables.cshtml" />
+    <Content Include="Views\Article\AddArticle.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

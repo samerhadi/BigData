@@ -22,12 +22,10 @@ namespace DataLogic.Repository
             return listOfBookingTables;
         }
 
-        public async Task<bool> AddBooking(BookingTableEntity bookingTable)
+        public void AddBooking(BookingTableEntity bookingTable)
         {
-            await Task.Run(() => context.BookingTabels.Add(bookingTable));
+            context.BookingTabels.Add(bookingTable);
             context.SaveChanges();
-
-            return true;
         }
 
         public BookingTableEntity GetBookingTable(int id)

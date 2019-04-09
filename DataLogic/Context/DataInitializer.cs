@@ -154,7 +154,5 @@ namespace DataLogic.Context
             context.SaveChanges();
             base.Seed(context);
         }
-
-
     }
 }
