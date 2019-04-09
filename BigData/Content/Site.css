@@ -27,6 +27,7 @@ textarea {
     height: 500px;
 }
 
-.table {
-    max-width: 20%
+.table, th, td {
+    border: 1px solid red;
+     
 }
