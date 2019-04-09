@@ -14,14 +14,14 @@ namespace BigData.APIController
 {
     public class APIController : ApiController
     {
-#pragma warning disable 1998
+    #pragma warning disable 1998
+
         [HttpPost]
         [Route("api/addbookingsystem/")]
-        public async Task<IHttpActionResult> AddBookingSystem(BookingSystemEntity bookingSystemEntity)
+        public async Task<IHttpActionResult> AddBookingSystem(BookingSystemEntity bookingSystem)
         {
-            new BookingSystemRepo().AddBookingSystem(bookingSystemEntity);
+            new BookingSystemRepo().AddBookingSystem(bookingSystem);
             return Ok();
-           
         }
 
         [HttpGet]
