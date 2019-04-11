@@ -38,7 +38,7 @@ namespace DataLogic.Repository
         }
 
         //Returnerar en list med alla bookningssystem som ligger inom en 5km radius
-        public List<BookingSystemEntity> ListOfAllSystemsInRadius(List<BookingSystemEntity> listOfIncBookingSystems, BookingTableEntity bookingTable)
+        public List<BookingSystemEntity> ListOfBookingSystemsInRadius(List<BookingSystemEntity> listOfIncBookingSystems, BookingTableEntity bookingTable)
         {
             var listOfBookingSystems = new List<BookingSystemEntity>();
             var bookingSystem = new BookingSystemRepo().GetBookingSystem(bookingTable.BookingSystemId);
@@ -57,7 +57,7 @@ namespace DataLogic.Repository
         }
 
         //Returnerar en list med alla tjänster i samma stad
-        public List<BookingSystemEntity> ListOfServicesInSameCity(BookingSystemEntity bookingSystem)
+        public List<BookingSystemEntity> ListOfBookingSystemsInSameCity(BookingSystemEntity bookingSystem)
         {
             var listOfSuggestedServices = new BookingSystemRepo().GetSuggestedServices(bookingSystem);
 
@@ -151,9 +151,9 @@ namespace DataLogic.Repository
         {
             var bookingSystem = new BookingSystemRepo().GetBookingSystem(bookingTable.BookingSystemId);
 
-            var listOfBookingSystem = ListOfServicesInSameCity(bookingSystem);
+            var listOfBookingSystem = ListOfBookingSystemsInSameCity(bookingSystem);
 
-            var listOfBookingSystemInRadius = ListOfAllSystemsInRadius(listOfBookingSystem, bookingTable);
+            var listOfBookingSystemInRadius = ListOfBookingSystemsInRadius(listOfBookingSystem, bookingTable);
 
             var timeBookedModel = new TimeBookedModel();
             timeBookedModel = await FindTimesForListOfBookingSystems(bookingTable, listOfBookingSystemInRadius);

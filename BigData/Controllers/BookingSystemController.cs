@@ -163,7 +163,7 @@ namespace BigData.Controllers
             string streetName = system.Adress;
 
             string url = $"https://maps.googleapis.com/maps/api/geocode/json?address={cityName}+{streetName}&key=AIzaSyAxzPnxjGlRXDkjvVNamfloAAx1eMYqyBw";
-            var response = await client.GetAsync(string.Format(url, cityName));
+            var response = await client.GetAsync(string.Format(url));
             string result = await response.Content.ReadAsStringAsync();
 
             RootObject root = JsonConvert.DeserializeObject<RootObject>(result);
