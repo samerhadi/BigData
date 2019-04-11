@@ -74,7 +74,7 @@ namespace BigData.Controllers
                 throw ex;
             }
 
-            return RedirectToAction("AllServices");
+            return RedirectToAction("ChooseCity");
         }
         //hämtar alla bookingsystem
         public async Task<ActionResult> GetAllBookingSystems(int? id)
@@ -86,6 +86,7 @@ namespace BigData.Controllers
 
             var listOfBookingSystems = await GetBookingSystems();
             UpdateModel(listOfBookingSystems);
+
             return View(listOfBookingSystems);
         }
 
@@ -139,7 +140,7 @@ namespace BigData.Controllers
                 throw ex;
             }
 
-            return RedirectToAction("AllServices");
+            return RedirectToAction("ChooseCity");
         }
 
         // GET: AllServices
