@@ -95,11 +95,13 @@ namespace BigData.Controllers
         {
             if (ModelState.IsValid)
             {
+                var listOfAllBookingSystem = new List<BookingSystemEntity>();
+
                 var url = "http://localhost:60295/api/getallbookingsystems/";
                 var response = await client.GetAsync(string.Format(url));
                 string result = await response.Content.ReadAsStringAsync();
 
-                var listOfAllBookingSystem = JsonConvert.DeserializeObject<List<BookingSystemEntity>>(result);
+                listOfAllBookingSystem = JsonConvert.DeserializeObject<List<BookingSystemEntity>>(result);
 
                 if (response.IsSuccessStatusCode)
                 {

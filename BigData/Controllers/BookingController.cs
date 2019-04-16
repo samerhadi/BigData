@@ -22,7 +22,7 @@ namespace BigData.Controllers
         public ActionResult BookTime(int id)
         {
             var findTimeModel = new FindTimeModel();
-            findTimeModel.BookingSystem = db.BookingSystems.Find(id);
+            findTimeModel.BookingSystem = new BookingSystemRepo().GetBookingSystem(id);
             findTimeModel.DateChoosen = false;
             return View(findTimeModel);
         }
@@ -31,7 +31,6 @@ namespace BigData.Controllers
         [HttpPost]
         public async Task<ActionResult> BookTime(FindTimeModel findTimeModel)
         {
-            findTimeModel.BookingSystem = db.BookingSystems.Find(findTimeModel.BookingSystem.BookningSystemId);
             findTimeModel.DateChoosen = true;
             findTimeModel.ListOfTimes = await CreateListOfTimes(findTimeModel);
 
@@ -53,21 +52,21 @@ namespace BigData.Controllers
         [HttpGet]
         public async Task<List<BookingTableEntity>> GetBookingTables()
         {
-
+            var listOfBookingTables = new List<BookingTableEntity>();
             var url = "http://localhost:60295/api/getallbookings/";
 
             var response = await client.GetAsync(string.Format(url));
             string result = await response.Content.ReadAsStringAsync();
 
-            var bookingTables = JsonConvert.DeserializeObject<List<BookingTableEntity>>(result);
+            listOfBookingTables = JsonConvert.DeserializeObject<List<BookingTableEntity>>(result);
 
             if (response.IsSuccessStatusCode)
             {
 
-                return bookingTables;
+                return listOfBookingTables;
             }
-            var fail = new List<BookingTableEntity>();
-            return fail;
+
+            return listOfBookingTables;
         }
 
         //Returnerar en lista med alla tider för ett bokningssystem
@@ -136,21 +135,21 @@ namespace BigData.Controllers
         [HttpPost]
         public async Task<TimeBookedModel> GetSuggestion(BookingTableEntity bookingTable)
         {
-            var failtimeBookedModel = new TimeBookedModel();
+            var timeBookedModel = new TimeBookedModel();
             var url = "http://localhost:60295/api/getsuggestions/";
 
             var content = new StringContent(JsonConvert.SerializeObject(bookingTable), Encoding.UTF8, "application/json");
             var response = await client.PostAsync(url, content);
             string result = await response.Content.ReadAsStringAsync();
 
-            var timeBookedModel = JsonConvert.DeserializeObject<TimeBookedModel>(result);
+            timeBookedModel = JsonConvert.DeserializeObject<TimeBookedModel>(result);
 
             if (response.IsSuccessStatusCode)
             {
                 return timeBookedModel;
             }
 
-            return failtimeBookedModel;
+            return timeBookedModel;
         }
 
         //Sparar en vald tid i databasen
