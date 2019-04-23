@@ -29,4 +29,10 @@ namespace DataLogic.Models
         public List<FindTimeModel> ListOfFindTimeModels { get; set; }
         public BookingSystemEntity BookingSystemEntity { get; set; }
     }
+
+    public class BookingSystemInformationModel
+    {
+        public BookingSystemEntity BookingSystem { get; set; }
+        public List<ArticleEntity> ListOFArticles { get; set; }
+    }
 }
