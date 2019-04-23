@@ -81,17 +81,22 @@ namespace BigData.Controllers
 
             for (int i = 0; i < timesPerDay; i++)
             {
-                var times = new Times();
-                times.StartTime = startTime;
-                times.EndTime = endTime;
-                times.TimeBooked = await new BookingRepo().CheckIfTimeIsBooked(findTimeModel, times);
-                listOfTimes.Add(times);
+                var time = new Times();
+
+                time.StartTime = startTime;
+                time.EndTime = endTime;
+
+                findTimeModel.CheckTime = time;
+                findTimeModel.CheckTime.TimeBooked = await new SuggestionRepo().CheckIfTimeIsBooked(findTimeModel);
+
+                listOfTimes.Add(findTimeModel.CheckTime);
                 startTime = startTime.AddMinutes(timeLength);
                 endTime = endTime.AddMinutes(timeLength);
 
             }
             return listOfTimes;
         }
+
         //sätter när en bookningssystem öppnar
         public DateTime SetStartTime(FindTimeModel findTimeModel)
         {

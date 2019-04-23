@@ -103,5 +103,13 @@ namespace BigData.APIController
             await Task.Run(() => new ArticleRepo().AddArticle(article));
             return Ok();
         }
+
+        [HttpPost]
+        [Route("api/checkiftimeisbooked")]
+        public async Task<IHttpActionResult> CheckIfTimeIsBooked(FindTimeModel findTimeModel)
+        {
+            var timeBooked = new BookingRepo().CheckIfTimeIsBooked(findTimeModel);
+            return Ok(timeBooked);
+        }
     }
 }

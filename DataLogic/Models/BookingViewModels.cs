@@ -10,9 +10,10 @@ namespace DataLogic.Models
     {
         public DateTime Time { get; set; }
         public BookingSystemEntity BookingSystem { get; set; }
-        public Boolean DateChoosen { get; set; }
+        public bool DateChoosen { get; set; }
         public List<Times> ListOfTimes { get; set; }
         public Times ChoosenTime { get; set; }
+        public Times CheckTime { get; set; }
         public double TimeLength { get; set; }
     }
 

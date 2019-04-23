@@ -1,15 +1,21 @@
 ﻿using DataLogic.Entities;
 using DataLogic.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+using System.Web.Mvc;
 
 namespace DataLogic.Repository
 {
     public class SuggestionRepo
     {
+        HttpClient client = new HttpClient();
+
         //Returnerar distansen i KM mellan bokad tjänst och alla tjänster i samma stad
         public double DistanceTo(double lat1, double lon1, double lat2, double lon2, char unit = 'K')
         {
@@ -116,7 +122,8 @@ namespace DataLogic.Repository
                     var times = new Times();
                     times.StartTime = startTime;
                     times.EndTime = endTime;
-                    times.TimeBooked = await new BookingRepo().CheckIfTimeIsBooked(findTimeModel, times);
+                    findTimeModel.CheckTime = times;
+                    times.TimeBooked = await CheckIfTimeIsBooked(findTimeModel);
 
                     if (!times.TimeBooked)
                     {
@@ -127,6 +134,26 @@ namespace DataLogic.Repository
                 endTime = endTime.AddMinutes(60);
             }
             return listOfTimes;
+        }
+
+        [HttpPost]
+        public async Task<bool> CheckIfTimeIsBooked(FindTimeModel findTimeModel)
+        {
+            bool timeBooked = false;
+            var url = "http://localhost:60295/api/checkiftimeisbooked";
+
+            var content = new StringContent(JsonConvert.SerializeObject(findTimeModel), Encoding.UTF8, "application/json");
+            var response = await client.PostAsync(url, content);
+            string result = await response.Content.ReadAsStringAsync();
+
+            timeBooked = JsonConvert.DeserializeObject<bool>(result);
+
+            if (response.IsSuccessStatusCode)
+            {
+                return timeBooked;
+            }
+
+            return timeBooked;
         }
 
         public DateTime SetOpeningTime(FindTimeModel findTimeModel)
