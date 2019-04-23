@@ -96,14 +96,12 @@ namespace BigData.APIController
             return Ok(timeBooked);
         }
 
-        //[HttpPost]
-        //[Route("api/addarticle/")]
-        //public async Task<IHttpActionResult> AddArticle(ArticleEntity article)
-        //{
-        //    await Task.Run(() => new ArticleRepo().AddArticle(article));
-        //    return Ok();
-        //}
-
+        [HttpPost]
+        [Route("api/addarticle/")]
+        public async Task<IHttpActionResult> AddArticle(ArticleEntity article)
+        {
+            await Task.Run(() => new ArticleRepo().AddArticle(article));
+            return Ok();
+        }
     }
-    
 }

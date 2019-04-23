@@ -22,6 +22,11 @@ namespace BigData.Controllers
             return View(article);
         }
 
+        public ActionResult ArticleAdded()
+        {
+            return View();
+        }
+
         [HttpPost]
         public async Task<ActionResult> CreateArticle(ArticleEntity article)
         {
@@ -33,9 +38,7 @@ namespace BigData.Controllers
 
             if (result.IsSuccessStatusCode)
             {
-
-                return RedirectToAction("AllServices");
-
+                return RedirectToAction("ArticleAdded");
             }
 
             return View(article);

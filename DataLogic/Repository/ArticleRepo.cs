@@ -11,10 +11,10 @@ namespace DataLogic.Repository
     {
         ApplicationDbContext context = new ApplicationDbContext();
 
-        //public void AddArticle(ArticleEntity article)
-        //{
-        //    context.Articles.Add(article);
-        //    context.SaveChanges();
-        //}
+        public void AddArticle(ArticleEntity article)
+        {
+            context.Articles.Add(article);
+            context.SaveChanges();
+        }
     }
 }
