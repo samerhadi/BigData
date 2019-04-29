@@ -28,17 +28,15 @@ namespace DataLogic.Entities
         public string City { get; set; }
         //skapar en variabel av enum klassen
         public ServiceType ServiceType { get; set; }
-      
+
     }
 
     //skapa en enum som innehåller alla tjänster
     public enum ServiceType
-        {
-            Frisör = 1,
-            Massage = 2,
-            Ansiktebehandling = 3,
-            Yoga = 4
-            
-            
-        }
+    {
+        Hairdresser = 1,
+        Massage = 2,
+        BeautySalon = 3,
+        Workshop = 4
+    }
 }
