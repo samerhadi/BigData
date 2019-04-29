@@ -133,6 +133,7 @@ namespace DataLogic.Repository
                 startTime = startTime.AddMinutes(60);
                 endTime = endTime.AddMinutes(60);
             }
+
             return listOfTimes;
         }
 
@@ -155,6 +156,12 @@ namespace DataLogic.Repository
 
             return timeBooked;
         }
+
+        //public async Task<bool> CheckIfTimeIsBooked(FindTimeModel findTimeModel)
+        //{
+        //    var hej = await new BookingRepo().CheckIfTimeIsBookedAsync(findTimeModel);
+        //    return hej;
+        //}
 
         public DateTime SetOpeningTime(FindTimeModel findTimeModel)
         {

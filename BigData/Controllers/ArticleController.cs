@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using static DataLogic.Models.ArticleViewModels;
 
 namespace BigData.Controllers
 {
@@ -15,11 +16,14 @@ namespace BigData.Controllers
     {
         public static HttpClient client = new HttpClient();
         // GET: Article
-        public ActionResult AddArticle(int id)
+        public async Task<ActionResult> AddArticle(int id)
         {
-            var article = new ArticleEntity();
-            article.BookingSystemId = id;
-            return View(article);
+            var addArticleModel = new AddArticleModel();
+            addArticleModel.BookingSystemId = id;
+
+            addArticleModel.BookingSystemServiceType = await new BookingSystemController().GetBookingSystemServiceType(id);
+
+            return View(addArticleModel);
         }
 
         public ActionResult ArticleAdded()

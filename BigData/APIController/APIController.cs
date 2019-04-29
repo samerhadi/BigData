@@ -111,5 +111,13 @@ namespace BigData.APIController
             var timeBooked = new BookingRepo().CheckIfTimeIsBooked(findTimeModel);
             return Ok(timeBooked);
         }
+
+        [HttpGet]
+        [Route("api/getbookingsystemservicetype/{id}")]
+        public async Task<IHttpActionResult> GetBookingSystemServiceType(int id)
+        {
+            var serviceType = new BookingSystemRepo().GetBookingSystemServiceType(id);
+            return Ok(serviceType);
+        }
     }
 }

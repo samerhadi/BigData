@@ -14,33 +14,31 @@ namespace DataLogic.Entities
         public double Length { get; set; }
         public int Price { get; set; }
         public int BookingSystemId { get; set; }
-        public Service Servic { get; set; }
+        public int Service { get; set; }
     }
 
-    public class Service
+    public enum Hairdresser
     {
-        public enum Hairdresser
-        {
-            Haircut = 1,
-            Coloring = 2
-        }
-
-        public enum Workshop
-        {
-            TireChange = 1,
-            Service = 2,
-        }
-
-        public enum Massage
-        {
-            Swedish = 1,
-            Neck = 2
-        }
-
-        public enum BeautySalon
-        {
-            Face = 1,
-            Nails = 2
-        }
+        Haircut = 1,
+        Coloring = 2
     }
+
+    public enum Workshop
+    {
+        TireChange = 1,
+        Service = 2,
+    }
+
+    public enum Massage
+    {
+        Swedish = 1,
+        Neck = 2
+    }
+
+    public enum BeautySalon
+    {
+        Face = 1,
+        Nails = 2
+    }
+
 }

@@ -188,5 +188,24 @@ namespace BigData.Controllers
             var result = await client.DeleteAsync(string.Format(url, content));
 
         }
+
+        [HttpGet]
+        public async Task<int> GetBookingSystemServiceType(int id)
+        {
+            var url = "http://localhost:60295/api/getbookingsystemservicetype/" + id;
+
+            var content = new StringContent(JsonConvert.SerializeObject(id), Encoding.UTF8, "application/json");
+            var response = await client.GetAsync(string.Format(url, content));
+            string result = await response.Content.ReadAsStringAsync();
+
+            var serviceType = JsonConvert.DeserializeObject<int>(result);
+
+            if (response.IsSuccessStatusCode)
+            {
+                return serviceType;
+            }
+
+            return serviceType;
+        }
     }
 }

@@ -53,5 +53,19 @@ namespace DataLogic.Repository
 
             return listOfServices;
         }
+
+        public int GetBookingSystemServiceType(int id)
+        {
+            var bookingSystem = GetBookingSystem(id);
+            var serviceType = GetServiceType(bookingSystem);
+
+            return serviceType;
+        }
+
+        public int GetServiceType(BookingSystemEntity bookingSystem)
+        {
+            var serviceType = Convert.ToInt32(bookingSystem.ServiceType);
+            return serviceType;
+        }
     }
 }

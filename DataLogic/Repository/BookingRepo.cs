@@ -22,6 +22,12 @@ namespace DataLogic.Repository
             return listOfBookingTables;
         }
 
+        //public async Task<List<BookingTableEntity>> GetAllBookingTablesAsync()
+        //{
+        //    var listOfBookingTables = await context.BookingTabels.ToList();
+        //    return listOfBookingTables;
+        //}
+
         public void AddBooking(BookingTableEntity bookingTable)
         {
             context.BookingTabels.Add(bookingTable);
@@ -67,5 +73,31 @@ namespace DataLogic.Repository
 
             return timeBooked;
         }
+
+        //public async Task<bool> CheckIfTimeIsBookedAsync(FindTimeModel findTimeModel)
+        //{
+        //    var timeBooked = false;
+
+        //    var bookingTableEntity = new BookingTableEntity
+        //    {
+        //        StartTime = findTimeModel.CheckTime.StartTime,
+        //        EndTime = findTimeModel.CheckTime.EndTime,
+        //        Date = findTimeModel.Time,
+        //        BookingSystemId = findTimeModel.BookingSystem.BookningSystemId
+        //    };
+
+        //    var listOfBookingTables = await GetAllBookingTables();
+
+        //    foreach (var item in listOfBookingTables)
+        //    {
+        //        if (item.Date == bookingTableEntity.Date && item.StartTime < bookingTableEntity.EndTime && item.EndTime > bookingTableEntity.StartTime
+        //            && item.BookingSystemId == bookingTableEntity.BookingSystemId)
+        //        {
+        //            timeBooked = true;
+        //        }
+        //    }
+
+        //    return timeBooked;
+        //}
     }
 }

@@ -37,6 +37,6 @@ namespace DataLogic.Entities
         Hairdresser = 1,
         Massage = 2,
         BeautySalon = 3,
-        Workshop = 4
+        Workshop = 4,
     }
 }
