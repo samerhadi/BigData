@@ -1,12 +1,12 @@
 ﻿@model DataLogic.Models.ArticleViewModels.AddArticleModel
 
 @{
-    ViewBag.Title = "AddArticle";
+    ViewBag.Title = "CreateArticle";
 }
 
 <h2>AddArticle</h2>
 
-@using (Html.BeginForm("CreateArticle", "Article", FormMethod.Post))
+@using (Html.BeginForm("AddArticle", "Article", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
 
@@ -37,9 +37,37 @@
             </div>
         </div>
 
-        @*@if ()*@
+        @if (Model.BookingSystemServiceType == 1)
+        {
+            <div class="form-group">
+                @Html.EnumDropDownListFor(model => model.Hairdresser, "Select My Type", new { @class = "form-control" }) @*skapa en dropdownlist till tjäsnter(enum)*@
+            </div>
+        }
 
-            @Html.HiddenFor(model => model.Article.BookingSystemId, new { htmlAttributes = new { @class = "form-control" } })
+        @if (Model.BookingSystemServiceType == 2)
+        {
+            <div class="form-group">
+                @Html.EnumDropDownListFor(model => model.Massage, "Select My Type", new { @class = "form-control" }) @*skapa en dropdownlist till tjäsnter(enum)*@
+            </div>
+        }
+
+        @if (Model.BookingSystemServiceType == 3)
+        {
+            <div class="form-group">
+                @Html.EnumDropDownListFor(model => model.BeautySalon, "Select My Type", new { @class = "form-control" }) @*skapa en dropdownlist till tjäsnter(enum)*@
+            </div>
+        }
+
+        @if (Model.BookingSystemServiceType == 4)
+        {
+            <div class="form-group">
+                @Html.EnumDropDownListFor(model => model.Workshop, "Select My Type", new { @class = "form-control" }) @*skapa en dropdownlist till tjäsnter(enum)*@
+            </div>
+        }
+
+
+        @Html.HiddenFor(model => model.Article.BookingSystemId, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.HiddenFor(model => model.BookingSystemServiceType, new { htmlAttributes = new { @class = "form-control" } })
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">

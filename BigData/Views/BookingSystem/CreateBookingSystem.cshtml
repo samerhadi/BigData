@@ -104,7 +104,7 @@
     </div>
 
     <div class="form-group">
-        @Html.EnumDropDownListFor(x => x.ServiceType, "Select My Type", new { @class = "form-control" }) @*skapa en dropdownlist till tjäsnter(enum)*@
+        @Html.EnumDropDownListFor(model => model.ServiceType, "Select My Type", new { @class = "form-control" }) @*skapa en dropdownlist till tjäsnter(enum)*@
     </div>
 
     <div class="form-group">

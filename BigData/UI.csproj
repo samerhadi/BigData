@@ -469,7 +469,7 @@
     <Content Include="Views\BookingSystem\ChoosenCity.cshtml" />
     <Content Include="Views\Booking\GetAllBookingTables.cshtml" />
     <Content Include="Views\Article\ArticleAdded.cshtml" />
-    <Content Include="Views\Article\AddArticle.cshtml" />
+    <Content Include="Views\Article\CreateArticle.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

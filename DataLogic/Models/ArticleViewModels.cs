@@ -13,6 +13,10 @@ namespace DataLogic.Models
             public ArticleEntity Article { get; set; }
             public int BookingSystemServiceType { get; set; }
             public int BookingSystemId { get; set; }
+            public Hairdresser Hairdresser { get; set; }
+            public BeautySalon BeautySalon { get; set; }
+            public Massage Massage { get; set; }
+            public Workshop Workshop { get; set; }
         }
     }
 }
