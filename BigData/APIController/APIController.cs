@@ -128,5 +128,12 @@ namespace BigData.APIController
             return Ok(listOfArticles);
         }
 
+        [HttpGet]
+        [Route("api/getallarticles/")]
+        public async Task<IHttpActionResult> GetAllArticle()
+        {
+            var getAllArticles = new ArticleRepo().GetAllArticles();
+            return Ok(getAllArticles);
+        }
     }
 }

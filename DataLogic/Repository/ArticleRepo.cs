@@ -22,5 +22,13 @@ namespace DataLogic.Repository
             var listOfArticles = context.Articles.Where(x => x.BookingSystemId == id).ToList();
             return listOfArticles;
         }
+
+        public List<ArticleEntity> GetAllArticles()
+        {
+            var listOfAllArticles = context.Articles.ToList();
+            return listOfAllArticles;
+        }
+
+
     }
 }

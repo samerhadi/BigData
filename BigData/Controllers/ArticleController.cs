@@ -64,10 +64,39 @@ namespace BigData.Controllers
             var result = await client.PostAsync(url, content);
         }
 
-        public ActionResult GetAllArticles()
+        public async Task<ActionResult> GetAllArticles()
         {
-            return View();
+
+            var getAllArticles = await GetArticles();
+            UpdateModel(getAllArticles);
+
+            return View(getAllArticles);
+        
         }
+        [HttpGet]
+        public async Task<List<ArticleEntity>> GetArticles()
+        {
+            if (ModelState.IsValid)
+            {
+                var listOfAllArticles = new List<ArticleEntity>();
+
+                var url = "http://localhost:60295/api/getallarticles/";
+                var response = await client.GetAsync(string.Format(url));
+                string result = await response.Content.ReadAsStringAsync();
+
+                listOfAllArticles = JsonConvert.DeserializeObject<List<ArticleEntity>>(result);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return listOfAllArticles;
+                }
+
+                
+            }
+            var fail = new List<ArticleEntity>();
+            return fail;
+        }
+
 
         [HttpGet]
         public async Task<List<ArticleEntity>> GetArticlesFromBookingSystem(int id)
