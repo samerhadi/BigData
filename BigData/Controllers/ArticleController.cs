@@ -1,5 +1,6 @@
 ﻿using DataLogic.Entities;
 using Newtonsoft.Json;
+using Nito.AsyncEx;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,8 +22,7 @@ namespace BigData.Controllers
             var addArticleModel = new AddArticleModel();
             addArticleModel.BookingSystemId = id;
 
-            addArticleModel.BookingSystemServiceType = new BookingSystemController().GetBookingSystemServiceType(id);
-
+            addArticleModel.BookingSystemServiceType = AsyncContext.Run(() => (new BookingSystemController().GetBookingSystemServiceType(id)));
             return View(addArticleModel);
         }
 
@@ -50,17 +50,19 @@ namespace BigData.Controllers
                 article.Service = Convert.ToInt32(addArticleModel.Workshop);
             }
 
-            AddArticle(article);
+            var hej = AddArticle(article);
             return View();
         }
 
         [HttpPost]
-        public async void AddArticle(ArticleEntity article)
+        public async Task<int> AddArticle(ArticleEntity article)
         {
             var url = "http://localhost:60295/api/addarticle";
 
             var content = new StringContent(JsonConvert.SerializeObject(article), Encoding.UTF8, "application/json");
             var result = await client.PostAsync(url, content);
+
+            return 0;
         }
     }
 }
