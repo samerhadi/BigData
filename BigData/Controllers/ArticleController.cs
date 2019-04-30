@@ -26,43 +26,42 @@ namespace BigData.Controllers
             return View(addArticleModel);
         }
 
-        public ActionResult ArticleAdded(AddArticleModel addArticleModel)
+        public async Task<ActionResult> ArticleAdded(AddArticleModel addArticleModel)
         {
             var article = addArticleModel.Article;
 
-            if (addArticleModel.BookingSystemServiceType == 1)
-            {
-                article.Service = Convert.ToInt32(addArticleModel.Hairdresser);
-            }
+            article.Service = await SetBookingSystemServiceType(addArticleModel);
 
-            if (addArticleModel.BookingSystemServiceType == 2)
-            {
-                article.Service = Convert.ToInt32(addArticleModel.Massage);
-            }
-
-            if (addArticleModel.BookingSystemServiceType == 3)
-            {
-                article.Service = Convert.ToInt32(addArticleModel.BeautySalon);
-            }
-
-            if (addArticleModel.BookingSystemServiceType == 4)
-            {
-                article.Service = Convert.ToInt32(addArticleModel.Workshop);
-            }
-
-            var hej = AddArticle(article);
+            await Task.Run(() => AddArticle(article));
             return View();
         }
 
+        public async Task<int> SetBookingSystemServiceType(AddArticleModel addArticleModel)
+        {
+            int serviceType = 1;
+
+            switch (addArticleModel.BookingSystemServiceType)
+            {
+                case 1:
+                    return serviceType = Convert.ToInt32(addArticleModel.Hairdresser);
+                case 2:
+                    return serviceType = Convert.ToInt32(addArticleModel.Massage);
+                case 3:
+                    return serviceType = Convert.ToInt32(addArticleModel.BeautySalon);
+                case 4: 
+                    return serviceType = Convert.ToInt32(addArticleModel.Workshop);
+            }
+
+            return serviceType;
+        }
+
         [HttpPost]
-        public async Task<int> AddArticle(ArticleEntity article)
+        public async void AddArticle(ArticleEntity article)
         {
             var url = "http://localhost:60295/api/addarticle";
 
             var content = new StringContent(JsonConvert.SerializeObject(article), Encoding.UTF8, "application/json");
             var result = await client.PostAsync(url, content);
-
-            return 0;
         }
     }
 }
