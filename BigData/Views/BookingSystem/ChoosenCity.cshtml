@@ -103,9 +103,9 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.City)
-            </td>
+            </td>   
             <td>
-                @Html.ActionLink("Gå till " + item.SystemName, "ChoosenService", new { id = item.BookningSystemId })
+                @Html.ActionLink("Gå till " + item.SystemName, "ChoosenBookingSystem", new { id = item.BookningSystemId })
             </td>
         </tr>
     }

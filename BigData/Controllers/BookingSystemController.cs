@@ -12,13 +12,14 @@ using System.Net.Http;
 using Newtonsoft.Json;
 using System.Text;
 using DataLogic.Repository;
+using static DataLogic.Models.BookingSystemViewModel;
 
 namespace BigData.Controllers
 {
     public class BookingSystemController : BaseController
     {
         public static HttpClient client = new HttpClient();
-        
+
         // GET: CreateBookingSystem
         public ActionResult CreateBookingSystem()
         {
@@ -45,53 +46,53 @@ namespace BigData.Controllers
 
             return View(bookingSystem);
         }
-        //hämtar den valda systemet
+
         [HttpGet]
-        public async Task<ActionResult> ChoosenService(int id)
+        public async Task<ActionResult> ChoosenBookingSystem(int id)
         {
-            try
-            {
-                if (ModelState.IsValid)
-                {
-                    var url = "http://localhost:60295/api/getbookingsystem/" + id;
+            var bookingSystemInformationModel = new BookingSystemInformationModel();
 
-                    var content = new StringContent(JsonConvert.SerializeObject(id), Encoding.UTF8, "application/json");
-                    var response = await client.GetAsync(string.Format(url, content));
-                    string result = await response.Content.ReadAsStringAsync();
+            bookingSystemInformationModel.BookingSystem = await GetBookingSystem(id);
+            bookingSystemInformationModel.ListOFArticles = await new ArticleController().GetArticlesFromBookingSystem(id);
 
-                    var bookingSystem = JsonConvert.DeserializeObject<BookingSystemEntity>(result);
-
-                    if (response.IsSuccessStatusCode)
-                    {
-                        return View(bookingSystem);
-                    }
-
-                }
-            }
-
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-
-            return RedirectToAction("ChooseCity");
+            return View(bookingSystemInformationModel);
         }
+
+        [HttpGet]
+        public async Task<BookingSystemEntity> GetBookingSystem(int id)
+        {
+            var url = "http://localhost:60295/api/getbookingsystem/" + id;
+
+            var content = new StringContent(JsonConvert.SerializeObject(id), Encoding.UTF8, "application/json");
+            var response = await client.GetAsync(string.Format(url, content));
+            string result = await response.Content.ReadAsStringAsync();
+
+            var bookingSystem = JsonConvert.DeserializeObject<BookingSystemEntity>(result);
+
+            if (response.IsSuccessStatusCode)
+            {
+                return bookingSystem;
+            }
+
+            return bookingSystem;
+        }
+
         //hämtar alla bookingsystem
-        public async Task<ActionResult> GetAllBookingSystems(int? id)
+        public async Task<ActionResult> GetAllBookingSystemsView(int? id)
         {
             if (id != null)
             {
                 await Task.Run(() => DeleteSystem(id));
             }
 
-            var listOfBookingSystems = await GetBookingSystems();
+            var listOfBookingSystems = await GetAllBookingSystems();
             UpdateModel(listOfBookingSystems);
 
             return View(listOfBookingSystems);
         }
 
         [HttpGet]
-        public async Task<List<BookingSystemEntity>> GetBookingSystems()
+        public async Task<List<BookingSystemEntity>> GetAllBookingSystems()
         {
             if (ModelState.IsValid)
             {
@@ -107,8 +108,8 @@ namespace BigData.Controllers
                 {
                     return listOfAllBookingSystem;
                 }
-
             }
+
             var fail = new List<BookingSystemEntity>();
             return fail;
         }

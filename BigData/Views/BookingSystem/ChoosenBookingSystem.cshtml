@@ -1,0 +1,186 @@
+﻿@model DataLogic.Models.BookingSystemViewModel.BookingSystemInformationModel
+
+@{
+    ViewBag.Title = "ChoosenService";
+}
+
+<h2>ChoosenService</h2>
+
+<div>
+    <h4>BookingSystemEntity</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.BookingSystem.SystemName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BookingSystem.SystemName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BookingSystem.SystemDescription)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BookingSystem.SystemDescription)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BookingSystem.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BookingSystem.Email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BookingSystem.PhoneNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BookingSystem.PhoneNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BookingSystem.Website)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BookingSystem.Website)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BookingSystem.CompanyName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BookingSystem.CompanyName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BookingSystem.ContactEmail)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BookingSystem.ContactEmail)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BookingSystem.ContactPhone)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BookingSystem.ContactPhone)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BookingSystem.Adress)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BookingSystem.Adress)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BookingSystem.PostaICode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BookingSystem.PostaICode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BookingSystem.City)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BookingSystem.City)
+        </dd>
+
+        <dd>
+            @Html.ActionLink("Boka Tid", "BookTime", "Booking", new { id = Model.BookingSystem.BookningSystemId }, null)
+        </dd>
+
+    </dl>
+</div>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Article.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Article.Length)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Article.Price)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Article.Service)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.ListOFArticles)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Length)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Service)
+            </td>
+        </tr>
+    }
+
+</table>
+<p>
+    @Html.ActionLink("Back to List", "AllServices")
+</p>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="initial-scale=1.0">
+    <meta charset="utf-8">
+</head>
+<body>
+    <div id="map"></div>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAxzPnxjGlRXDkjvVNamfloAAx1eMYqyBw&callback=initMap"
+            async defer></script>
+</body>
+</html>
+
+<script>
+    var map;
+    function initMap() {
+        geocoder = new google.maps.Geocoder();
+        geocoder.geocode({ 'address': '@Model.BookingSystem.Adress' }, function (results, status) {
+            if (status == 'OK') {
+                coords_obj = results[0].geometry.location;
+                var mapOptions = {
+                    zoom: 16,
+                    center: new google.maps.LatLng(coords_obj.lat(), coords_obj.lng()),
+                    mapTypeId: google.maps.MapTypeId.ROADMAP
+                };
+                map = new google.maps.Map(document.getElementById('map'), mapOptions);
+
+                var marker = new google.maps.Marker({
+                    position: new google.maps.LatLng(coords_obj.lat(), coords_obj.lng()),
+                    map: map,
+                    title: '@Model.BookingSystem.Adress'
+                })
+
+            } else {
+                alert('Geocode was not successful for the following reason: ' + status);
+            }
+        });
+    }
+</script>

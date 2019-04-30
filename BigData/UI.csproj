@@ -489,10 +489,10 @@
     <Content Include="Views\BookingSystem\CreateBookingSystem.cshtml" />
     <Content Include="Views\Manage\ManageLogins.cshtml" />
     <Content Include="Views\BookingSystem\ChooseCity.cshtml" />
-    <Content Include="Views\BookingSystem\ChoosenService.cshtml" />
+    <Content Include="Views\BookingSystem\ChoosenBookingSystem.cshtml" />
     <Content Include="Views\Booking\BookTime.cshtml" />
     <Content Include="Views\Booking\TimeBooked.cshtml" />
-    <Content Include="Views\BookingSystem\GetAllBookingSystems.cshtml" />
+    <Content Include="Views\BookingSystem\GetAllBookingSystemsView.cshtml" />
     <Content Include="Views\BookingSystem\ChoosenCity.cshtml" />
     <Content Include="Views\Booking\GetAllBookingTables.cshtml" />
     <Content Include="Views\Article\CreateArticle.cshtml" />
