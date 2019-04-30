@@ -63,5 +63,30 @@ namespace BigData.Controllers
             var content = new StringContent(JsonConvert.SerializeObject(article), Encoding.UTF8, "application/json");
             var result = await client.PostAsync(url, content);
         }
+
+        public ActionResult GetAllArticles()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public async Task<List<ArticleEntity>> GetArticlesFromBookingSystem(int id)
+        {
+            
+            var url = "http://localhost:60295/api/getarticlesfrombookingsystem/" + id;
+
+            var content = new StringContent(JsonConvert.SerializeObject(id), Encoding.UTF8, "application/json");
+            var response = await client.GetAsync(string.Format(url, content));
+            string result = await response.Content.ReadAsStringAsync();
+
+            var listOfArticles = JsonConvert.DeserializeObject<List<ArticleEntity>>(result);
+
+            if (response.IsSuccessStatusCode)
+            {
+                return listOfArticles;
+            }
+
+            return listOfArticles;
+        }
     }
 }
