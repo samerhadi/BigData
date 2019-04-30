@@ -30,6 +30,8 @@ namespace BigData.Controllers
         {
             var article = addArticleModel.Article;
 
+            article.BookingSystemId = addArticleModel.BookingSystemId;
+
             article.Service = await SetBookingSystemServiceType(addArticleModel);
 
             await Task.Run(() => AddArticle(article));
