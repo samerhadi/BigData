@@ -119,5 +119,14 @@ namespace BigData.APIController
             var serviceType = new BookingSystemRepo().GetBookingSystemServiceType(id);
             return Ok(serviceType);
         }
+
+        [HttpGet]
+        [Route("api/getarticlesfrombookingsystem/{id}")]
+        public async Task<IHttpActionResult> GetArticle(int id)
+        {
+            var listOfArticles = new ArticleRepo().GetArticlesFromBookingSystem(id);
+            return Ok(listOfArticles);
+        }
+
     }
 }

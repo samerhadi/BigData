@@ -16,5 +16,11 @@ namespace DataLogic.Repository
             context.Articles.Add(article);
             context.SaveChanges();
         }
+
+        public List<ArticleEntity> GetArticlesFromBookingSystem(int id)
+        {
+            var listOfArticles = context.Articles.Where(x => x.BookingSystemId == id).ToList();
+            return listOfArticles;
+        }
     }
 }
