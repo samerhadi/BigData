@@ -106,6 +106,7 @@ namespace BigData.Controllers
 
             return startTime;
         }
+
         //räknar ut hur många gånger per dag den valda tiden är
         public double SetTimesPerDay(double timeLength)
         {
@@ -167,7 +168,6 @@ namespace BigData.Controllers
             var result = await client.PostAsync(url, content);
 
         }
-
 
         //tar bort en bokningtable
         [HttpDelete]

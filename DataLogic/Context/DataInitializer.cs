@@ -151,6 +151,28 @@ namespace DataLogic.Context
             };
             context.BookingTabels.Add(bookedTime2);
 
+            var article1 = new ArticleEntity()
+            {
+                ArticleId = 1,
+                Name = "Herrklippning",
+                Length = 20,
+                Price = 300,
+                BookingSystemId = 1,
+                Service = 1
+            };
+            context.Articles.Add(article1);
+
+            var article2 = new ArticleEntity()
+            {
+                ArticleId = 2,
+                Name = "Damklippning",
+                Length = 30,
+                Price = 400,
+                BookingSystemId = 1,
+                Service = 1
+            };
+            context.Articles.Add(article2);
+
             context.SaveChanges();
             base.Seed(context);
         }
