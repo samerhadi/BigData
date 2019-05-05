@@ -57,7 +57,7 @@ namespace DataLogic.Repository
                 StartTime = findTimeModel.CheckTime.StartTime,
                 EndTime = findTimeModel.CheckTime.EndTime,
                 Date = findTimeModel.Time,
-                BookingSystemId = findTimeModel.BookingSystem.BookningSystemId
+                ArticleId = findTimeModel.BookingSystem.BookningSystemId
             };
 
             var listOfBookingTables = GetAllBookingTables();
@@ -65,7 +65,7 @@ namespace DataLogic.Repository
             foreach (var item in listOfBookingTables)
             {
                 if (item.Date == bookingTableEntity.Date && item.StartTime < bookingTableEntity.EndTime && item.EndTime > bookingTableEntity.StartTime
-                    && item.BookingSystemId == bookingTableEntity.BookingSystemId)
+                    && item.ArticleId == bookingTableEntity.ArticleId)
                 {
                     timeBooked = true;
                 }

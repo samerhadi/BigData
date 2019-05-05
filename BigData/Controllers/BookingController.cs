@@ -11,6 +11,7 @@ using Newtonsoft.Json;
 using System.Text;
 using System.Web.Mvc;
 using DataLogic.Repository;
+using Nito.AsyncEx;
 
 namespace BigData.Controllers
 {
@@ -22,7 +23,8 @@ namespace BigData.Controllers
         public ActionResult BookTime(int id)
         {
             var findTimeModel = new FindTimeModel();
-            findTimeModel.BookingSystem = new BookingSystemRepo().GetBookingSystem(id);
+            findTimeModel.ArticleId = id;
+            findTimeModel.BookingSystem = AsyncContext.Run(() => (new ArticleController().GetBookingSystemFromArticle(id)));
             findTimeModel.DateChoosen = false;
             return View(findTimeModel);
         }
@@ -72,7 +74,8 @@ namespace BigData.Controllers
         //Returnerar en lista med alla tider för ett bokningssystem
         public async Task<List<Times>> CreateListOfTimes(FindTimeModel findTimeModel)
         {
-            double timeLength = 60;
+
+            double timeLength = await GetArticleLength(findTimeModel.ArticleId);
             var listOfTimes = new List<Times>();
 
             DateTime startTime = SetStartTime(findTimeModel);
@@ -95,6 +98,26 @@ namespace BigData.Controllers
 
             }
             return listOfTimes;
+        }
+
+        //Ska inte ligga här!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        [HttpGet]
+        public async Task<double> GetArticleLength(int id)
+        {
+            var url = "http://localhost:60295/api/getarticlelength/" + id;
+
+            var content = new StringContent(JsonConvert.SerializeObject(id), Encoding.UTF8, "application/json");
+            var response = await client.GetAsync(string.Format(url, content));
+            string result = await response.Content.ReadAsStringAsync();
+
+            var articleLength = JsonConvert.DeserializeObject<double>(result);
+
+            if (response.IsSuccessStatusCode)
+            {
+                return articleLength;
+            }
+
+            return articleLength;
         }
 
         //sätter när en bookningssystem öppnar
@@ -125,7 +148,7 @@ namespace BigData.Controllers
 
             var bookingTable = new BookingTableEntity
             {
-                BookingSystemId = id,
+                ArticleId = id,
                 Date = date,
                 StartTime = startTime,
                 EndTime = endTime

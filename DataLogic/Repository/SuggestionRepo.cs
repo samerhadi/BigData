@@ -47,7 +47,7 @@ namespace DataLogic.Repository
         public List<BookingSystemEntity> ListOfBookingSystemsInRadius(List<BookingSystemEntity> listOfIncBookingSystems, BookingTableEntity bookingTable)
         {
             var listOfBookingSystems = new List<BookingSystemEntity>();
-            var bookingSystem = new BookingSystemRepo().GetBookingSystem(bookingTable.BookingSystemId);
+            var bookingSystem = new BookingSystemRepo().GetBookingSystem(bookingTable.ArticleId);
 
             foreach (var item in listOfIncBookingSystems)
             {
@@ -183,7 +183,7 @@ namespace DataLogic.Repository
 
         public async Task<TimeBookedModel> GetSuggestions(BookingTableEntity bookingTable)
         {
-            var bookingSystem = new BookingSystemRepo().GetBookingSystem(bookingTable.BookingSystemId);
+            var bookingSystem = new BookingSystemRepo().GetBookingSystem(bookingTable.ArticleId);
 
             var listOfBookingSystem = ListOfBookingSystemsInSameCity(bookingSystem);
 

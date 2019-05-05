@@ -36,7 +36,7 @@
             @Html.DisplayNameFor(model => model.Price)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.BookingSystemId)
+            @Html.DisplayNameFor(model => model.ArticleId)
         </th>
         <th></th>
     </tr>
@@ -68,7 +68,7 @@
             @Html.DisplayFor(modelItem => item.Price)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.BookingSystemId)
+            @Html.DisplayFor(modelItem => item.ArticleId)
         </td>
         <td>
             @Html.ActionLink("Delete", "GetAllBookingTables", new { id = item.BookingTableId })

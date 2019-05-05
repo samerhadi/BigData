@@ -29,6 +29,26 @@ namespace DataLogic.Repository
             return listOfAllArticles;
         }
 
+        public double GetArticleLength(int id)
+        {
+            var article = GetArticle(id);
+            var articleLength = article.Length;
+
+            return articleLength;
+        }
+
+        public ArticleEntity GetArticle(int id)
+        {
+            var article = context.Articles.Find(id);
+            return article;
+        }
+
+        public BookingSystemEntity GetBookingSystemFromArticle(int id)
+        {
+            var article = GetArticle(id);
+            var bookingSystem = new BookingSystemRepo().GetBookingSystem(article.BookingSystemId);
+            return bookingSystem;
+        }
 
     }
 }

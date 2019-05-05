@@ -132,8 +132,24 @@ namespace BigData.APIController
         [Route("api/getallarticles/")]
         public async Task<IHttpActionResult> GetAllArticle()
         {
-            var getAllArticles = new ArticleRepo().GetAllArticles();
-            return Ok(getAllArticles);
+            var listOfAllArticles = new ArticleRepo().GetAllArticles();
+            return Ok(listOfAllArticles);
+        }
+
+        [HttpGet]
+        [Route("api/getarticlelength/{id}")]
+        public async Task<IHttpActionResult> GetArticleLength(int id)
+        {
+            var articleLength = new ArticleRepo().GetArticleLength(id);
+            return Ok(articleLength);
+        }
+
+        [HttpGet]
+        [Route("api/getbookingsystemfromarticle/{id}")]
+        public async Task<IHttpActionResult> GetBookingSystemFromArticle(int id)
+        {
+            var bookingSystem = new ArticleRepo().GetBookingSystemFromArticle(id);
+            return Ok(bookingSystem);
         }
     }
 }
