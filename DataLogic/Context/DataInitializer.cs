@@ -154,10 +154,10 @@ namespace DataLogic.Context
             var article1 = new ArticleEntity()
             {
                 ArticleId = 1,
-                Name = "Herrklippning",
+                Name = "Däck Byte",
                 Length = 20,
-                Price = 300,
-                BookingSystemId = 2,
+                Price = 150,
+                BookingSystemId = 1,
                 Service = 1
             };
             context.Articles.Add(article1);
@@ -165,10 +165,10 @@ namespace DataLogic.Context
             var article2 = new ArticleEntity()
             {
                 ArticleId = 2,
-                Name = "Damklippning",
-                Length = 30,
-                Price = 400,
-                BookingSystemId = 2,
+                Name = "Service",
+                Length = 60,
+                Price = 1000,
+                BookingSystemId = 1,
                 Service = 1
             };
             context.Articles.Add(article2);
@@ -176,13 +176,178 @@ namespace DataLogic.Context
             var article3 = new ArticleEntity()
             {
                 ArticleId = 3,
+                Name = "Byta kamrem",
+                Length = 180,
+                Price = 3000,
+                BookingSystemId = 1,
+                Service = 2
+            };
+            context.Articles.Add(article3);
+
+            var article4 = new ArticleEntity()
+            {
+                ArticleId = 4,
+                Name = "Herrklippning",
+                Length = 20,
+                Price = 300,
+                BookingSystemId = 2,
+                Service = 1
+            };
+            context.Articles.Add(article4);
+
+            var article5 = new ArticleEntity()
+            {
+                ArticleId = 5,
+                Name = "Damklippning",
+                Length = 30,
+                Price = 400,
+                BookingSystemId = 2,
+                Service = 1
+            };
+            context.Articles.Add(article5);
+
+            var article6 = new ArticleEntity()
+            {
+                ArticleId = 6,
                 Name = "Permanenta",
                 Length = 60,
                 Price = 700,
                 BookingSystemId = 2,
                 Service = 2
             };
-            context.Articles.Add(article3);
+            context.Articles.Add(article6);
+
+            var article7 = new ArticleEntity()
+            {
+                ArticleId = 7,
+                Name = "Herrklippning",
+                Length = 20,
+                Price = 300,
+                BookingSystemId = 3,
+                Service = 1
+            };
+            context.Articles.Add(article7);
+
+            var article8 = new ArticleEntity()
+            {
+                ArticleId = 8,
+                Name = "Damklippning",
+                Length = 30,
+                Price = 400,
+                BookingSystemId = 3,
+                Service = 1
+            };
+            context.Articles.Add(article8);
+
+            var article9 = new ArticleEntity()
+            {
+                ArticleId = 9,
+                Name = "Permanenta",
+                Length = 60,
+                Price = 700,
+                BookingSystemId = 3,
+                Service = 2
+            };
+            context.Articles.Add(article9);
+
+            var article10 = new ArticleEntity()
+            {
+                ArticleId = 10,
+                Name = "Svensk Massage",
+                Length = 30,
+                Price = 500,
+                BookingSystemId = 4,
+                Service = 1
+            };
+            context.Articles.Add(article10);
+
+            var article11 = new ArticleEntity()
+            {
+                ArticleId = 11,
+                Name = "Thailändsk Massage",
+                Length = 30,
+                Price = 500,
+                BookingSystemId = 4,
+                Service = 1
+            };
+            context.Articles.Add(article11);
+
+            var article12 = new ArticleEntity()
+            {
+                ArticleId = 12,
+                Name = "Nack Massage",
+                Length = 15,
+                Price = 250,
+                BookingSystemId = 4,
+                Service = 2
+            };
+            context.Articles.Add(article12);
+
+            var article13 = new ArticleEntity()
+            {
+                ArticleId = 13,
+                Name = "Ansiktsbehandling",
+                Length = 30,
+                Price = 400,
+                BookingSystemId = 5,
+                Service = 1
+            };
+            context.Articles.Add(article13);
+
+            var article14 = new ArticleEntity()
+            {
+                ArticleId = 14,
+                Name = "Ansiktsmask",
+                Length = 30,
+                Price = 350,
+                BookingSystemId = 5,
+                Service = 1
+            };
+            context.Articles.Add(article14);
+
+            var article15 = new ArticleEntity()
+            {
+                ArticleId = 15,
+                Name = "Pedekyr",
+                Length = 30,
+                Price = 300,
+                BookingSystemId = 5,
+                Service = 2
+            };
+            context.Articles.Add(article15);
+
+            var article16 = new ArticleEntity()
+            {
+                ArticleId = 16,
+                Name = "Ansiktsbehandling",
+                Length = 30,
+                Price = 400,
+                BookingSystemId = 6,
+                Service = 1
+            };
+            context.Articles.Add(article16);
+
+            var article17 = new ArticleEntity()
+            {
+                ArticleId = 17,
+                Name = "Ansiktsmask",
+                Length = 30,
+                Price = 350,
+                BookingSystemId = 6,
+                Service = 1
+            };
+            context.Articles.Add(article17);
+
+            var article18 = new ArticleEntity()
+            {
+                ArticleId = 18,
+                Name = "Pedekyr",
+                Length = 30,
+                Price = 300,
+                BookingSystemId = 6,
+                Service = 2
+            };
+            context.Articles.Add(article18);
 
             context.SaveChanges();
             base.Seed(context);
