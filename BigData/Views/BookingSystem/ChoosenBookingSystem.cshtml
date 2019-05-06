@@ -98,9 +98,9 @@
             @Html.DisplayFor(model => model.BookingSystem.City)
         </dd>
 
-        <dd>
+        @*<dd>
             @Html.ActionLink("Boka Tid", "BookTime", "Booking", new { id = Model.BookingSystem.BookningSystemId }, null)
-        </dd>
+        </dd>*@
 
     </dl>
 </div>
@@ -136,6 +136,9 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Service)
+            </td>
+            <td>
+                @Html.ActionLink("Boka Tid", "BookTime", "Booking", new { id = item.ArticleId }, null)
             </td>
         </tr>
     }

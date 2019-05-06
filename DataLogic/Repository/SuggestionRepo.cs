@@ -47,7 +47,7 @@ namespace DataLogic.Repository
         public List<BookingSystemEntity> ListOfBookingSystemsInRadius(List<BookingSystemEntity> listOfIncBookingSystems, BookingTableEntity bookingTable)
         {
             var listOfBookingSystems = new List<BookingSystemEntity>();
-            var bookingSystem = new BookingSystemRepo().GetBookingSystem(bookingTable.BookingSystemId);
+            var bookingSystem = new BookingSystemRepo().GetBookingSystem(bookingTable.ArticleId);
 
             foreach (var item in listOfIncBookingSystems)
             {
@@ -79,8 +79,8 @@ namespace DataLogic.Repository
             foreach (var item in listOfBookingSystem)
             {
                 var findTimeModel = new FindTimeModel();
-                findTimeModel.BookingSystem = item;
 
+                findTimeModel.BookingSystem = item;
                 findTimeModel.Time = bookingTable.Date;
 
                 var time = new Times
@@ -115,6 +115,8 @@ namespace DataLogic.Repository
             DateTime openingTime = SetOpeningTime(findTimeModel);
             DateTime closingTime = SetClosingTime(findTimeModel);
 
+            var listOfBookingTables = await new BookingRepo().GetAllBookingTablesAsync();
+
             for (int i = 0; i < 3; i++)
             {
                 if (startTime != bookingTable.StartTime && startTime >= openingTime && startTime < closingTime)
@@ -123,7 +125,7 @@ namespace DataLogic.Repository
                     times.StartTime = startTime;
                     times.EndTime = endTime;
                     findTimeModel.CheckTime = times;
-                    times.TimeBooked = await CheckIfTimeIsBooked(findTimeModel);
+                    times.TimeBooked = await CheckIfTimeIsBooked(findTimeModel, listOfBookingTables);
 
                     if (!times.TimeBooked)
                     {
@@ -137,31 +139,11 @@ namespace DataLogic.Repository
             return listOfTimes;
         }
 
-        [HttpPost]
-        public async Task<bool> CheckIfTimeIsBooked(FindTimeModel findTimeModel)
+        public async Task<bool> CheckIfTimeIsBooked(FindTimeModel findTimeModel, List<BookingTableEntity> listOfBookingTables)
         {
-            bool timeBooked = false;
-            var url = "http://localhost:60295/api/checkiftimeisbooked";
-
-            var content = new StringContent(JsonConvert.SerializeObject(findTimeModel), Encoding.UTF8, "application/json");
-            var response = await client.PostAsync(url, content);
-            string result = await response.Content.ReadAsStringAsync();
-
-            timeBooked = JsonConvert.DeserializeObject<bool>(result);
-
-            if (response.IsSuccessStatusCode)
-            {
-                return timeBooked;
-            }
-
-            return timeBooked;
+            var booked = await new BookingRepo().CheckIfTimeIsBookedAsync(findTimeModel, listOfBookingTables);
+            return booked;
         }
-
-        //public async Task<bool> CheckIfTimeIsBooked(FindTimeModel findTimeModel)
-        //{
-        //    var hej = await new BookingRepo().CheckIfTimeIsBookedAsync(findTimeModel);
-        //    return hej;
-        //}
 
         public DateTime SetOpeningTime(FindTimeModel findTimeModel)
         {
@@ -183,7 +165,7 @@ namespace DataLogic.Repository
 
         public async Task<TimeBookedModel> GetSuggestions(BookingTableEntity bookingTable)
         {
-            var bookingSystem = new BookingSystemRepo().GetBookingSystem(bookingTable.BookingSystemId);
+            var bookingSystem = new BookingSystemRepo().GetBookingSystem(bookingTable.ArticleId);
 
             var listOfBookingSystem = ListOfBookingSystemsInSameCity(bookingSystem);
 

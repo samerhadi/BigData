@@ -31,7 +31,7 @@ namespace DataLogic.Entities
 
     public enum Massage
     {
-        Swedish = 1,
+        Fullbody = 1,
         Neck = 2
     }
 

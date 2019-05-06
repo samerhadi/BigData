@@ -11,6 +11,7 @@ using Newtonsoft.Json;
 using System.Text;
 using System.Web.Mvc;
 using DataLogic.Repository;
+using Nito.AsyncEx;
 
 namespace BigData.Controllers
 {
@@ -22,7 +23,8 @@ namespace BigData.Controllers
         public ActionResult BookTime(int id)
         {
             var findTimeModel = new FindTimeModel();
-            findTimeModel.BookingSystem = new BookingSystemRepo().GetBookingSystem(id);
+            findTimeModel.ArticleId = id;
+            findTimeModel.BookingSystem = AsyncContext.Run(() => (new ArticleController().GetBookingSystemFromArticle(id)));
             findTimeModel.DateChoosen = false;
             return View(findTimeModel);
         }
@@ -52,13 +54,12 @@ namespace BigData.Controllers
         [HttpGet]
         public async Task<List<BookingTableEntity>> GetBookingTables()
         {
-            var listOfBookingTables = new List<BookingTableEntity>();
-            var url = "http://localhost:60295/api/getallbookings/";
+            var url = "http://localhost:60295/api/getallbookingtables/";
 
             var response = await client.GetAsync(string.Format(url));
             string result = await response.Content.ReadAsStringAsync();
 
-            listOfBookingTables = JsonConvert.DeserializeObject<List<BookingTableEntity>>(result);
+            var listOfBookingTables = JsonConvert.DeserializeObject<List<BookingTableEntity>>(result);
 
             if (response.IsSuccessStatusCode)
             {
@@ -72,12 +73,15 @@ namespace BigData.Controllers
         //Returnerar en lista med alla tider för ett bokningssystem
         public async Task<List<Times>> CreateListOfTimes(FindTimeModel findTimeModel)
         {
-            double timeLength = 60;
+
+            double timeLength = await GetArticleLength(findTimeModel.ArticleId);
             var listOfTimes = new List<Times>();
 
             DateTime startTime = SetStartTime(findTimeModel);
             DateTime endTime = startTime.AddMinutes(timeLength);
             var timesPerDay = SetTimesPerDay(timeLength);
+
+            var listOfBookingTables = await GetBookingTables();
 
             for (int i = 0; i < timesPerDay; i++)
             {
@@ -87,7 +91,7 @@ namespace BigData.Controllers
                 time.EndTime = endTime;
 
                 findTimeModel.CheckTime = time;
-                findTimeModel.CheckTime.TimeBooked = await new SuggestionRepo().CheckIfTimeIsBooked(findTimeModel);
+                findTimeModel.CheckTime.TimeBooked = await new SuggestionRepo().CheckIfTimeIsBooked(findTimeModel, listOfBookingTables);
 
                 listOfTimes.Add(findTimeModel.CheckTime);
                 startTime = startTime.AddMinutes(timeLength);
@@ -95,6 +99,26 @@ namespace BigData.Controllers
 
             }
             return listOfTimes;
+        }
+
+        //Ska inte ligga här!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        [HttpGet]
+        public async Task<double> GetArticleLength(int id)
+        {
+            var url = "http://localhost:60295/api/getarticlelength/" + id;
+
+            var content = new StringContent(JsonConvert.SerializeObject(id), Encoding.UTF8, "application/json");
+            var response = await client.GetAsync(string.Format(url, content));
+            string result = await response.Content.ReadAsStringAsync();
+
+            var articleLength = JsonConvert.DeserializeObject<double>(result);
+
+            if (response.IsSuccessStatusCode)
+            {
+                return articleLength;
+            }
+
+            return articleLength;
         }
 
         //sätter när en bookningssystem öppnar
@@ -106,6 +130,7 @@ namespace BigData.Controllers
 
             return startTime;
         }
+
         //räknar ut hur många gånger per dag den valda tiden är
         public double SetTimesPerDay(double timeLength)
         {
@@ -124,7 +149,7 @@ namespace BigData.Controllers
 
             var bookingTable = new BookingTableEntity
             {
-                BookingSystemId = id,
+                ArticleId = id,
                 Date = date,
                 StartTime = startTime,
                 EndTime = endTime
@@ -167,7 +192,6 @@ namespace BigData.Controllers
             var result = await client.PostAsync(url, content);
 
         }
-
 
         //tar bort en bokningtable
         [HttpDelete]
