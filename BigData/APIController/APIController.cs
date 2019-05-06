@@ -57,8 +57,8 @@ namespace BigData.APIController
         }
 
         [HttpGet]
-        [Route("api/getallbookings/")]
-        public async Task<IHttpActionResult> GetAllBookings()
+        [Route("api/getallbookingtables/")]
+        public async Task<IHttpActionResult> GetAllBookingTables()
         {
             var listOfAllBookings = new BookingRepo().GetAllBookingTables();
             return Ok(listOfAllBookings);

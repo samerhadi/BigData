@@ -54,13 +54,12 @@ namespace BigData.Controllers
         [HttpGet]
         public async Task<List<BookingTableEntity>> GetBookingTables()
         {
-            var listOfBookingTables = new List<BookingTableEntity>();
-            var url = "http://localhost:60295/api/getallbookings/";
+            var url = "http://localhost:60295/api/getallbookingtables/";
 
             var response = await client.GetAsync(string.Format(url));
             string result = await response.Content.ReadAsStringAsync();
 
-            listOfBookingTables = JsonConvert.DeserializeObject<List<BookingTableEntity>>(result);
+            var listOfBookingTables = JsonConvert.DeserializeObject<List<BookingTableEntity>>(result);
 
             if (response.IsSuccessStatusCode)
             {
@@ -82,6 +81,8 @@ namespace BigData.Controllers
             DateTime endTime = startTime.AddMinutes(timeLength);
             var timesPerDay = SetTimesPerDay(timeLength);
 
+            var listOfBookingTables = await GetBookingTables();
+
             for (int i = 0; i < timesPerDay; i++)
             {
                 var time = new Times();
@@ -90,7 +91,7 @@ namespace BigData.Controllers
                 time.EndTime = endTime;
 
                 findTimeModel.CheckTime = time;
-                findTimeModel.CheckTime.TimeBooked = await new SuggestionRepo().CheckIfTimeIsBooked(findTimeModel);
+                findTimeModel.CheckTime.TimeBooked = await new SuggestionRepo().CheckIfTimeIsBooked(findTimeModel, listOfBookingTables);
 
                 listOfTimes.Add(findTimeModel.CheckTime);
                 startTime = startTime.AddMinutes(timeLength);

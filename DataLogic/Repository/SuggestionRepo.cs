@@ -115,6 +115,8 @@ namespace DataLogic.Repository
             DateTime openingTime = SetOpeningTime(findTimeModel);
             DateTime closingTime = SetClosingTime(findTimeModel);
 
+            var listOfBookingTables = await new BookingRepo().GetAllBookingTablesAsync();
+
             for (int i = 0; i < 3; i++)
             {
                 if (startTime != bookingTable.StartTime && startTime >= openingTime && startTime < closingTime)
@@ -123,7 +125,7 @@ namespace DataLogic.Repository
                     times.StartTime = startTime;
                     times.EndTime = endTime;
                     findTimeModel.CheckTime = times;
-                    times.TimeBooked = await CheckIfTimeIsBooked(findTimeModel);
+                    times.TimeBooked = await CheckIfTimeIsBooked(findTimeModel, listOfBookingTables);
 
                     if (!times.TimeBooked)
                     {
@@ -137,31 +139,30 @@ namespace DataLogic.Repository
             return listOfTimes;
         }
 
-        [HttpPost]
-        public async Task<bool> CheckIfTimeIsBooked(FindTimeModel findTimeModel)
-        {
-            bool timeBooked = false;
-            var url = "http://localhost:60295/api/checkiftimeisbooked";
-
-            var content = new StringContent(JsonConvert.SerializeObject(findTimeModel), Encoding.UTF8, "application/json");
-            var response = await client.PostAsync(url, content);
-            string result = await response.Content.ReadAsStringAsync();
-
-            timeBooked = JsonConvert.DeserializeObject<bool>(result);
-
-            if (response.IsSuccessStatusCode)
-            {
-                return timeBooked;
-            }
-
-            return timeBooked;
-        }
-
+        //[HttpPost]
         //public async Task<bool> CheckIfTimeIsBooked(FindTimeModel findTimeModel)
         //{
-        //    var hej = await new BookingRepo().CheckIfTimeIsBookedAsync(findTimeModel);
-        //    return hej;
+        //    var url = "http://localhost:60295/api/checkiftimeisbooked";
+
+        //    var content = new StringContent(JsonConvert.SerializeObject(findTimeModel), Encoding.UTF8, "application/json");
+        //    var response = await client.PostAsync(url, content);
+        //    string result = await response.Content.ReadAsStringAsync();
+
+        //    var timeBooked = JsonConvert.DeserializeObject<bool>(result);
+
+        //    if (response.IsSuccessStatusCode)
+        //    {
+        //        return timeBooked;
+        //    }
+
+        //    return timeBooked;
         //}
+
+        public async Task<bool> CheckIfTimeIsBooked(FindTimeModel findTimeModel, List<BookingTableEntity> listOfBookingTables)
+        {
+            var booked = await new BookingRepo().CheckIfTimeIsBookedAsync(findTimeModel, listOfBookingTables);
+            return booked;
+        }
 
         public DateTime SetOpeningTime(FindTimeModel findTimeModel)
         {
