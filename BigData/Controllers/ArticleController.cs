@@ -66,8 +66,13 @@ namespace BigData.Controllers
             var result = await client.PostAsync(url, content);
         }
 
-        public async Task<ActionResult> GetAllArticles()
+        public async Task<ActionResult> GetAllArticles(int? id)
         {
+            if (id != null)
+            {
+                await Task.Run(() => DeleteArticle(id));
+            }
+
 
             var getAllArticles = await GetArticles();
             UpdateModel(getAllArticles);
@@ -118,6 +123,17 @@ namespace BigData.Controllers
             }
 
             return listOfArticles;
+        }
+
+        //tar bort ett system
+        [HttpDelete]
+        public async void DeleteArticle(int? id)
+        {
+            var url = "http://localhost:60295/api/deletearticle/" + id;
+
+            var content = new StringContent(JsonConvert.SerializeObject(id), Encoding.UTF8, "application/json");
+            var result = await client.DeleteAsync(string.Format(url, content));
+
         }
     }
 }
