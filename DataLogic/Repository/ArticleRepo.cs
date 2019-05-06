@@ -3,6 +3,7 @@ using DataLogic.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 
 namespace DataLogic.Repository
@@ -43,10 +44,23 @@ namespace DataLogic.Repository
             return article;
         }
 
+        public async Task<ArticleEntity> GetArticleAsync(int id)
+        {
+            var article = context.Articles.Find(id);
+            return article;
+        }
+
         public BookingSystemEntity GetBookingSystemFromArticle(int id)
         {
             var article = GetArticle(id);
             var bookingSystem = new BookingSystemRepo().GetBookingSystem(article.BookingSystemId);
+            return bookingSystem;
+        }
+
+        public async Task<BookingSystemEntity> GetBookingSystemFromArticleAsync(int id)
+        {
+            var article = await GetArticleAsync(id);
+            var bookingSystem = await new BookingSystemRepo().GetBookingSystemAsync(article.BookingSystemId);
             return bookingSystem;
         }
 

@@ -84,13 +84,16 @@ namespace DataLogic.Repository
                 EndTime = findTimeModel.CheckTime.EndTime,
                 Date = findTimeModel.Time,
                 ArticleId = findTimeModel.ArticleId
-                //Inget BokningssystemId
             };
+
+            var bookingSystemId = findTimeModel.BookingSystem.BookningSystemId;
 
             foreach (var item in listOfBookingTables)
             {
+                var bookingSystem = await new ArticleRepo().GetBookingSystemFromArticleAsync(item.ArticleId);
+
                 if (item.Date == bookingTableEntity.Date && item.StartTime < bookingTableEntity.EndTime && item.EndTime > bookingTableEntity.StartTime
-                    /*&& item.BookingSystemId == bookingTableEntity.BookingSystemId*/)
+                    && bookingSystem.BookningSystemId == bookingSystemId)
                 {
                     timeBooked = true;
                 }
