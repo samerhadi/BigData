@@ -139,25 +139,6 @@ namespace DataLogic.Repository
             return listOfTimes;
         }
 
-        //[HttpPost]
-        //public async Task<bool> CheckIfTimeIsBooked(FindTimeModel findTimeModel)
-        //{
-        //    var url = "http://localhost:60295/api/checkiftimeisbooked";
-
-        //    var content = new StringContent(JsonConvert.SerializeObject(findTimeModel), Encoding.UTF8, "application/json");
-        //    var response = await client.PostAsync(url, content);
-        //    string result = await response.Content.ReadAsStringAsync();
-
-        //    var timeBooked = JsonConvert.DeserializeObject<bool>(result);
-
-        //    if (response.IsSuccessStatusCode)
-        //    {
-        //        return timeBooked;
-        //    }
-
-        //    return timeBooked;
-        //}
-
         public async Task<bool> CheckIfTimeIsBooked(FindTimeModel findTimeModel, List<BookingTableEntity> listOfBookingTables)
         {
             var booked = await new BookingRepo().CheckIfTimeIsBookedAsync(findTimeModel, listOfBookingTables);
