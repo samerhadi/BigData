@@ -79,8 +79,8 @@ namespace DataLogic.Repository
             foreach (var item in listOfBookingSystem)
             {
                 var findTimeModel = new FindTimeModel();
-                findTimeModel.BookingSystem = item;
 
+                findTimeModel.BookingSystem = item;
                 findTimeModel.Time = bookingTable.Date;
 
                 var time = new Times
