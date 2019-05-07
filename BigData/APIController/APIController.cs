@@ -124,7 +124,7 @@ namespace BigData.APIController
         [Route("api/getarticlesfrombookingsystem/{id}")]
         public async Task<IHttpActionResult> GetArticle(int id)
         {
-            var listOfArticles = new ArticleRepo().GetArticlesFromBookingSystem(id);
+            var listOfArticles = new ArticleRepo().CreateArticle(id);
             return Ok(listOfArticles);
         }
 
@@ -151,5 +151,14 @@ namespace BigData.APIController
             var bookingSystem = new ArticleRepo().GetBookingSystemFromArticle(id);
             return Ok(bookingSystem);
         }
+
+        [HttpDelete]
+        [Route("api/deletearticle/{id}")]
+        public async Task<IHttpActionResult> DeleteArticle(int id)
+        {
+            new ArticleRepo().DeleteArticle(id);
+            return Ok();
+        }
+
     }
 }
