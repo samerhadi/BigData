@@ -178,6 +178,8 @@ namespace DataLogic.Repository
 
             var listOfBookingSystemInRadius = await ListOfBookingSystemsInRadius(listOfBookingSystem, bookingTable);
 
+            var listOfArticles = await GetArticlesFromListOfBookingSystem(listOfBookingSystemInRadius, bookingTable, bookingSystem);
+
             var timeBookedModel = new TimeBookedModel();
             timeBookedModel = await FindTimesForListOfBookingSystems(bookingTable, listOfBookingSystemInRadius);
             timeBookedModel.BookingTableEntity = bookingTable;
@@ -190,18 +192,23 @@ namespace DataLogic.Repository
         {
             var listOfArticles = new List<ArticleEntity>();
 
+            var article = await new ArticleRepo().GetArticleAsync(bookingTable.ArticleId);
+
             foreach(var item in listOfBookingSystems)
             {
-                if(item.ServiceType == bookingSystem.ServiceType)
+
+                if (item.ServiceType == bookingSystem.ServiceType)
                 {
-                    var list
+                    listOfArticles = await new ArticleRepo().GetDifferentArticlesFromBookingSystem(item.BookningSystemId, article.Service);
                 }
 
                 else
                 {
-                    var listOfArticlesFromBookingSystem = new ArticleRepo().GetArticlesFromBookingSystem(item.BookningSystemId);
+                    listOfArticles = await new ArticleRepo().GetArticlesFromBookingSystem(item.BookningSystemId);
                 }
             }
+
+            return listOfArticles;
         }
     }
 }
