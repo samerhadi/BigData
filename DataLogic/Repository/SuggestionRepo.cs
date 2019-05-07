@@ -1,6 +1,7 @@
 ﻿using DataLogic.Entities;
 using DataLogic.Models;
 using Newtonsoft.Json;
+using Nito.AsyncEx;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -191,6 +192,7 @@ namespace DataLogic.Repository
         public async Task<List<ArticleEntity>> GetArticlesFromListOfBookingSystem(List<BookingSystemEntity> listOfBookingSystems, BookingTableEntity bookingTable, BookingSystemEntity bookingSystem)
         {
             var listOfArticles = new List<ArticleEntity>();
+            var tempListOfArticles = new List<ArticleEntity>();
 
             var article = await new ArticleRepo().GetArticleAsync(bookingTable.ArticleId);
 
@@ -199,12 +201,17 @@ namespace DataLogic.Repository
 
                 if (item.ServiceType == bookingSystem.ServiceType)
                 {
-                    listOfArticles = await new ArticleRepo().GetDifferentArticlesFromBookingSystem(item.BookningSystemId, article.Service);
+                    tempListOfArticles = await new ArticleRepo().GetDifferentArticlesFromBookingSystem(item.BookningSystemId, article.Service);
                 }
 
                 else
                 {
-                    listOfArticles = await new ArticleRepo().GetArticlesFromBookingSystem(item.BookningSystemId);
+                    tempListOfArticles = await new ArticleRepo().GetArticlesFromBookingSystemAsync(item.BookningSystemId);
+                }
+
+                foreach(var i in tempListOfArticles)
+                {
+                    listOfArticles.Add(i);
                 }
             }
 

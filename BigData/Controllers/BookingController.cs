@@ -169,7 +169,7 @@ namespace BigData.Controllers
             var url = "http://localhost:60295/api/addbooking/";
 
             var content = new StringContent(JsonConvert.SerializeObject(bookingTable), Encoding.UTF8, "application/json");
-            var result = await client.PostAsync(url, content);
+            var result = client.PostAsync(url, content);
 
         }
 
@@ -180,7 +180,7 @@ namespace BigData.Controllers
             var url = "http://localhost:60295/api/deletebooking/" + id;
 
             var content = new StringContent(JsonConvert.SerializeObject(id), Encoding.UTF8, "application/json");
-            var result = await client.DeleteAsync(string.Format(url, content));
+            var result = client.DeleteAsync(string.Format(url, content));
 
         }
     }

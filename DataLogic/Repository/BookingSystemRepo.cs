@@ -64,8 +64,7 @@ namespace DataLogic.Repository
 
         public async Task<List<BookingSystemEntity>> GetSuggestedServicesAsync(BookingSystemEntity bookingSystem)
         {
-            var listOfServices = context.BookingSystems.Where(b => b.City == bookingSystem.City && b.BookningSystemId != bookingSystem.BookningSystemId
-            && bookingSystem.ServiceType != b.ServiceType).ToList();
+            var listOfServices = context.BookingSystems.Where(b => b.City == bookingSystem.City && b.BookningSystemId != bookingSystem.BookningSystemId).ToList();
 
             return listOfServices;
         }

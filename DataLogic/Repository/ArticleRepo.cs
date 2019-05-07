@@ -24,13 +24,11 @@ namespace DataLogic.Repository
             return listOfAllArticles;
         }
 
-        //Hämtar ett bokningssystem med hjälp av id
         public ArticleEntity GetArticle(int id)
         {
             var article = context.Articles.Find(id);
             return article;
         }
-
 
         public void DeleteArticle(int id)
         {
@@ -67,7 +65,13 @@ namespace DataLogic.Repository
             return bookingSystem;
         }
 
-        public async Task<List<ArticleEntity>> GetArticlesFromBookingSystem(int id)
+        public async Task<List<ArticleEntity>> GetArticlesFromBookingSystemAsync(int id)
+        {
+            var listOfArticles = context.Articles.Where(a => a.BookingSystemId == id).ToList();
+            return listOfArticles;
+        }
+
+        public List<ArticleEntity> GetArticlesFromBookingSystem(int id)
         {
             var listOfArticles = context.Articles.Where(a => a.BookingSystemId == id).ToList();
             return listOfArticles;
