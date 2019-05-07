@@ -18,12 +18,6 @@ namespace DataLogic.Repository
             context.SaveChanges();
         }
 
-        public List<ArticleEntity> CreateArticle(int id)
-        {
-            var listOfArticles = context.Articles.Where(x => x.BookingSystemId == id).ToList();
-            return listOfArticles;
-        }
-
         public List<ArticleEntity> GetAllArticles()
         {
             var listOfAllArticles = context.Articles.ToList();
@@ -73,5 +67,16 @@ namespace DataLogic.Repository
             return bookingSystem;
         }
 
+        public async Task<List<ArticleEntity>> GetArticlesFromBookingSystem(int id)
+        {
+            var listOfArticles = context.Articles.Where(a => a.BookingSystemId == id).ToList();
+            return listOfArticles;
+        }
+
+        public async Task<List<ArticleEntity>> GetDifferentArticlesFromBookingSystem(int id, int service)
+        {
+            var listOfArticles = context.Articles.Where(a => a.BookingSystemId == id && a.Service != service).ToList();
+            return listOfArticles;
+        }
     }
 }

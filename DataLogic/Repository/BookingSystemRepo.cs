@@ -83,5 +83,6 @@ namespace DataLogic.Repository
             var serviceType = Convert.ToInt32(bookingSystem.ServiceType);
             return serviceType;
         }
+
     }
 }

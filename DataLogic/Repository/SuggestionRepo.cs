@@ -185,5 +185,23 @@ namespace DataLogic.Repository
 
             return timeBookedModel;
         }
+
+        public async Task<List<ArticleEntity>> GetArticlesFromListOfBookingSystem(List<BookingSystemEntity> listOfBookingSystems, BookingTableEntity bookingTable, BookingSystemEntity bookingSystem)
+        {
+            var listOfArticles = new List<ArticleEntity>();
+
+            foreach(var item in listOfBookingSystems)
+            {
+                if(item.ServiceType == bookingSystem.ServiceType)
+                {
+                    var list
+                }
+
+                else
+                {
+                    var listOfArticlesFromBookingSystem = new ArticleRepo().GetArticlesFromBookingSystem(item.BookningSystemId);
+                }
+            }
+        }
     }
 }
