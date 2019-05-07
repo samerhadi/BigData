@@ -133,7 +133,44 @@ namespace BigData.Controllers
 
             var content = new StringContent(JsonConvert.SerializeObject(id), Encoding.UTF8, "application/json");
             var result = await client.DeleteAsync(string.Format(url, content));
+        }
 
+        [HttpGet]
+        public async Task<BookingSystemEntity> GetBookingSystemFromArticle(int id)
+        {
+            var url = "http://localhost:60295/api/getbookingsystemfromarticle/" + id;
+
+            var content = new StringContent(JsonConvert.SerializeObject(id), Encoding.UTF8, "application/json");
+            var response = await client.GetAsync(string.Format(url, content));
+            string result = await response.Content.ReadAsStringAsync();
+
+            var bookingSystem = JsonConvert.DeserializeObject<BookingSystemEntity>(result);
+
+            if (response.IsSuccessStatusCode)
+            {
+                return bookingSystem;
+            }
+
+            return bookingSystem;
+        }
+
+        [HttpGet]
+        public async Task<double> GetArticleLength(int id)
+        {
+            var url = "http://localhost:60295/api/getarticlelength/" + id;
+
+            var content = new StringContent(JsonConvert.SerializeObject(id), Encoding.UTF8, "application/json");
+            var response = await client.GetAsync(string.Format(url, content));
+            string result = await response.Content.ReadAsStringAsync();
+
+            var articleLength = JsonConvert.DeserializeObject<double>(result);
+
+            if (response.IsSuccessStatusCode)
+            {
+                return articleLength;
+            }
+
+            return articleLength;
         }
     }
 }
