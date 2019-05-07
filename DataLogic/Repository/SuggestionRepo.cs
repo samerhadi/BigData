@@ -63,21 +63,6 @@ namespace DataLogic.Repository
             return listOfBookingSystems;
         }
 
-        //Returnerar en list med alla tjänster i samma stad
-        public List<BookingSystemEntity> ListOfBookingSystemsInSameCity(BookingSystemEntity bookingSystem)
-        {
-            var listOfSuggestedServices = new BookingSystemRepo().GetSuggestedServices(bookingSystem);
-
-            return listOfSuggestedServices;
-        }
-
-        public async Task<List<BookingSystemEntity>> ListOfBookingSystemsInSameCityAsync(BookingSystemEntity bookingSystem)
-        {
-            var listOfSuggestedServices = await new BookingSystemRepo().GetSuggestedServicesAsync(bookingSystem);
-
-            return listOfSuggestedServices;
-        }
-
         //Returnerar en TimeBookedModel med bokningsystem och deras lediga tider 1h innan och efter gjord bokning
         public async Task<TimeBookedModel> FindTimesForListOfBookingSystems(BookingTableEntity bookingTable, List<BookingSystemEntity> listOfBookingSystem)
         {
@@ -175,7 +160,7 @@ namespace DataLogic.Repository
         {
             var bookingSystem = await new ArticleRepo().GetBookingSystemFromArticleAsync(bookingTable.ArticleId);
 
-            var listOfBookingSystem = await ListOfBookingSystemsInSameCityAsync(bookingSystem);
+            var listOfBookingSystem = await new BookingSystemRepo().GetSuggestedServicesAsync(bookingSystem);
 
             var listOfBookingSystemInRadius = await ListOfBookingSystemsInRadius(listOfBookingSystem, bookingTable);
 
@@ -227,7 +212,17 @@ namespace DataLogic.Repository
             var listOfArticles = await new ArticleRepo().GetDifferentArticlesFromBookingSystem(bookingTable.ArticleId, article.Service);
 
             return listOfArticles; 
+        }
 
+        public async Task<List<ArticleEntity>> RandomizeArticles(List<ArticleEntity> listOfArticles)
+        {
+            Random rnd = new Random();
+
+            var randomArticles = listOfArticles.OrderBy(x => rnd.Next()).Take(3);
+
+            var listOfRandomArticles = randomArticles.ToList();
+
+            return listOfRandomArticles;
         }
     }
 }
