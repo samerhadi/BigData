@@ -166,6 +166,8 @@ namespace DataLogic.Repository
 
             var listOfArticles = await GetArticlesFromListOfBookingSystem(listOfBookingSystemInRadius, bookingTable, bookingSystem);
 
+            var listOfRandomizedArticles = await RandomizeArticles(listOfArticles);
+
             var timeBookedModel = new TimeBookedModel();
             timeBookedModel = await FindTimesForListOfBookingSystems(bookingTable, listOfBookingSystemInRadius);
             timeBookedModel.BookingTableEntity = bookingTable;

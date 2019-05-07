@@ -153,8 +153,25 @@ namespace BigData.Controllers
 
             var content = new StringContent(JsonConvert.SerializeObject(id), Encoding.UTF8, "application/json");
             var result = await client.DeleteAsync(string.Format(url, content));
-           
+        }
 
+        [HttpGet]
+        public async Task<double> GetArticleLength(int id)
+        {
+            var url = "http://localhost:60295/api/getarticlelength/" + id;
+
+            var content = new StringContent(JsonConvert.SerializeObject(id), Encoding.UTF8, "application/json");
+            var response = await client.GetAsync(string.Format(url, content));
+            string result = await response.Content.ReadAsStringAsync();
+
+            var length = JsonConvert.DeserializeObject<double>(result);
+
+            if (response.IsSuccessStatusCode)
+            {
+                return length;
+            }
+
+            return length;
         }
     }
 }
