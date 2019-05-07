@@ -176,9 +176,9 @@ namespace DataLogic.Context
             var article3 = new ArticleEntity()
             {
                 ArticleId = 3,
-                Name = "Byta kamrem",
-                Length = 180,
-                Price = 3000,
+                Name = "Besiktning",
+                Length = 30,
+                Price = 600,
                 BookingSystemId = 1,
                 Service = 2
             };
