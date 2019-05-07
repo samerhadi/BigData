@@ -29,12 +29,6 @@ namespace DataLogic.Repository
             return listOfAllArticles;
         }
 
-        //Hämtar ett bokningssystem med hjälp av id
-        public ArticleEntity GetArticle(int id)
-        {
-            var article = context.Articles.Find(id);
-            return article;
-        }
         public double GetArticleLength(int id)
         {
             var article = GetArticle(id);
@@ -55,6 +49,8 @@ namespace DataLogic.Repository
             var bookingSystem = new BookingSystemRepo().GetBookingSystem(article.BookingSystemId);
             return bookingSystem;
         }
+        //Hämtar ett bokningssystem med hjälp av id
+   
 
 
         public void DeleteArticle(int id)

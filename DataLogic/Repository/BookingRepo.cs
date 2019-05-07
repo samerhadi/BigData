@@ -89,10 +89,10 @@ namespace DataLogic.Repository
 
             foreach (var item in listOfBookingTables)
             {
-                if (item.Date == bookingTableEntity.Date && item.StartTime < bookingTableEntity.EndTime && item.EndTime > bookingTableEntity.StartTime
+              if (item.Date == bookingTableEntity.Date && item.StartTime < bookingTableEntity.EndTime && item.EndTime > bookingTableEntity.StartTime
                     /*&& item.BookingSystemId == bookingTableEntity.BookingSystemId*/)
                 {
-                    timeBooked = true;
+                     timeBooked = true;
                 }
             }
 

@@ -71,11 +71,12 @@ namespace BigData.Controllers
             if (id != null)
             {
                 await Task.Run(() => DeleteArticle(id));
+                
             }
 
 
             var getAllArticles = await GetArticles();
-            UpdateModel(getAllArticles);
+          UpdateModel(getAllArticles);
 
             return View(getAllArticles);
         
@@ -152,6 +153,7 @@ namespace BigData.Controllers
 
             var content = new StringContent(JsonConvert.SerializeObject(id), Encoding.UTF8, "application/json");
             var result = await client.DeleteAsync(string.Format(url, content));
+           
 
         }
     }
