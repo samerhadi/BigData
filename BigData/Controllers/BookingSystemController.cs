@@ -86,9 +86,9 @@ namespace BigData.Controllers
             }
 
             var listOfBookingSystems = await GetAllBookingSystems();
-            UpdateModel(listOfBookingSystems);
+        
 
-            return View(listOfBookingSystems);
+          return View(listOfBookingSystems);
         }
 
         [HttpGet]
@@ -103,7 +103,7 @@ namespace BigData.Controllers
                 string result = await response.Content.ReadAsStringAsync();
 
                 listOfAllBookingSystem = JsonConvert.DeserializeObject<List<BookingSystemEntity>>(result);
-
+                
                 if (response.IsSuccessStatusCode)
                 {
                     return listOfAllBookingSystem;

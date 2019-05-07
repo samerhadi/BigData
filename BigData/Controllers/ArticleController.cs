@@ -71,11 +71,12 @@ namespace BigData.Controllers
             if (id != null)
             {
                 await Task.Run(() => DeleteArticle(id));
+                
             }
 
 
             var getAllArticles = await GetArticles();
-            UpdateModel(getAllArticles);
+          UpdateModel(getAllArticles);
 
             return View(getAllArticles);
         
@@ -125,16 +126,6 @@ namespace BigData.Controllers
             return listOfArticles;
         }
 
-        //tar bort ett system
-        [HttpDelete]
-        public async void DeleteArticle(int? id)
-        {
-            var url = "http://localhost:60295/api/deletearticle/" + id;
-
-            var content = new StringContent(JsonConvert.SerializeObject(id), Encoding.UTF8, "application/json");
-            var result = await client.DeleteAsync(string.Format(url, content));
-        }
-
         [HttpGet]
         public async Task<BookingSystemEntity> GetBookingSystemFromArticle(int id)
         {
@@ -154,23 +145,16 @@ namespace BigData.Controllers
             return bookingSystem;
         }
 
-        [HttpGet]
-        public async Task<double> GetArticleLength(int id)
+        //tar bort ett system
+        [HttpDelete]
+        public async void DeleteArticle(int? id)
         {
-            var url = "http://localhost:60295/api/getarticlelength/" + id;
+            var url = "http://localhost:60295/api/deletearticle/" + id;
 
             var content = new StringContent(JsonConvert.SerializeObject(id), Encoding.UTF8, "application/json");
-            var response = await client.GetAsync(string.Format(url, content));
-            string result = await response.Content.ReadAsStringAsync();
+            var result = await client.DeleteAsync(string.Format(url, content));
+           
 
-            var articleLength = JsonConvert.DeserializeObject<double>(result);
-
-            if (response.IsSuccessStatusCode)
-            {
-                return articleLength;
-            }
-
-            return articleLength;
         }
     }
 }
