@@ -30,7 +30,7 @@
         if (!item.TimeBooked)
         {
             @Html.ActionLink(item.StartTime.ToString("HH':'mm") + "-" + item.EndTime.ToString("HH':'mm"), "TimeBooked", new { date = Model.Time, startTime = item.StartTime, endTime = item.EndTime,
-                id = Model.BookingSystem.BookningSystemId,  })
+                id = Model.ArticleId,  })
             <br />
         }
 

@@ -122,9 +122,9 @@ namespace BigData.APIController
 
         [HttpGet]
         [Route("api/getarticlesfrombookingsystem/{id}")]
-        public async Task<IHttpActionResult> GetArticle(int id)
+        public async Task<IHttpActionResult> GetArticlesFromBookingSystem(int id)
         {
-            var listOfArticles = new ArticleRepo().CreateArticle(id);
+            var listOfArticles = new ArticleRepo().GetArticlesFromBookingSystem(id);
             return Ok(listOfArticles);
         }
 

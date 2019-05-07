@@ -74,7 +74,7 @@ namespace BigData.Controllers
         public async Task<List<Times>> CreateListOfTimes(FindTimeModel findTimeModel)
         {
 
-            double timeLength = await GetArticleLength(findTimeModel.ArticleId);
+            double timeLength = await new ArticleController().GetArticleLength(findTimeModel.ArticleId);
             var listOfTimes = new List<Times>();
 
             DateTime startTime = SetStartTime(findTimeModel);
@@ -99,26 +99,6 @@ namespace BigData.Controllers
 
             }
             return listOfTimes;
-        }
-
-        //Ska inte ligga här!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        [HttpGet]
-        public async Task<double> GetArticleLength(int id)
-        {
-            var url = "http://localhost:60295/api/getarticlelength/" + id;
-
-            var content = new StringContent(JsonConvert.SerializeObject(id), Encoding.UTF8, "application/json");
-            var response = await client.GetAsync(string.Format(url, content));
-            string result = await response.Content.ReadAsStringAsync();
-
-            var articleLength = JsonConvert.DeserializeObject<double>(result);
-
-            if (response.IsSuccessStatusCode)
-            {
-                return articleLength;
-            }
-
-            return articleLength;
         }
 
         //sätter när en bookningssystem öppnar

@@ -17,7 +17,7 @@ namespace DataLogic.Repository
         HttpClient client = new HttpClient();
 
         //Returnerar distansen i KM mellan bokad tjänst och alla tjänster i samma stad
-        public double DistanceTo(double lat1, double lon1, double lat2, double lon2, char unit = 'K')
+        public async Task<double> DistanceTo(double lat1, double lon1, double lat2, double lon2, char unit = 'K')
         {
             double rlat1 = Math.PI * lat1 / 180;
             double rlat2 = Math.PI * lat2 / 180;
@@ -44,14 +44,14 @@ namespace DataLogic.Repository
         }
 
         //Returnerar en list med alla bookningssystem som ligger inom en 5km radius
-        public List<BookingSystemEntity> ListOfBookingSystemsInRadius(List<BookingSystemEntity> listOfIncBookingSystems, BookingTableEntity bookingTable)
+        public async Task<List<BookingSystemEntity>> ListOfBookingSystemsInRadius(List<BookingSystemEntity> listOfIncBookingSystems, BookingTableEntity bookingTable)
         {
             var listOfBookingSystems = new List<BookingSystemEntity>();
-            var bookingSystem = new BookingSystemRepo().GetBookingSystem(bookingTable.ArticleId);
+            var bookingSystem = await new ArticleRepo().GetBookingSystemFromArticleAsync(bookingTable.ArticleId);
 
             foreach (var item in listOfIncBookingSystems)
             {
-                item.Distance = DistanceTo(bookingSystem.Latitude, bookingSystem.Longitude, item.Latitude, item.Longitude);
+                item.Distance = await DistanceTo(bookingSystem.Latitude, bookingSystem.Longitude, item.Latitude, item.Longitude);
 
                 if (item.Distance <= 5)
                 {
@@ -66,6 +66,13 @@ namespace DataLogic.Repository
         public List<BookingSystemEntity> ListOfBookingSystemsInSameCity(BookingSystemEntity bookingSystem)
         {
             var listOfSuggestedServices = new BookingSystemRepo().GetSuggestedServices(bookingSystem);
+
+            return listOfSuggestedServices;
+        }
+
+        public async Task<List<BookingSystemEntity>> ListOfBookingSystemsInSameCityAsync(BookingSystemEntity bookingSystem)
+        {
+            var listOfSuggestedServices = await new BookingSystemRepo().GetSuggestedServicesAsync(bookingSystem);
 
             return listOfSuggestedServices;
         }
@@ -165,11 +172,11 @@ namespace DataLogic.Repository
 
         public async Task<TimeBookedModel> GetSuggestions(BookingTableEntity bookingTable)
         {
-            var bookingSystem = new BookingSystemRepo().GetBookingSystem(bookingTable.ArticleId);
+            var bookingSystem = await new ArticleRepo().GetBookingSystemFromArticleAsync(bookingTable.ArticleId);
 
-            var listOfBookingSystem = ListOfBookingSystemsInSameCity(bookingSystem);
+            var listOfBookingSystem = await ListOfBookingSystemsInSameCityAsync(bookingSystem);
 
-            var listOfBookingSystemInRadius = ListOfBookingSystemsInRadius(listOfBookingSystem, bookingTable);
+            var listOfBookingSystemInRadius = await ListOfBookingSystemsInRadius(listOfBookingSystem, bookingTable);
 
             var timeBookedModel = new TimeBookedModel();
             timeBookedModel = await FindTimesForListOfBookingSystems(bookingTable, listOfBookingSystemInRadius);
@@ -177,6 +184,24 @@ namespace DataLogic.Repository
             timeBookedModel.BookingSystemEntity = bookingSystem;
 
             return timeBookedModel;
+        }
+
+        public async Task<List<ArticleEntity>> GetArticlesFromListOfBookingSystem(List<BookingSystemEntity> listOfBookingSystems, BookingTableEntity bookingTable, BookingSystemEntity bookingSystem)
+        {
+            var listOfArticles = new List<ArticleEntity>();
+
+            foreach(var item in listOfBookingSystems)
+            {
+                if(item.ServiceType == bookingSystem.ServiceType)
+                {
+                    var list
+                }
+
+                else
+                {
+                    var listOfArticlesFromBookingSystem = new ArticleRepo().GetArticlesFromBookingSystem(item.BookningSystemId);
+                }
+            }
         }
     }
 }

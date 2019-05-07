@@ -3,6 +3,7 @@ using DataLogic.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -21,6 +22,13 @@ namespace DataLogic.Repository
 
         //Hämtar ett bokningssystem med hjälp av id
         public BookingSystemEntity GetBookingSystem(int id)
+        {
+            var bookingSystem = context.BookingSystems.Find(id);
+            return bookingSystem;
+        }
+
+        //Hämtar ett bokningssystem med hjälp av id
+        public async Task<BookingSystemEntity> GetBookingSystemAsync(int id)
         {
             var bookingSystem = context.BookingSystems.Find(id);
             return bookingSystem;
@@ -54,6 +62,14 @@ namespace DataLogic.Repository
             return listOfServices;
         }
 
+        public async Task<List<BookingSystemEntity>> GetSuggestedServicesAsync(BookingSystemEntity bookingSystem)
+        {
+            var listOfServices = context.BookingSystems.Where(b => b.City == bookingSystem.City && b.BookningSystemId != bookingSystem.BookningSystemId
+            && bookingSystem.ServiceType != b.ServiceType).ToList();
+
+            return listOfServices;
+        }
+
         public int GetBookingSystemServiceType(int id)
         {
             var bookingSystem = GetBookingSystem(id);
@@ -67,5 +83,6 @@ namespace DataLogic.Repository
             var serviceType = Convert.ToInt32(bookingSystem.ServiceType);
             return serviceType;
         }
+
     }
 }

@@ -64,7 +64,7 @@ namespace DataLogic.Context
                 ContactEmail = "klippochtrimm@gmail.com",
                 ContactPhone = "070-000 00 00",
                 Adress = "Sandkullsvägen 24",
-                Latitude = 59.3825808,
+                Latitude = 59.382580,
                 Longitude = 17.917903,
                 PostaICode = "703 65",
                 City = "Stockholm",
@@ -83,7 +83,7 @@ namespace DataLogic.Context
                 CompanyName = "Saras Massage",
                 ContactEmail = "saras.massage@gmail.com",
                 ContactPhone = "070-000 00 00",
-                Adress = "Sandkullsvägen 24",
+                Adress = "Glanshammarsvägen 16",
                 Latitude = 59.382950,
                 Longitude = 17.917660,
                 PostaICode = "703 65",
@@ -176,9 +176,9 @@ namespace DataLogic.Context
             var article3 = new ArticleEntity()
             {
                 ArticleId = 3,
-                Name = "Byta kamrem",
-                Length = 180,
-                Price = 3000,
+                Name = "Besiktning",
+                Length = 30,
+                Price = 600,
                 BookingSystemId = 1,
                 Service = 2
             };
