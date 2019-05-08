@@ -23,7 +23,7 @@ namespace BigData.Controllers
         public ActionResult BookTime(int id)
         {
             var findTimeModel = new FindTimeModel();
-            findTimeModel.ArticleId = id;
+            findTimeModel.Article = AsyncContext.Run(() => (new ArticleController().GetArticle(id)));
             findTimeModel.BookingSystem = AsyncContext.Run(() => (new ArticleController().GetBookingSystemFromArticle(id)));
             findTimeModel.DateChoosen = false;
             return View(findTimeModel);
@@ -34,6 +34,7 @@ namespace BigData.Controllers
         public async Task<ActionResult> BookTime(FindTimeModel findTimeModel)
         {
             findTimeModel.DateChoosen = true;
+            findTimeModel.Article = await new ArticleController().GetArticle(findTimeModel.Article.ArticleId);
             findTimeModel.ListOfTimes = await CreateListOfTimes(findTimeModel);
 
             return View(findTimeModel);
@@ -74,7 +75,7 @@ namespace BigData.Controllers
         public async Task<List<Times>> CreateListOfTimes(FindTimeModel findTimeModel)
         {
 
-            double timeLength = await new ArticleController().GetArticleLength(findTimeModel.ArticleId);
+            double timeLength = findTimeModel.Article.Length;
             var listOfTimes = new List<Times>();
 
             DateTime startTime = SetStartTime(findTimeModel);
@@ -122,12 +123,12 @@ namespace BigData.Controllers
         }
 
         //skickar in en model, med tiden man har valt.
-        public async Task<ActionResult> TimeBooked(DateTime date, DateTime startTime, DateTime endTime, int id)
+        public async Task<ActionResult> TimeBooked(DateTime date, DateTime startTime, DateTime endTime, int articleId)
         {
 
             var bookingTable = new BookingTableEntity
             {
-                ArticleId = id,
+                ArticleId = articleId,
                 Date = date,
                 StartTime = startTime,
                 EndTime = endTime

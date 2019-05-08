@@ -173,5 +173,25 @@ namespace BigData.Controllers
 
             return length;
         }
+
+        [HttpGet]
+        public async Task<ArticleEntity> GetArticle(int id)
+        {
+
+            var url = "http://localhost:60295/api/getarticle/" + id;
+
+            var content = new StringContent(JsonConvert.SerializeObject(id), Encoding.UTF8, "application/json");
+            var response = await client.GetAsync(string.Format(url, content));
+            string result = await response.Content.ReadAsStringAsync();
+
+            var article = JsonConvert.DeserializeObject<ArticleEntity>(result);
+
+            if (response.IsSuccessStatusCode)
+            {
+                return article;
+            }
+
+            return article;
+        }
     }
 }

@@ -83,10 +83,10 @@ namespace DataLogic.Repository
                 StartTime = findTimeModel.CheckTime.StartTime,
                 EndTime = findTimeModel.CheckTime.EndTime,
                 Date = findTimeModel.Time,
-                ArticleId = findTimeModel.ArticleId
+                ArticleId = findTimeModel.Article.ArticleId
             };
 
-            var bookingSystem = await new ArticleRepo().GetBookingSystemFromArticleAsync(findTimeModel.ArticleId);
+            var bookingSystem = await new ArticleRepo().GetBookingSystemFromArticleAsync(findTimeModel.Article.ArticleId);
             var listOfBookingTables = await GetAllBookingTablesAsync();
 
             foreach (var item in listOfBookingTables)

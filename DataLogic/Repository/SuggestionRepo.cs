@@ -73,7 +73,7 @@ namespace DataLogic.Repository
             {
                 var findTimeModel = new FindTimeModel();
 
-                findTimeModel.ArticleId = item.ArticleId;
+                findTimeModel.Article = item;
                 findTimeModel.Time = bookingTable.Date;
 
                 var time = new Times
@@ -101,9 +101,9 @@ namespace DataLogic.Repository
         public async Task<List<Times>> CreateListOfTimes(FindTimeModel findTimeModel, BookingTableEntity bookingTable)
         {
             var listOfTimes = new List<Times>();
-            var length = new ArticleRepo().GetArticleLength(findTimeModel.ArticleId);
+            var length = findTimeModel.Article.Length;
 
-            findTimeModel.BookingSystem = await new ArticleRepo().GetBookingSystemFromArticleAsync(findTimeModel.ArticleId);
+            findTimeModel.BookingSystem = await new ArticleRepo().GetBookingSystemFromArticleAsync(findTimeModel.Article.ArticleId);
 
             DateTime startTime = bookingTable.StartTime.AddMinutes(-length);
             DateTime endTime = startTime.AddMinutes(length);
