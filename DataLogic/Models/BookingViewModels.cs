@@ -16,6 +16,7 @@ namespace DataLogic.Models
         public Times CheckTime { get; set; }
         public double TimeLength { get; set; }
         public int ArticleId { get; set; }
+        public List<ArticleEntity> ListOfArticles { get; set; }
     }
 
     public class Times

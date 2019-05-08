@@ -44,6 +44,13 @@ namespace DataLogic.Repository
             return length;
         }
 
+        public double GetArticleLengthAsync(int id)
+        {
+            var article = GetArticle(id);
+            var length = article.Length;
+            return length;
+        }
+
         public async Task<ArticleEntity> GetArticleAsync(int id)
         {
             var article = context.Articles.Find(id);

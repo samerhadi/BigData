@@ -74,7 +74,7 @@ namespace DataLogic.Repository
             return timeBooked;
         }
 
-        public async Task<bool> CheckIfTimeIsBookedAsync(FindTimeModel findTimeModel, List<BookingTableEntity> listOfBookingTables)
+        public async Task<bool> CheckIfTimeIsBookedAsync(FindTimeModel findTimeModel)
         {
             var timeBooked = false;
 
@@ -84,15 +84,19 @@ namespace DataLogic.Repository
                 EndTime = findTimeModel.CheckTime.EndTime,
                 Date = findTimeModel.Time,
                 ArticleId = findTimeModel.ArticleId
-                //Inget BokningssystemId
             };
+
+            var bookingSystem = await new ArticleRepo().GetBookingSystemFromArticleAsync(findTimeModel.ArticleId);
+            var listOfBookingTables = await GetAllBookingTablesAsync();
 
             foreach (var item in listOfBookingTables)
             {
-              if (item.Date == bookingTableEntity.Date && item.StartTime < bookingTableEntity.EndTime && item.EndTime > bookingTableEntity.StartTime
-                    /*&& item.BookingSystemId == bookingTableEntity.BookingSystemId*/)
+                var thisBookingSystem = await new ArticleRepo().GetBookingSystemFromArticleAsync(item.ArticleId);
+
+                if (item.Date == bookingTableEntity.Date && item.StartTime < bookingTableEntity.EndTime && item.EndTime > bookingTableEntity.StartTime
+                      && thisBookingSystem.BookningSystemId == bookingSystem.BookningSystemId)
                 {
-                     timeBooked = true;
+                    timeBooked = true;
                 }
             }
 

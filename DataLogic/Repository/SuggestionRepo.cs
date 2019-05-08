@@ -64,16 +64,16 @@ namespace DataLogic.Repository
         }
 
         //Returnerar en TimeBookedModel med bokningsystem och deras lediga tider 1h innan och efter gjord bokning
-        public async Task<TimeBookedModel> FindTimesForListOfBookingSystems(BookingTableEntity bookingTable, List<BookingSystemEntity> listOfBookingSystem)
+        public async Task<TimeBookedModel> FindTimesForListOfBookingSystems(BookingTableEntity bookingTable, List<ArticleEntity> listOfArticles)
         {
             var timeBookedModel = new TimeBookedModel();
             var listOfFindTimeModels = new List<FindTimeModel>();
 
-            foreach (var item in listOfBookingSystem)
+            foreach (var item in listOfArticles)
             {
                 var findTimeModel = new FindTimeModel();
 
-                findTimeModel.BookingSystem = item;
+                findTimeModel.ArticleId = item.ArticleId;
                 findTimeModel.Time = bookingTable.Date;
 
                 var time = new Times
@@ -101,14 +101,15 @@ namespace DataLogic.Repository
         public async Task<List<Times>> CreateListOfTimes(FindTimeModel findTimeModel, BookingTableEntity bookingTable)
         {
             var listOfTimes = new List<Times>();
+            var length = new ArticleRepo().GetArticleLength(findTimeModel.ArticleId);
 
-            DateTime startTime = bookingTable.StartTime.AddMinutes(-60);
-            DateTime endTime = startTime.AddMinutes(60);
+            findTimeModel.BookingSystem = await new ArticleRepo().GetBookingSystemFromArticleAsync(findTimeModel.ArticleId);
+
+            DateTime startTime = bookingTable.StartTime.AddMinutes(-length);
+            DateTime endTime = startTime.AddMinutes(length);
 
             DateTime openingTime = SetOpeningTime(findTimeModel);
             DateTime closingTime = SetClosingTime(findTimeModel);
-
-            var listOfBookingTables = await new BookingRepo().GetAllBookingTablesAsync();
 
             for (int i = 0; i < 3; i++)
             {
@@ -118,24 +119,18 @@ namespace DataLogic.Repository
                     times.StartTime = startTime;
                     times.EndTime = endTime;
                     findTimeModel.CheckTime = times;
-                    times.TimeBooked = await CheckIfTimeIsBooked(findTimeModel, listOfBookingTables);
+                    times.TimeBooked = await new BookingRepo().CheckIfTimeIsBookedAsync(findTimeModel);
 
                     if (!times.TimeBooked)
                     {
                         listOfTimes.Add(times);
                     }
                 }
-                startTime = startTime.AddMinutes(60);
-                endTime = endTime.AddMinutes(60);
+                startTime = startTime.AddMinutes(length);
+                endTime = endTime.AddMinutes(length);
             }
 
             return listOfTimes;
-        }
-
-        public async Task<bool> CheckIfTimeIsBooked(FindTimeModel findTimeModel, List<BookingTableEntity> listOfBookingTables)
-        {
-            var booked = await new BookingRepo().CheckIfTimeIsBookedAsync(findTimeModel, listOfBookingTables);
-            return booked;
         }
 
         public DateTime SetOpeningTime(FindTimeModel findTimeModel)
@@ -169,7 +164,7 @@ namespace DataLogic.Repository
             var listOfRandomizedArticles = await RandomizeArticles(listOfArticles);
 
             var timeBookedModel = new TimeBookedModel();
-            timeBookedModel = await FindTimesForListOfBookingSystems(bookingTable, listOfBookingSystemInRadius);
+            timeBookedModel = await FindTimesForListOfBookingSystems(bookingTable, listOfRandomizedArticles);
             timeBookedModel.BookingTableEntity = bookingTable;
             timeBookedModel.BookingSystemEntity = bookingSystem;
 

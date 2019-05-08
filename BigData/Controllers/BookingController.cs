@@ -81,8 +81,6 @@ namespace BigData.Controllers
             DateTime endTime = startTime.AddMinutes(timeLength);
             var timesPerDay = SetTimesPerDay(timeLength);
 
-            var listOfBookingTables = await GetBookingTables();
-
             for (int i = 0; i < timesPerDay; i++)
             {
                 var time = new Times();
@@ -91,7 +89,7 @@ namespace BigData.Controllers
                 time.EndTime = endTime;
 
                 findTimeModel.CheckTime = time;
-                findTimeModel.CheckTime.TimeBooked = await new SuggestionRepo().CheckIfTimeIsBooked(findTimeModel, listOfBookingTables);
+                findTimeModel.CheckTime.TimeBooked = await new BookingRepo().CheckIfTimeIsBookedAsync(findTimeModel);
 
                 listOfTimes.Add(findTimeModel.CheckTime);
                 startTime = startTime.AddMinutes(timeLength);
