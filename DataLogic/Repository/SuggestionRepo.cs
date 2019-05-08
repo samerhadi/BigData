@@ -113,7 +113,7 @@ namespace DataLogic.Repository
 
             for (int i = 0; i < 3; i++) 
             {
-                if (startTime != bookingTable.StartTime && startTime >= openingTime && startTime < closingTime)
+                if (startTime != bookingTable.StartTime && startTime >= openingTime && endTime <= closingTime)
                 {
                     var times = new Times();
                     times.StartTime = startTime;
