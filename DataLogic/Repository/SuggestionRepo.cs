@@ -211,7 +211,7 @@ namespace DataLogic.Repository
             return listOfArticles;
         }
 
-        public async Task<List<ArticleEntity>> GetArticlesFromListOfBookingSystem(BookingTableEntity bookingTable)
+        public async Task<List<ArticleEntity>> GetDifferentArticlesFromBookingSystem(BookingTableEntity bookingTable)
         {
             var article = await new ArticleRepo().GetArticleAsync(bookingTable.ArticleId);
 
