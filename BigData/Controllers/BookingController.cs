@@ -90,7 +90,7 @@ namespace BigData.Controllers
                 time.EndTime = endTime;
 
                 findTimeModel.CheckTime = time;
-                findTimeModel.CheckTime.TimeBooked = await new BookingRepo().CheckIfTimeIsBookedAsync(findTimeModel);
+                findTimeModel.CheckTime.TimeBooked = await CheckIfTimeIsBooked(findTimeModel);
 
                 listOfTimes.Add(findTimeModel.CheckTime);
                 startTime = startTime.AddMinutes(timeLength);
@@ -98,6 +98,25 @@ namespace BigData.Controllers
 
             }
             return listOfTimes;
+        }
+
+        [HttpPost]
+        public async Task<bool> CheckIfTimeIsBooked(FindTimeModel findTimeModel)
+        {
+            var url = "http://localhost:60295/api/checkiftimeisbooked/";
+
+            var content = new StringContent(JsonConvert.SerializeObject(findTimeModel), Encoding.UTF8, "application/json");
+            var response = await client.PostAsync(url, content);
+            string result = await response.Content.ReadAsStringAsync();
+
+            var booked = JsonConvert.DeserializeObject<bool>(result);
+
+            if (response.IsSuccessStatusCode)
+            {
+                return booked;
+            }
+
+            return booked;
         }
 
         //sätter när en bookningssystem öppnar
