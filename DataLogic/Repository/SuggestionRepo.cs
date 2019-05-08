@@ -111,7 +111,7 @@ namespace DataLogic.Repository
             DateTime openingTime = SetOpeningTime(findTimeModel);
             DateTime closingTime = SetClosingTime(findTimeModel);
 
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 3; i++) 
             {
                 if (startTime != bookingTable.StartTime && startTime >= openingTime && startTime < closingTime)
                 {
@@ -126,8 +126,19 @@ namespace DataLogic.Repository
                         listOfTimes.Add(times);
                     }
                 }
-                startTime = startTime.AddMinutes(length);
-                endTime = endTime.AddMinutes(length);
+
+                if(i == 1)
+                {
+                    var article = await new ArticleRepo().GetArticleAsync(bookingTable.ArticleId);
+                    startTime = startTime.AddMinutes(article.Length);
+                    endTime = endTime.AddMinutes(article.Length);
+                }
+
+                else
+                {
+                    startTime = startTime.AddMinutes(length);
+                    endTime = endTime.AddMinutes(length);
+                }
             }
 
             return listOfTimes;
