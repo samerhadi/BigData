@@ -64,7 +64,7 @@ namespace DataLogic.Repository
         }
 
         //Returnerar en TimeBookedModel med bokningsystem och deras lediga tider 1h innan och efter gjord bokning
-        public async Task<TimeBookedModel> FindTimesForListOfBookingSystems(BookingTableEntity bookingTable, List<ArticleEntity> listOfArticles)
+        public async Task<TimeBookedModel> FindTimes(BookingTableEntity bookingTable, List<ArticleEntity> listOfArticles)
         {
             var timeBookedModel = new TimeBookedModel();
             var listOfFindTimeModels = new List<FindTimeModel>();
@@ -170,19 +170,48 @@ namespace DataLogic.Repository
 
             var listOfBookingSystemInRadius = await ListOfBookingSystemsInRadius(listOfBookingSystem, bookingTable);
 
-            var listOfArticles = await GetArticlesFromListOfBookingSystem(listOfBookingSystemInRadius, bookingTable, bookingSystem);
+            var listOfArticles = await GetArticlesFromBookingSystems(listOfBookingSystemInRadius, bookingTable, bookingSystem);
 
             var listOfRandomizedArticles = await RandomizeArticles(listOfArticles);
 
             var timeBookedModel = new TimeBookedModel();
-            timeBookedModel = await FindTimesForListOfBookingSystems(bookingTable, listOfRandomizedArticles);
+
+            timeBookedModel = await FindTimes(bookingTable, listOfRandomizedArticles);
             timeBookedModel.BookingTableEntity = bookingTable;
             timeBookedModel.BookingSystemEntity = bookingSystem;
 
             return timeBookedModel;
         }
 
-        public async Task<List<ArticleEntity>> GetArticlesFromListOfBookingSystem(List<BookingSystemEntity> listOfBookingSystems, BookingTableEntity bookingTable, BookingSystemEntity bookingSystem)
+        //public async Task<List<BookingSystemEntity>> RemoveBookingSystemsOfSameServiceType(List<BookingSystemEntity> listOfBookingSystems, TimeBookedModel timebookedModel)
+        //{
+        //    foreach (var findTimeModel in timebookedModel.ListOfFindTimeModels)
+        //    {
+        //        findTimeModel.
+        //        if (item.ServiceType == bookingSystem.ServiceType)
+        //        {
+        //            if (item.Distance >= bookingSystem.Distance)
+        //            {
+        //                listOfBookingSystems.Remove(item);
+        //                listOfBookingSystems.Add(bookingSystem);
+        //            }
+        //        }
+
+        //        else
+        //        {
+        //            listOfBookingSystems.Add(bookingSystem);
+        //        }
+        //    }
+
+        //    return listOfBookingSystems;
+        //}
+
+        //public async Task<List<BookingSystemEntity>> AddDistance(TimeBookedModel timeBookedModel, List<BookingSystemEntity> listOfBookingSystems)
+        //{
+            
+        //}
+
+        public async Task<List<ArticleEntity>> GetArticlesFromBookingSystems(List<BookingSystemEntity> listOfBookingSystems, BookingTableEntity bookingTable, BookingSystemEntity bookingSystem)
         {
             var listOfArticles = new List<ArticleEntity>();
             var tempListOfArticles = new List<ArticleEntity>();
