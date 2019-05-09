@@ -1,8 +1,11 @@
 ﻿@model DataLogic.Models.TimeBookedModel
 
+<link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
+<link href="~/Content/Site.css" rel="stylesheet" />
 @{
     ViewBag.Title = "TimeBooked";
 }
+
 
 <h2>Dina tider</h2>
 
@@ -30,36 +33,56 @@
 @if (Model.ListOfFindTimeModels != null)
 {
 
-    <div>
-        <p>Andra bokningssystem i samma stad</p>
-        <table class="table table-info" style="width:20%" >
+<div class="page">
+    <p>Lediga tider i närheten </p>
+    <table >
+
+
+        @foreach (var item in Model.ListOfFindTimeModels)
+        {
+        <tr>
+            <th>Företag</th>
+            <th>Tjänst</th>
+            <th> Price</th>
+        </tr>
             <tr>
                 <td>
-                    @foreach (var item in Model.ListOfFindTimeModels)
-                    {
-                        @Html.DisplayFor(model => item.BookingSystem.CompanyName)
-                        <br />
-                        <p>Lediga tider</p>
-                        foreach (var i in item.ListOfTimes)
-                        {
-
-
-                            <ul>
-
-                                <li>
-
-                                   
-                                    @Html.ActionLink(i.StartTime.ToString("HH':'mm") + "-" + i.EndTime.ToString("HH':'mm"), "BookTime", new { id = item.BookingSystem.BookningSystemId })
-                                    <br />
-
-                                </li>
-                            </ul>
-                        }
-                    }
+                    @Html.DisplayFor(model => item.BookingSystem.CompanyName)
                 </td>
-            </tr>
-        </table>
 
+
+                <td>  @Html.DisplayFor(model => item.Article.Name)</td>
+
+
+
+                <td>
+
+                    @Html.DisplayFor(model => item.Article.Price)
+                </td>
+
+            </tr>
+            <tr>
+                <th>Lediga tider</th>
+            </tr>
+            foreach (var i in item.ListOfTimes)
+            {
+
+                <tr>
+                    <td>
+
+
+                        @Html.ActionLink(i.StartTime.ToString("HH':'mm") + "-" + i.EndTime.ToString("HH':'mm"), "BookTime", new { id = item.BookingSystem.BookningSystemId })
+                    </td>
+
+                </tr>
+
+            }
+
+        }
+
+
+    </table>
+       
     </div>
 }
 else
