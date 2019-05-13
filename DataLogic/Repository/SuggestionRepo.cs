@@ -183,14 +183,19 @@ namespace DataLogic.Repository
             return timeBookedModel;
         }
 
-        //public async Task<List<BookingSystemEntity>> RemoveBookingSystemsOfSameServiceType(List<BookingSystemEntity> listOfBookingSystems, TimeBookedModel timebookedModel)
+
+
+        //public async Task<List<BookingSystemEntity>> RemoveBookingSystemsOfSameServiceType(TimeBookedModel timeBookedModel, BookingSystemEntity bookingSystem)
         //{
-        //    foreach (var findTimeModel in timebookedModel.ListOfFindTimeModels)
+        //    foreach (var item in timeBookedModel.ListOfFindTimeModels)
         //    {
-        //        findTimeModel.
-        //        if (item.ServiceType == bookingSystem.ServiceType)
+
+        //        if (item.BookingSystem.ServiceType == timeBookedModel.BookingSystem.ServiceType)
         //        {
-        //            if (item.Distance >= bookingSystem.Distance)
+        //            item.BookingSystem.Distance = await DistanceTo(bookingSystem.Latitude, bookingSystem.Longitude,
+        //                item.BookingSystem.Latitude, item.BookingSystem.Longitude);
+
+        //            if (.Distance >= bookingSystem.Distance)
         //            {
         //                listOfBookingSystems.Remove(item);
         //                listOfBookingSystems.Add(bookingSystem);
@@ -204,11 +209,6 @@ namespace DataLogic.Repository
         //    }
 
         //    return listOfBookingSystems;
-        //}
-
-        //public async Task<List<BookingSystemEntity>> AddDistance(TimeBookedModel timeBookedModel, List<BookingSystemEntity> listOfBookingSystems)
-        //{
-            
         //}
 
         public async Task<List<ArticleEntity>> GetArticlesFromBookingSystems(List<BookingSystemEntity> listOfBookingSystems, BookingTableEntity bookingTable, BookingSystemEntity bookingSystem)

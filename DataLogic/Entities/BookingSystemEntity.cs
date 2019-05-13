@@ -38,5 +38,6 @@ namespace DataLogic.Entities
         Massage = 2,
         BeautySalon = 3,
         Workshop = 4,
+        CarWash = 5
     }
 }
