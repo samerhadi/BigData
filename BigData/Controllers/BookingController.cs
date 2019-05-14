@@ -137,6 +137,7 @@ namespace BigData.Controllers
             double timeOpen = closingTime - openingTime;
             double timeOpenMinutes = timeOpen * 60;
             double timesPerDay = timeOpenMinutes / timeLength;
+            timesPerDay = Math.Floor(timesPerDay);
 
             return timesPerDay;
         }

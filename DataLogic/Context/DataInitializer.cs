@@ -13,7 +13,7 @@ namespace DataLogic.Context
         {
             var bookingsystem1 = new BookingSystemEntity()
             {
-                ServiceType = ServiceType.Workshop,
+                ServiceType = 4,
                 BookningSystemId = 1,
                 SystemName = "Bil och Däck",
                 SystemDescription = "Verkstad",
@@ -33,7 +33,7 @@ namespace DataLogic.Context
 
             var bookingsystem2 = new BookingSystemEntity()
             {
-                ServiceType = ServiceType.Hairdresser,
+                ServiceType = 1,
                 BookningSystemId = 2,
                 SystemName = "Salong Klipp",
                 SystemDescription = "Frisör",
@@ -53,7 +53,7 @@ namespace DataLogic.Context
 
             var bookingsystem3 = new BookingSystemEntity()
             {
-                ServiceType = ServiceType.Hairdresser,
+                ServiceType = 1,
                 BookningSystemId = 3,
                 SystemName = "Klipp och Trimm",
                 SystemDescription = "Frisör",
@@ -73,7 +73,7 @@ namespace DataLogic.Context
 
             var bookingsystem4 = new BookingSystemEntity()
             {
-                ServiceType = ServiceType.Massage,
+                ServiceType = 2,
                 BookningSystemId = 4,
                 SystemName = "Saras Massage",
                 SystemDescription = "Massage",
@@ -93,7 +93,7 @@ namespace DataLogic.Context
 
             var bookingsystem5 = new BookingSystemEntity()
             {
-                ServiceType = ServiceType.BeautySalon,
+                ServiceType = 3,
                 BookningSystemId = 5,
                 SystemName = "Stefans Skön och Fin",
                 SystemDescription = "Skönhetssalong",
@@ -113,7 +113,7 @@ namespace DataLogic.Context
 
             var bookingsystem6 = new BookingSystemEntity()
             {
-                ServiceType = ServiceType.BeautySalon,
+                ServiceType = 3,
                 BookningSystemId = 6,
                 SystemName = "Salong Finast",
                 SystemDescription = "Skönhetssalong",
@@ -130,6 +130,26 @@ namespace DataLogic.Context
                 City = "Örebro",
             };
             context.BookingSystems.Add(bookingsystem6);
+
+            var bookingsystem7 = new BookingSystemEntity()
+            {
+                ServiceType = 5,
+                BookningSystemId = 7,
+                SystemName = "Aspholmens Biltvätt",
+                SystemDescription = "Biltvätt",
+                Email = "aspholmens.biltvatt@gmail.com",
+                PhoneNumber = "070-000 00 00",
+                Website = "www.aspholmensbiltvatt.se",
+                CompanyName = "Aspholmens Biltvätt",
+                ContactEmail = "aspholmens.biltvatt@gmail.com",
+                ContactPhone = "070-000 00 00",
+                Adress = "Skolgatan 42",
+                Latitude = 59.280750,
+                Longitude = 15.233650,
+                PostaICode = "703 65",
+                City = "Örebro",
+            };
+            context.BookingSystems.Add(bookingsystem7);
 
             var bookedTime1 = new BookingTableEntity()
             {
@@ -348,6 +368,50 @@ namespace DataLogic.Context
                 Service = 2
             };
             context.Articles.Add(article18);
+
+            var article19 = new ArticleEntity()
+            {
+                ArticleId = 19,
+                Name = "Biltvätt",
+                Length = 20,
+                Price = 200,
+                BookingSystemId = 7,
+                Service = 1
+            };
+            context.Articles.Add(article19);
+
+            var article20 = new ArticleEntity()
+            {
+                ArticleId = 20,
+                Name = "Städning",
+                Length = 15,
+                Price = 150,
+                BookingSystemId = 7,
+                Service = 1
+            };
+            context.Articles.Add(article20);
+
+            var article21 = new ArticleEntity()
+            {
+                ArticleId = 21,
+                Name = "Biltvätt och Städning",
+                Length = 45,
+                Price = 300,
+                BookingSystemId = 7,
+                Service = 1
+            };
+            context.Articles.Add(article21);
+
+            var article22 = new ArticleEntity()
+            {
+                ArticleId = 22,
+                Name = "Waxning",
+                Length = 30,
+                Price = 300,
+                BookingSystemId = 7,
+                Service = 2
+            };
+            context.Articles.Add(article22);
 
             context.SaveChanges();
             base.Seed(context);

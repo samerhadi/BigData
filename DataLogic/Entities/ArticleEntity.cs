@@ -41,4 +41,10 @@ namespace DataLogic.Entities
         Nails = 2
     }
 
+    public enum Carwash
+    {
+        Wash = 1,
+        Wax = 2
+    }
+
 }
