@@ -27,7 +27,7 @@ namespace DataLogic.Entities
         public string PostaICode { get; set; }
         public string City { get; set; }
         //skapar en variabel av enum klassen
-        public ServiceType ServiceType { get; set; }
+        public int ServiceType { get; set; }
 
     }
 

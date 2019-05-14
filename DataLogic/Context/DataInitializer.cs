@@ -13,7 +13,7 @@ namespace DataLogic.Context
         {
             var bookingsystem1 = new BookingSystemEntity()
             {
-                ServiceType = ServiceType.Workshop,
+                ServiceType = 4,
                 BookningSystemId = 1,
                 SystemName = "Bil och Däck",
                 SystemDescription = "Verkstad",
@@ -33,7 +33,7 @@ namespace DataLogic.Context
 
             var bookingsystem2 = new BookingSystemEntity()
             {
-                ServiceType = ServiceType.Hairdresser,
+                ServiceType = 1,
                 BookningSystemId = 2,
                 SystemName = "Salong Klipp",
                 SystemDescription = "Frisör",
@@ -53,7 +53,7 @@ namespace DataLogic.Context
 
             var bookingsystem3 = new BookingSystemEntity()
             {
-                ServiceType = ServiceType.Hairdresser,
+                ServiceType = 1,
                 BookningSystemId = 3,
                 SystemName = "Klipp och Trimm",
                 SystemDescription = "Frisör",
@@ -73,7 +73,7 @@ namespace DataLogic.Context
 
             var bookingsystem4 = new BookingSystemEntity()
             {
-                ServiceType = ServiceType.Massage,
+                ServiceType = 2,
                 BookningSystemId = 4,
                 SystemName = "Saras Massage",
                 SystemDescription = "Massage",
@@ -93,7 +93,7 @@ namespace DataLogic.Context
 
             var bookingsystem5 = new BookingSystemEntity()
             {
-                ServiceType = ServiceType.BeautySalon,
+                ServiceType = 3,
                 BookningSystemId = 5,
                 SystemName = "Stefans Skön och Fin",
                 SystemDescription = "Skönhetssalong",
@@ -113,7 +113,7 @@ namespace DataLogic.Context
 
             var bookingsystem6 = new BookingSystemEntity()
             {
-                ServiceType = ServiceType.BeautySalon,
+                ServiceType = 3,
                 BookningSystemId = 6,
                 SystemName = "Salong Finast",
                 SystemDescription = "Skönhetssalong",
@@ -133,7 +133,7 @@ namespace DataLogic.Context
 
             var bookingsystem7 = new BookingSystemEntity()
             {
-                ServiceType = ServiceType.CarWash,
+                ServiceType = 5,
                 BookningSystemId = 7,
                 SystemName = "Aspholmens Biltvätt",
                 SystemDescription = "Biltvätt",

@@ -170,7 +170,9 @@ namespace DataLogic.Repository
 
             var listOfBookingSystemInRadius = await ListOfBookingSystemsInRadius(listOfBookingSystem, bookingTable);
 
-            var listOfArticles = await GetArticlesFromBookingSystems(listOfBookingSystemInRadius, bookingTable, bookingSystem);
+            var listOfBookingSystemsBasedOnServiceType = await SelectBookingSystemsBasedOnServiceType(bookingTable, listOfBookingSystemInRadius);
+
+            var listOfArticles = await GetArticlesFromBookingSystems(listOfBookingSystemsBasedOnServiceType, bookingTable, bookingSystem);
 
             var listOfRandomizedArticles = await RandomizeArticles(listOfArticles);
 
@@ -183,7 +185,53 @@ namespace DataLogic.Repository
             return timeBookedModel;
         }
 
+        public async Task<List<BookingSystemEntity>> SelectBookingSystemsBasedOnServiceType(BookingTableEntity bookingTable, List<BookingSystemEntity> listOfBookingSystem)
+        {
+            var bookingSystem = await new ArticleRepo().GetBookingSystemFromArticleAsync(bookingTable.ArticleId);
 
+            var completeListOfBookingSystem = new List<BookingSystemEntity>();
+
+            if (bookingSystem.ServiceType == 5 || bookingSystem.ServiceType == 4)
+            {
+                completeListOfBookingSystem = await ServiceTypeCar(listOfBookingSystem);
+            }
+
+            if(bookingSystem.ServiceType == 1 || bookingSystem.ServiceType == 2 || bookingSystem.ServiceType == 3)
+            {
+                completeListOfBookingSystem = await ServiceTypeBeuty(listOfBookingSystem);
+            }
+
+            return completeListOfBookingSystem;
+        }
+
+        public async Task<List<BookingSystemEntity>> ServiceTypeCar(List<BookingSystemEntity> listOfBookingSystem)
+        {
+            var completeListOfBookingSystems = new List<BookingSystemEntity>();
+
+            foreach(var item in listOfBookingSystem)
+            {
+                if(item.ServiceType == 5 || item.ServiceType == 4)
+                {
+                    completeListOfBookingSystems.Add(item);
+                }
+            }
+
+            return completeListOfBookingSystems;
+        }
+
+        public async Task<List<BookingSystemEntity>> ServiceTypeBeuty(List<BookingSystemEntity> listOfBookingSystem)
+        {
+            var completeListOfBookingSystems = new List<BookingSystemEntity>();
+            foreach (var item in listOfBookingSystem)
+            {
+                if (item.ServiceType == 1 || item.ServiceType == 2 || item.ServiceType == 3)
+                {
+                    completeListOfBookingSystems.Add(item);
+                }
+            }
+
+            return completeListOfBookingSystems;
+        }
 
         //public async Task<List<BookingSystemEntity>> RemoveBookingSystemsOfSameServiceType(TimeBookedModel timeBookedModel, BookingSystemEntity bookingSystem)
         //{
