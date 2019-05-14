@@ -11,7 +11,7 @@
 
 <div>
     <hr />
-    <table class="table table-striped" style="width:40%">
+    <table class="sa">
         <tr>
             <td>
                 @Html.DisplayFor(model => model.BookingSystemEntity.SystemName)
@@ -32,60 +32,43 @@
 
 @if (Model.ListOfFindTimeModels != null)
 {
-
-<div class="page">
-    <p>Lediga tider i närheten </p>
-    <table >
-
+    <hr />
+      <p>Lediga tider i närheten </p>
+    
+  <div class="pag">
 
         @foreach (var item in Model.ListOfFindTimeModels)
         {
-        <tr>
-            <th>Företag</th>
-            <th>Tjänst</th>
-            <th> Price</th>
-        </tr>
-            <tr>
-                <td>
-                    @Html.DisplayFor(model => item.BookingSystem.CompanyName)
-                </td>
+
+      <table class="pag">
+          <tbody>
+              <tr>
+                  <td>
 
 
-                <td>  @Html.DisplayFor(model => item.Article.Name)</td>
+                      @Html.DisplayFor(model => item.BookingSystem.CompanyName)
 
+                      @Html.DisplayFor(model => item.Article.Name)
+                      @Html.DisplayFor(model => item.Article.Price)
 
+                      <h5>Lediga tider</h5>
+                      @foreach (var i in item.ListOfTimes)
+                      {
 
-                <td>
+                          @Html.ActionLink(i.StartTime.ToString("HH':'mm") + "-" + i.EndTime.ToString("HH':'mm"), "BookTime", new { id = item.BookingSystem.BookningSystemId })
 
-                    @Html.DisplayFor(model => item.Article.Price)
-                </td>
-
-            </tr>
-            <tr>
-                <th>Lediga tider</th>
-            </tr>
-            foreach (var i in item.ListOfTimes)
-            {
-
-                <tr>
-                    <td>
-
-
-                        @Html.ActionLink(i.StartTime.ToString("HH':'mm") + "-" + i.EndTime.ToString("HH':'mm"), "BookTime", new { id = item.BookingSystem.BookningSystemId })
-                    </td>
-
-                </tr>
-
-            }
-
+                      }
+                  </td>
+              </tr>
+          </tbody>
+      </table>
         }
-
-
-    </table>
-       
     </div>
 }
+
+
+
 else
 {
-    <p>Inga system hittades</p>
+    < p > Inga system hittades</ p >
 }

@@ -1,6 +1,7 @@
 ﻿body {
     padding-top: 50px;
     padding-bottom: 20px;
+  
    
 }
 
@@ -27,10 +28,22 @@ textarea {
 #map {
     height: 500px;
 }
-.table,tr,th {
-    border: 2px solid #212529;
-    height: 10%;
-    width: 40%;
-    background-color: #b3d7ff;
+
+.sa {
+    background-color: #8ec59a;
 }
+.pag, tr, td {
+    border: 0.5px solid #212529;
+    background-color: rgba(128, 40, 40, 0.05);
+}
+
+.bookingsystem, th, tr, td {
+    background-color: #f8f9fa;
+}
+
+
+.bookingTable, th, tr, td {
+    background-color: #f8f9fa;
+}
+
 

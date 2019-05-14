@@ -201,5 +201,10 @@ namespace BigData.Controllers
             var result = client.DeleteAsync(string.Format(url, content));
 
         }
+
+        public ActionResult TestView()
+        {
+            return View();
+        }
     }
 }

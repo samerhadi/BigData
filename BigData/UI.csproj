@@ -498,6 +498,7 @@
     <Content Include="Views\Article\CreateArticle.cshtml" />
     <Content Include="Views\Article\ArticleAdded.cshtml" />
     <Content Include="Views\Article\GetAllArticles.cshtml" />
+    <Content Include="Views\Booking\TestView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -3,13 +3,13 @@
 @{
     ViewBag.Title = "GetAllBookingTables";
 }
-
+<link href="~/Content/Site.css" rel="stylesheet" />
 <h2>GetAllBookingTables</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
-<table class="table">
+<table class="bookingTable">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.UserName)
