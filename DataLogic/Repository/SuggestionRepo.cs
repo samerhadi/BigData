@@ -64,9 +64,9 @@ namespace DataLogic.Repository
         }
 
         //Returnerar en TimeBookedModel med bokningsystem och deras lediga tider 1h innan och efter gjord bokning
-        public async Task<TimeBookedModel> FindTimes(BookingTableEntity bookingTable, List<ArticleEntity> listOfArticles)
+        public async Task<List<FindTimeModel>> FindTimes(BookingTableEntity bookingTable, List<ArticleEntity> listOfArticles)
         {
-            var timeBookedModel = new TimeBookedModel();
+            var completeListOfFindTimeModels = new List<FindTimeModel>();
             var listOfFindTimeModels = new List<FindTimeModel>();
 
             foreach (var item in listOfArticles)
@@ -91,10 +91,10 @@ namespace DataLogic.Repository
                     listOfFindTimeModels.Add(findTimeModel);
                 }
 
-                timeBookedModel.ListOfFindTimeModels = listOfFindTimeModels;
+                completeListOfFindTimeModels = listOfFindTimeModels;
             }
 
-            return timeBookedModel;
+            return completeListOfFindTimeModels;
         }
 
         //Returnerar en lista med tider för ett bokningssystem 1h innan och efter en bokad tid
@@ -176,13 +176,29 @@ namespace DataLogic.Repository
 
             var listOfRandomizedArticles = await RandomizeArticles(listOfArticles);
 
+            var listOfSuggestionsFromSameBookingSystem = await GetSuggestionsFromSameBookingSystem(bookingTable);
+
             var timeBookedModel = new TimeBookedModel();
 
-            timeBookedModel = await FindTimes(bookingTable, listOfRandomizedArticles);
+            timeBookedModel.ListOfFindTimeModelsForDifferentBookingSystems = await FindTimes(bookingTable, listOfRandomizedArticles);
             timeBookedModel.BookingTableEntity = bookingTable;
             timeBookedModel.BookingSystemEntity = bookingSystem;
+            timeBookedModel.ListOfFindTimeModelsForSameBookingSystem = await FindTimes(bookingTable, listOfSuggestionsFromSameBookingSystem);
 
             return timeBookedModel;
+        }
+
+        public async Task<List<ArticleEntity>> GetSuggestionsFromSameBookingSystem(BookingTableEntity bookingTable)
+        {
+            var bookingSystem = await new ArticleRepo().GetBookingSystemFromArticleAsync(bookingTable.ArticleId);
+
+            var listOfArticles = await GetDifferentArticlesFromBookingSystem(bookingTable);
+
+            var listOfRandomizedArticles = await RandomizeArticles(listOfArticles);
+
+            var completeListOfArticles = listOfRandomizedArticles;
+            
+            return completeListOfArticles;
         }
 
         public async Task<List<BookingSystemEntity>> SelectBookingSystemsBasedOnServiceType(BookingTableEntity bookingTable, List<BookingSystemEntity> listOfBookingSystem)
@@ -294,7 +310,7 @@ namespace DataLogic.Repository
 
             var bookingSystem =  await new ArticleRepo().GetBookingSystemFromArticleAsync(bookingTable.ArticleId);
 
-            var listOfArticles = await new ArticleRepo().GetDifferentArticlesFromBookingSystem(bookingTable.ArticleId, article.Service);
+            var listOfArticles = await new ArticleRepo().GetDifferentArticlesFromBookingSystem(bookingSystem.BookningSystemId, article.Service);
 
             return listOfArticles; 
         }

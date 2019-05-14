@@ -30,45 +30,81 @@
     </table>
 </div>
 
-@if (Model.ListOfFindTimeModels != null)
+@if (Model.ListOfFindTimeModelsForDifferentBookingSystems != null)
 {
     <hr />
-      <p>Lediga tider i närheten </p>
-    
-  <div class="pag">
+    <p>Lediga tider i närheten </p>
 
-        @foreach (var item in Model.ListOfFindTimeModels)
+    <div class="pag">
+
+        @foreach (var item in Model.ListOfFindTimeModelsForDifferentBookingSystems)
         {
+            <table class="pag">
+                <tbody>
+                    <tr>
+                        <td>
 
-      <table class="pag">
-          <tbody>
-              <tr>
-                  <td>
+
+                            @Html.DisplayFor(model => item.BookingSystem.CompanyName)
+
+                            @Html.DisplayFor(model => item.Article.Name)
+                            @Html.DisplayFor(model => item.Article.Price)
+
+                            <h5>Lediga tider</h5>
+                            @foreach (var i in item.ListOfTimes)
+                            {
+
+                                @Html.ActionLink(i.StartTime.ToString("HH':'mm") + "-" + i.EndTime.ToString("HH':'mm"), "BookTime", new { id = item.BookingSystem.BookningSystemId })
+
+                            }
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        }
+    </div>
+}
+
+else
+{
+    <p>Inga system hittades</p>
+}
+
+@if (Model.ListOfFindTimeModelsForSameBookingSystem != null)
+{
+    <hr />
+    <p>Lediga tider på samma företag </p>
+
+    <div class="pag">
+
+        @foreach (var item in Model.ListOfFindTimeModelsForSameBookingSystem)
+        {
+            <table class="pag">
+                <tbody>
+                    <tr>
+                        <td>
 
 
-                      @Html.DisplayFor(model => item.BookingSystem.CompanyName)
+                            @Html.DisplayFor(model => item.BookingSystem.CompanyName)
 
-                      @Html.DisplayFor(model => item.Article.Name)
-                      @Html.DisplayFor(model => item.Article.Price)
+                            @Html.DisplayFor(model => item.Article.Name)
+                            @Html.DisplayFor(model => item.Article.Price)
 
-                      <h5>Lediga tider</h5>
-                      @foreach (var i in item.ListOfTimes)
-                      {
+                            <h5>Lediga tider</h5>
+                            @foreach (var i in item.ListOfTimes)
+                            {
 
-                          @Html.ActionLink(i.StartTime.ToString("HH':'mm") + "-" + i.EndTime.ToString("HH':'mm"), "BookTime", new { id = item.BookingSystem.BookningSystemId })
+                                @Html.ActionLink(i.StartTime.ToString("HH':'mm") + "-" + i.EndTime.ToString("HH':'mm"), "BookTime", new { id = item.BookingSystem.BookningSystemId })
 
-                      }
-                  </td>
-              </tr>
-          </tbody>
-      </table>
+                            }
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         }
     </div>
 }
 
 
 
-else
-{
-    < p > Inga system hittades</ p >
-}
+

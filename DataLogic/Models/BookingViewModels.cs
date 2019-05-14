@@ -16,7 +16,6 @@ namespace DataLogic.Models
         public Times CheckTime { get; set; }
         public double TimeLength { get; set; }
         public ArticleEntity Article { get; set; }
-        public List<ArticleEntity> ListOfArticles { get; set; }
     }
 
     public class Times
@@ -29,7 +28,8 @@ namespace DataLogic.Models
     public class TimeBookedModel
     {
         public BookingTableEntity BookingTableEntity { get; set; }
-        public List<FindTimeModel> ListOfFindTimeModels { get; set; }
+        public List<FindTimeModel> ListOfFindTimeModelsForDifferentBookingSystems { get; set; }
         public BookingSystemEntity BookingSystemEntity { get; set; }
+        public List<FindTimeModel> ListOfFindTimeModelsForSameBookingSystem { get; set; }
     }
 }
