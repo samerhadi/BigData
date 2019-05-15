@@ -35,32 +35,41 @@
     <hr />
     <p>Lediga tider i närheten </p>
 
-    <div class="pag">
+    <div class="div-artiklar">
 
         @foreach (var item in Model.ListOfFindTimeModelsForDifferentBookingSystems)
         {
-            <table class="pag">
-                <tbody>
-                    <tr>
-                        <td>
+        <table class="table-artiklar">
+
+            <tr>
+                <td>
 
 
-                            @Html.DisplayFor(model => item.BookingSystem.CompanyName)
+                    <h3>@Html.DisplayFor(model => item.BookingSystem.CompanyName) </h3>
 
-                            @Html.DisplayFor(model => item.Article.Name)
-                            @Html.DisplayFor(model => item.Article.Price)
+                    <h4> @Html.DisplayFor(model => item.Article.Name)</h4>
+                 
+                    
 
-                            <h5>Lediga tider</h5>
-                            @foreach (var i in item.ListOfTimes)
-                            {
+                    <h5> @Html.DisplayFor(model => item.Article.Price) kr </h5> 
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <h5>Lediga tider</h5>
+                    </td>
+                </tr>
+                    @foreach (var i in item.ListOfTimes)
+                    {
+                <tr>
+                    <td>
+                        @Html.ActionLink(i.StartTime.ToString("HH':'mm") + "-" + i.EndTime.ToString("HH':'mm"), "BookTime", new { id = item.BookingSystem.BookningSystemId })
+                    </td>
+                </tr>
+            }
 
-                                @Html.ActionLink(i.StartTime.ToString("HH':'mm") + "-" + i.EndTime.ToString("HH':'mm"), "BookTime", new { id = item.BookingSystem.BookningSystemId })
 
-                            }
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+                </table>
         }
     </div>
 }
@@ -75,30 +84,43 @@ else
     <hr />
     <p>Lediga tider på samma företag </p>
 
-    <div class="pag">
+    <div class="div-aritklarOlikaFöretag">
 
         @foreach (var item in Model.ListOfFindTimeModelsForSameBookingSystem)
         {
-            <table class="pag">
+            <table class="table-artiklarOlikaFöretag">
                 <tbody>
                     <tr>
                         <td>
 
 
-                            @Html.DisplayFor(model => item.BookingSystem.CompanyName)
+                            <h3>  @Html.DisplayFor(model => item.BookingSystem.CompanyName)</h3>
+                         
+                            <h4>  @Html.DisplayFor(model => item.Article.Name)</h4>
+                   
 
-                            @Html.DisplayFor(model => item.Article.Name)
-                            @Html.DisplayFor(model => item.Article.Price)
-
+                           
+                            <h5>  @Html.DisplayFor(model => item.Article.Price) kr </h5> 
+                        </td>
+                 
+                       
+                    </tr>  
+                    <tr>
+                        <td>
                             <h5>Lediga tider</h5>
-                            @foreach (var i in item.ListOfTimes)
-                            {
-
-                                @Html.ActionLink(i.StartTime.ToString("HH':'mm") + "-" + i.EndTime.ToString("HH':'mm"), "BookTime", new { id = item.BookingSystem.BookningSystemId })
-
-                            }
+                       
                         </td>
                     </tr>
+                    @foreach (var i in item.ListOfTimes)
+                    {
+                        <tr>
+                            <td>
+                                @Html.ActionLink(i.StartTime.ToString("HH':'mm") + "-" + i.EndTime.ToString("HH':'mm"), "BookTime", new { id = item.BookingSystem.BookningSystemId })
+                            </td>
+                        </tr>
+
+                    }
+
                 </tbody>
             </table>
         }
