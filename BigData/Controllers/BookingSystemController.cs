@@ -33,7 +33,7 @@ namespace BigData.Controllers
 
             await Task.Run(() => AddBookingSystem(createBookingSystemModel.BookingSystem));
 
-            return RedirectToAction("GetAllBookingSystems");
+            return RedirectToAction("GetAllBookingSystemsView");
         }
 
         [HttpPost]
