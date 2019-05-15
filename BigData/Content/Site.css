@@ -31,10 +31,21 @@ textarea {
 
 .sa {
     background-color: #8ec59a;
+    width: 30%;
+    height: 150px;
 }
-.pag, tr, td {
+.table-artiklar, tr, td {
     border: 0.5px solid #212529;
     background-color: rgba(128, 40, 40, 0.05);
+    width: 200px;
+}
+
+.div-artiklar {
+    background-color: #f8f9fa;
+    width: 17%;
+}
+div-aritklarOlikaFöretag{
+    background-color: red;
 }
 
 .bookingsystem, th, tr, td {
