@@ -46,7 +46,7 @@ namespace DataLogic.Context
                 Adress = "Skolgatan 42",
                 Latitude = 59.280750,
                 Longitude = 15.223650,
-                PostaICode = "703 65",
+                PostaICode = "703 64",
                 City = "Örebro",
             };
             context.BookingSystems.Add(bookingsystem2);
@@ -66,7 +66,7 @@ namespace DataLogic.Context
                 Adress = "Sandkullsvägen 24",
                 Latitude = 59.382580,
                 Longitude = 17.917903,
-                PostaICode = "703 65",
+                PostaICode = "703 64",
                 City = "Stockholm",
             };
             context.BookingSystems.Add(bookingsystem3);
@@ -86,7 +86,7 @@ namespace DataLogic.Context
                 Adress = "Glanshammarsvägen 16",
                 Latitude = 59.382950,
                 Longitude = 17.917660,
-                PostaICode = "703 65",
+                PostaICode = "703 64",
                 City = "Örebro",
             };
             context.BookingSystems.Add(bookingsystem4);
@@ -106,7 +106,7 @@ namespace DataLogic.Context
                 Adress = "Skolgatan 42",
                 Latitude = 59.281750,
                 Longitude = 15.223650,
-                PostaICode = "703 65",
+                PostaICode = "703 64",
                 City = "Örebro",
             };
             context.BookingSystems.Add(bookingsystem5);
@@ -126,7 +126,7 @@ namespace DataLogic.Context
                 Adress = "Skolgatan 42",
                 Latitude = 59.280750,
                 Longitude = 15.233650,
-                PostaICode = "703 65",
+                PostaICode = "703 64",
                 City = "Örebro",
             };
             context.BookingSystems.Add(bookingsystem6);
@@ -146,7 +146,7 @@ namespace DataLogic.Context
                 Adress = "Skolgatan 42",
                 Latitude = 59.280750,
                 Longitude = 15.233650,
-                PostaICode = "703 65",
+                PostaICode = "703 64",
                 City = "Örebro",
             };
             context.BookingSystems.Add(bookingsystem7);
@@ -295,9 +295,9 @@ namespace DataLogic.Context
             var article12 = new ArticleEntity()
             {
                 ArticleId = 12,
-                Name = "Nack Massage",
-                Length = 15,
-                Price = 250,
+                Name = "Kiropraktor",
+                Length = 45,
+                Price = 600,
                 BookingSystemId = 4,
                 Service = 2
             };

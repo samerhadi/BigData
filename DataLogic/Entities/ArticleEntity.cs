@@ -31,8 +31,8 @@ namespace DataLogic.Entities
 
     public enum Massage
     {
-        Fullbody = 1,
-        Neck = 2
+        Massage = 1,
+        Kiropraktor = 2
     }
 
     public enum BeautySalon
