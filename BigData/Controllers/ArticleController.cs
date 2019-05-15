@@ -16,7 +16,7 @@ namespace BigData.Controllers
     public class ArticleController : Controller
     {
         public static HttpClient client = new HttpClient();
-        
+
         public ActionResult CreateArticle(int id)
         {
             var addArticleModel = new AddArticleModel();
@@ -50,7 +50,7 @@ namespace BigData.Controllers
                     return serviceType = Convert.ToInt32(addArticleModel.Massage);
                 case 3:
                     return serviceType = Convert.ToInt32(addArticleModel.BeautySalon);
-                case 4: 
+                case 4:
                     return serviceType = Convert.ToInt32(addArticleModel.Workshop);
             }
 
@@ -71,15 +71,15 @@ namespace BigData.Controllers
             if (id != null)
             {
                 await Task.Run(() => DeleteArticle(id));
-                
+
             }
 
 
             var getAllArticles = await GetArticles();
-          UpdateModel(getAllArticles);
+            UpdateModel(getAllArticles);
 
             return View(getAllArticles);
-        
+
         }
         [HttpGet]
         public async Task<List<ArticleEntity>> GetArticles()
@@ -99,17 +99,16 @@ namespace BigData.Controllers
                     return listOfAllArticles;
                 }
 
-                
+
             }
             var fail = new List<ArticleEntity>();
             return fail;
         }
 
-
         [HttpGet]
         public async Task<List<ArticleEntity>> GetArticlesFromBookingSystem(int id)
         {
-            
+
             var url = "http://localhost:60295/api/getarticlesfrombookingsystem/" + id;
 
             var content = new StringContent(JsonConvert.SerializeObject(id), Encoding.UTF8, "application/json");

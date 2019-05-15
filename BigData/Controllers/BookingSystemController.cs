@@ -26,8 +26,18 @@ namespace BigData.Controllers
             return View();
         }
         //skapar ett bookingsystem
+
+        public async Task<ActionResult> AddBookingSystemAsync(CreateBookingSystemModel createBookingSystemModel)
+        {
+            createBookingSystemModel.BookingSystem.ServiceType = Convert.ToInt32(createBookingSystemModel.ServiceType);
+
+            await Task.Run(() => AddBookingSystem(createBookingSystemModel.BookingSystem));
+
+            return RedirectToAction("GetAllBookingSystems");
+        }
+
         [HttpPost]
-        public async Task<ActionResult> CreateBookingSystem(BookingSystemEntity bookingSystem)
+        public async void AddBookingSystem(BookingSystemEntity bookingSystem)
         {
 
             bookingSystem = await GetCoordinatesAsync(bookingSystem);
@@ -36,15 +46,6 @@ namespace BigData.Controllers
 
             var content = new StringContent(JsonConvert.SerializeObject(bookingSystem), Encoding.UTF8, "application/json");
             var result = await client.PostAsync(url, content);
-
-            if (result.IsSuccessStatusCode)
-            {
-
-                return RedirectToAction("AllServices");
-
-            }
-
-            return View(bookingSystem);
         }
 
         [HttpGet]

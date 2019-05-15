@@ -14,5 +14,11 @@ namespace DataLogic.Models
             public List<ArticleEntity> ListOFArticles { get; set; }
             public ArticleEntity Article { get; set; }
         }
+
+        public class CreateBookingSystemModel
+        {
+            public BookingSystemEntity BookingSystem { get; set; }
+            public ServiceType ServiceType { get; set; }
+        }
     }
 }
