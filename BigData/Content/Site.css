@@ -57,4 +57,70 @@ div-aritklarOlikaFöretag{
     background-color: #f8f9fa;
 }
 
+body {
+    background-color: #F0F0F0;
+}
+
+.section-plan {
+    background-color: #f1f1f1;
+    padding: 30px;
+}
+
+.plan-box {
+    margin: 0px;
+    border: 1px solid #D9544F;
+    border-radius: 2px;
+}
+
+.plan-danger {
+    background-color: #D9544F;
+}
+
+.section1 {
+    padding: 15px 0px 15px 0px;
+    color: #fff;
+}
+
+.section2 {
+    background-color: #BCBCBC;
+    padding: 15px 0px 15px 0px;
+}
+
+    .section2 h3 {
+        font-size: 30px;
+        color: #757A74;
+        font-weight: bold;
+    }
+
+.section3 {
+    padding: 0px;
+    background-color: #fff;
+}
+
+    .section3 p {
+        padding: 8px;
+        margin: 0px;
+        border-bottom: 1px solid #DDDDDD;
+        color: #787C7D;
+    }
+
+.section4 {
+    background-color: #F5F5F5;
+    padding: 10px;
+}
+
+    .section4 button {
+        font-size: 20px;
+    }
+
+.plan-warning {
+    border: 1px solid #EFAD4D;
+    background-color: #EFAD4D;
+}
+
+.plan-success {
+    border: 1px solid #5BB85D;
+    background-color: #5BB85D;
+}
+
 
