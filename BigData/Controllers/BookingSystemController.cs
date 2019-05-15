@@ -33,7 +33,7 @@ namespace BigData.Controllers
 
             await Task.Run(() => AddBookingSystem(createBookingSystemModel.BookingSystem));
 
-            return RedirectToAction("GetAllBookingSystems");
+            return RedirectToAction("GetAllBookingSystemsView");
         }
 
         [HttpPost]
@@ -87,33 +87,28 @@ namespace BigData.Controllers
             }
 
             var listOfBookingSystems = await GetAllBookingSystems();
-        
 
-          return View(listOfBookingSystems);
+
+            return View(listOfBookingSystems);
         }
 
         [HttpGet]
         public async Task<List<BookingSystemEntity>> GetAllBookingSystems()
         {
-            if (ModelState.IsValid)
+            var url = "http://localhost:60295/api/getallbookingsystems/";
+            var response = await client.GetAsync(string.Format(url));
+            string result = await response.Content.ReadAsStringAsync();
+
+            var listOfAllBookingSystem = JsonConvert.DeserializeObject<List<BookingSystemEntity>>(result);
+
+            if (response.IsSuccessStatusCode)
             {
-                var listOfAllBookingSystem = new List<BookingSystemEntity>();
-
-                var url = "http://localhost:60295/api/getallbookingsystems/";
-                var response = await client.GetAsync(string.Format(url));
-                string result = await response.Content.ReadAsStringAsync();
-
-                listOfAllBookingSystem = JsonConvert.DeserializeObject<List<BookingSystemEntity>>(result);
-                
-                if (response.IsSuccessStatusCode)
-                {
-                    return listOfAllBookingSystem;
-                }
+                return listOfAllBookingSystem;
             }
 
-            var fail = new List<BookingSystemEntity>();
-            return fail;
+            return listOfAllBookingSystem;
         }
+
         //hämtar alla bookningsystem som ligger i samma stad
         [HttpGet]
         public async Task<ActionResult> ChoosenCity(string city)
