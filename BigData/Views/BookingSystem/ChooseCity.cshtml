@@ -5,29 +5,28 @@
 }
 
 
-
-@Html.ActionLink("Örebro ", "ChoosenCity", new { city = "Örebro" })
 <br />
-@Html.ActionLink("Stockholm ", "ChoosenCity", new { city = "Stockholm" })
+<h2>@Html.ActionLink("Örebro ", "ChoosenCity", new { city = "Örebro" })</h2>
+<h2>@Html.ActionLink("Stockholm ", "ChoosenCity", new { city = "Stockholm" })</h2>
 
 @*<button id="button-hej">heeeej</button>*@
 
 @*<script type="text/javascript">
 
-     console.log("gasdfasdf")
-     var systemDate = "2018-04-23"
-     $("#button-hej").click(function () {
-                console.log("asdfa")
-                $.ajax({
-                    url: "http://localhost:60295/api/createsystem",
-                    type: "POST",
-                    data: {
-                        Time: systemDate
+         console.log("gasdfasdf")
+         var systemDate = "2018-04-23"
+         $("#button-hej").click(function () {
+                    console.log("asdfa")
+                    $.ajax({
+                        url: "http://localhost:60295/api/createsystem",
+                        type: "POST",
+                        data: {
+                            Time: systemDate
 
-                    },
-                    success: function (result) {
-                        alert(result);
-                    }
+                        },
+                        success: function (result) {
+                            alert(result);
+                        }
+                    });
                 });
-            });
-</script>*@
+    </script>*@
