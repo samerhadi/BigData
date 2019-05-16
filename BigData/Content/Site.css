@@ -37,7 +37,7 @@ textarea {
 
 
 .section-plan {
-    padding: 30px;
+    padding: 10px;
 }
 
 .plan-box {
@@ -63,7 +63,7 @@ textarea {
     height: 60px;
 }
 
-    .section2 h3 {
+.section2 h3 {
         font-size: 30px;
         color: #757A74;
         font-weight: bold;
@@ -74,7 +74,7 @@ textarea {
     background-color: #fff;
 }
 
-    .section3 p {
+.section3 p {
         padding: 8px;
         margin: 0px;
         border-bottom: 1px solid #DDDDDD;
@@ -87,7 +87,7 @@ textarea {
     height: 60px;
 }
 
-    .section4 button {
+.section4 button {
         font-size: 15px;
     }
 
@@ -106,5 +106,23 @@ textarea {
     background-color: white;
     text-align: center;
 }
+
+.booking-button {
+    width: 160px;
+    float: left;
+}
+
+.booking-button-main-div {
+    width: 100%;
+    padding: 10px;
+    margin: 10px;
+    height: 400px;
+}
+
+.booking-button-div {
+    margin: 10px;
+    padding: 10px;
+}
+
 
 
