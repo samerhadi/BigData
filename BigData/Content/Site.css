@@ -30,35 +30,13 @@ textarea {
 }
 
 .sa {
-    background-color: #8ec59a;
-    width: 30%;
+    background-color: #00ff3a;
+    width: 300px;
     height: 150px;
 }
-.table-artiklar, tr, td {
-    border: 0.5px solid #212529;
-    background-color: rgba(128, 40, 40, 0.05);
-    width: 200px;
-}
 
-.div-artiklar {
-    background-color: #f8f9fa;
-    width: 17%;
-}
-div-aritklarOlikaFöretag{
-    background-color: red;
-}
-
-.bookingsystem, th, tr, td {
-    background-color: #f8f9fa;
-}
-
-
-.bookingTable, th, tr, td {
-    background-color: #f8f9fa;
-}
 
 .section-plan {
-    background-color: #f1f1f1;
     padding: 30px;
 }
 
@@ -69,17 +47,20 @@ div-aritklarOlikaFöretag{
 }
 
 .plan-danger {
-    background-color: #D9544F;
+    background-color: #D9544F;  
+
 }
 
 .section1 {
     padding: 15px 0px 15px 0px;
     color: #fff;
+    height: 60px;
 }
 
 .section2 {
     background-color: #BCBCBC;
     padding: 15px 0px 15px 0px;
+    height: 60px;
 }
 
     .section2 h3 {
@@ -103,10 +84,11 @@ div-aritklarOlikaFöretag{
 .section4 {
     background-color: #F5F5F5;
     padding: 10px;
+    height: 60px;
 }
 
     .section4 button {
-        font-size: 20px;
+        font-size: 15px;
     }
 
 .plan-warning {
