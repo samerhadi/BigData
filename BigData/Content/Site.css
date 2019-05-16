@@ -110,6 +110,7 @@ textarea {
 .booking-button {
     width: 160px;
     float: left;
+    margin-top: 0.5rem;
 }
 
 .booking-button-main-div {
