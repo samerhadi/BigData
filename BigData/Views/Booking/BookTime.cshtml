@@ -25,25 +25,46 @@
     @Html.HiddenFor(model => model.BookingSystem.BookningSystemId)
     @Html.HiddenFor(model => model.Time)
     @Html.HiddenFor(model => model.Article.ArticleId)
-    foreach (var item in Model.ListOfTimes)
-    {
-        if (!item.TimeBooked)
+
+    <div class="booking-button-main-div">
+        @foreach (var item in Model.ListOfTimes)
         {
-            @Html.ActionLink(item.StartTime.ToString("HH':'mm") + "-" + item.EndTime.ToString("HH':'mm"), "TimeBooked", new { date = Model.Time, startTime = item.StartTime, endTime = item.EndTime,
-                articleId = Model.Article.ArticleId,  })
-            <br />
+            if (!item.TimeBooked)
+            {
+                @*@Html.ActionLink(item.StartTime.ToString("HH':'mm") + "-" + item.EndTime.ToString("HH':'mm"), "TimeBooked", new { date = Model.Time, startTime = item.StartTime, endTime = item.EndTime,
+                    articleId = Model.Article.ArticleId,  })*@
+
+                <button class="btn btn-success btn-block booking-button" onclick="location.href='@Url.Action("TimeBooked", "Booking", new
+                                                                                            {
+                                                                                                date = Model.Time,
+                                                                                                startTime = item.StartTime,
+                                                                                                endTime = item.EndTime,
+                                                                                                articleId = Model.Article.ArticleId,
+                                                                                            })'">
+
+                    @string.Format("Boka " + item.StartTime.ToString("HH':'mm") + "-" + item.EndTime.ToString("HH':'mm"))
+                </button>
+
+
+            }
+
+            else
+            {
+                <button class="btn btn-danger btn-block booking-button" disabled onclick="location.href='@Url.Action("TimeBooked", "Booking", new
+                                                                                            {
+                                                                                                date = Model.Time,
+                                                                                                startTime = item.StartTime,
+                                                                                                endTime = item.EndTime,
+                                                                                                articleId = Model.Article.ArticleId,
+                                                                                            })'">
+
+                    @string.Format("Bokad " + item.StartTime.ToString("HH':'mm") + "-" + item.EndTime.ToString("HH':'mm"))
+                </button>
+
+
+            }
         }
-
-        else
-        {
-            @Html.Label(item.StartTime.ToString("HH':'mm"))
-            @Html.Label("-")
-            @Html.Label(item.EndTime.ToString("HH':'mm"))
-            <br>
-        }
-
-
-    }
+    </div>
 }
 
 <link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
