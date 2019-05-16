@@ -181,8 +181,8 @@ namespace DataLogic.Repository
             var timeBookedModel = new TimeBookedModel();
 
             timeBookedModel.ListOfFindTimeModelsForDifferentBookingSystems = await FindTimes(bookingTable, listOfRandomizedArticles);
-            timeBookedModel.BookingTableEntity = bookingTable;
-            timeBookedModel.BookingSystemEntity = bookingSystem;
+            timeBookedModel.BookingTable = bookingTable;
+            timeBookedModel.BookingSystem = bookingSystem;
             timeBookedModel.ListOfFindTimeModelsForSameBookingSystem = await FindTimes(bookingTable, listOfSuggestionsFromSameBookingSystem);
 
             return timeBookedModel;

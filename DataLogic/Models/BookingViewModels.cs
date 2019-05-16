@@ -27,9 +27,10 @@ namespace DataLogic.Models
 
     public class TimeBookedModel
     {
-        public BookingTableEntity BookingTableEntity { get; set; }
+        public BookingTableEntity BookingTable { get; set; }
         public List<FindTimeModel> ListOfFindTimeModelsForDifferentBookingSystems { get; set; }
-        public BookingSystemEntity BookingSystemEntity { get; set; }
+        public BookingSystemEntity BookingSystem { get; set; }
         public List<FindTimeModel> ListOfFindTimeModelsForSameBookingSystem { get; set; }
+        public ArticleEntity Article { get; set; }
     }
 }

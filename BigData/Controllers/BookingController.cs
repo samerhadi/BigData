@@ -157,6 +157,7 @@ namespace BigData.Controllers
             await Task.Run(() => AddBooking(bookingTable));
 
             var timeBookedModel = await GetSuggestion(bookingTable);
+            timeBookedModel.Article = await new ArticleRepo().GetArticleAsync(articleId);
 
             return View(timeBookedModel);
         }

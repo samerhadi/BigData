@@ -9,25 +9,24 @@
     ViewBag.Title = "TimeBooked";
 }
 
-
-<h2>Dina tider</h2>
-
 <div>
     <hr />
     <table>
         <tr>
             <td class="sa">
-                @Html.DisplayFor(model => model.BookingSystemEntity.SystemName)
+                <h3>Din Bokning:</h3>
+                
+
+                @Html.DisplayFor(model => model.BookingSystem.SystemName)
                 <br />
 
-                @Html.DisplayFor(model => model.BookingSystemEntity.SystemDescription)
+                @Html.DisplayFor(model => model.Article.Name)
                 <br />
 
-                <p>Tiden du har bokat:</p>
-                @string.Format("{0: yyyy-MM-dd}", Model.BookingTableEntity.Date)
+                @string.Format("{0: yyyy-MM-dd}", Model.BookingTable.Date)
                 <br />
 
-                @string.Format(" Tid  " + Model.BookingTableEntity.StartTime.ToString("HH':'mm") + "-" + Model.BookingTableEntity.EndTime.ToString("HH':'mm"))
+                @string.Format(" Tid  " + Model.BookingTable.StartTime.ToString("HH':'mm") + "-" + Model.BookingTable.EndTime.ToString("HH':'mm"))
             </td>
         </tr>
     </table>
@@ -37,7 +36,6 @@
 {
     <hr />
     <p>Lediga tider i närheten </p>
-
 
     <div class="container section-plan">
         <div class="row">
@@ -66,7 +64,8 @@
                                                                                                 articleId = item.Article.ArticleId,
                                                                                             })'">
 
-                                    @Html.Label("Boka " + i.StartTime.ToString("HH':'mm") + "-" + i.EndTime.ToString("HH':'mm"))
+                                    @*@Html.Label("Boka " + i.StartTime.ToString("HH':'mm") + "-" + i.EndTime.ToString("HH':'mm"))*@
+                                    @string.Format("Boka " + i.StartTime.ToString("HH':'mm") + "-" + i.EndTime.ToString("HH':'mm"))
                                 </button>
                             </div>
                             <br />
@@ -115,7 +114,8 @@ else
                                                                                                 articleId = item.Article.ArticleId,
                                                                                             })'">
 
-                                    @Html.Label("Boka " + i.StartTime.ToString("HH':'mm") + "-" + i.EndTime.ToString("HH':'mm"))
+                                    @*@Html.Label("Boka " + i.StartTime.ToString("HH':'mm") + "-" + i.EndTime.ToString("HH':'mm"))*@
+                                    @string.Format("Boka " + i.StartTime.ToString("HH':'mm") + "-" + i.EndTime.ToString("HH':'mm"))
                                 </button>
                             </div>
                             <br />
