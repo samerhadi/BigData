@@ -30,7 +30,7 @@
     </table>
 </div>
 
-@if (Model.ListOfFindTimeModelsForDifferentBookingSystems != null)
+@if(Model.ListOfFindTimeModelsForDifferentBookingSystems.Count() > 0)
 {
     <hr />
     <p>Lediga tider i närheten </p>
@@ -80,7 +80,7 @@ else
     <p>Inga system hittades</p>
 }
 
-@if (Model.ListOfFindTimeModelsForSameBookingSystem != null)
+@if(Model.ListOfFindTimeModelsForSameBookingSystem.Count() > 0)
 {
     <hr />
     <p>Lediga tider på samma företag </p>
