@@ -43,7 +43,6 @@
         <div class="row">
             @foreach (var item in Model.ListOfFindTimeModelsForDifferentBookingSystems)
             {
-
                 <div class="col-md-4 col-sm-4 col-xs-12">
                     <div class="row plan-box plan-danger text-center">
                         <div class="col-md-12 section1">
@@ -59,8 +58,15 @@
                         @foreach (var i in item.ListOfTimes)
                         {
                             <div class="col-md-12 section4">
-                                <button class="btn btn-danger btn-block">
-                                    @Html.ActionLink(i.StartTime.ToString("HH':'mm") + "-" + i.EndTime.ToString("HH':'mm"), "BookTime", new { id = item.BookingSystem.BookningSystemId })
+                                <button class="btn btn-danger btn-block" onclick="location.href='@Url.Action("TimeBooked", "Booking", new
+                                                                                            {
+                                                                                                date = item.Time,
+                                                                                                startTime = i.StartTime,
+                                                                                                endTime = i.EndTime,
+                                                                                                articleId = item.Article.ArticleId,
+                                                                                            })'">
+
+                                    @Html.Label("Boka " + i.StartTime.ToString("HH':'mm") + "-" + i.EndTime.ToString("HH':'mm"))
                                 </button>
                             </div>
                             <br />
@@ -70,7 +76,6 @@
             }
         </div>
     </div>
-
 }
 
 else
@@ -83,38 +88,42 @@ else
     <hr />
     <p>Lediga tider på samma företag </p>
 
-    <div class="div-aritklarOlikaFöretag">
+    <div class="container section-plan">
+        <div class="row">
+            @foreach (var item in Model.ListOfFindTimeModelsForSameBookingSystem)
+            {
+                <div class="col-md-4 col-sm-4 col-xs-12">
+                    <div class="row plan-box plan-success text-center">
+                        <div class="col-md-12 section1">
+                            <h2>@Html.DisplayFor(model => item.BookingSystem.CompanyName)</h2>
+                        </div>
+                        <div class="col-md-12 section2">
+                            <h3>@Html.DisplayFor(model => item.Article.Price) kr</h3>
+                        </div>
+                        <div class="col-md-12 section3">
+                            <p>@Html.DisplayFor(model => item.Article.Name)</p>
+                            <p>@Html.DisplayFor(model => item.Article.Length)min</p>
+                        </div>
+                        @foreach (var i in item.ListOfTimes)
+                        {
+                            <div class="col-md-12 section4">
+                                <button class="btn btn-success btn-block" onclick="location.href='@Url.Action("TimeBooked", "Booking", new
+                                                                                            {
+                                                                                                date = item.Time,
+                                                                                                startTime = i.StartTime,
+                                                                                                endTime = i.EndTime,
+                                                                                                articleId = item.Article.ArticleId,
+                                                                                            })'">
 
-        @foreach (var item in Model.ListOfFindTimeModelsForSameBookingSystem)
-        {
-            <table class="table-artiklarOlikaFöretag">
-                <tbody>
-                    <tr>
-                        <td>
-                            <h3>  @Html.DisplayFor(model => item.BookingSystem.CompanyName)</h3>
-                            <h4>  @Html.DisplayFor(model => item.Article.Name)</h4>
-                            <h5>  @Html.DisplayFor(model => item.Article.Price) kr </h5>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <h5>Lediga tider</h5>
-
-                        </td>
-                    </tr>
-
-                    @foreach (var i in item.ListOfTimes)
-                    {
-                        <tr>
-                            <td>
-                                @Html.ActionLink(i.StartTime.ToString("HH':'mm") + "-" + i.EndTime.ToString("HH':'mm"), "BookTime", new { id = item.BookingSystem.BookningSystemId })
-                            </td>
-                        </tr>
-                    }
-
-                </tbody>
-            </table>
-        }
+                                    @Html.Label("Boka " + i.StartTime.ToString("HH':'mm") + "-" + i.EndTime.ToString("HH':'mm"))
+                                </button>
+                            </div>
+                            <br />
+                        }
+                    </div>
+                </div>
+            }
+        </div>
     </div>
 }
 
