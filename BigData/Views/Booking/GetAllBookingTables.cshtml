@@ -11,18 +11,7 @@
 </p>
 <table class="bookingTable">
     <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.UserName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.UserMail)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.UserMobile)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Subject)
-        </th>
+ 
         <th>
             @Html.DisplayNameFor(model => model.Date)
         </th>
@@ -32,29 +21,13 @@
         <th>
             @Html.DisplayNameFor(model => model.EndTime)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Price)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ArticleId)
-        </th>
+    
         <th></th>
     </tr>
 
 @foreach (var item in Model) {
     <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.UserName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.UserMail)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.UserMobile)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Subject)
-        </td>
+  
         <td>
             @Html.DisplayFor(modelItem => item.Date)
         </td>
@@ -64,12 +37,8 @@
         <td>
             @Html.DisplayFor(modelItem => item.EndTime)
         </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Price)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ArticleId)
-        </td>
+   
+     
         <td>
             @Html.ActionLink("Delete", "GetAllBookingTables", new { id = item.BookingTableId })
         </td>

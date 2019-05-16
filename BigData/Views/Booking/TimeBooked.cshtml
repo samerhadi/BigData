@@ -15,7 +15,7 @@
         <tr>
             <td class="sa">
                 <h3>Din Bokning:</h3>
-                
+
 
                 @Html.DisplayFor(model => model.BookingSystem.SystemName)
                 <br />
@@ -27,7 +27,13 @@
                 <br />
 
                 @string.Format(" Tid  " + Model.BookingTable.StartTime.ToString("HH':'mm") + "-" + Model.BookingTable.EndTime.ToString("HH':'mm"))
-            </td>
+
+                
+
+                    @Html.ActionLink("Delete", "GetAllBookingTables", new { id = Model.BookingTable.BookingTableId })
+             
+
+                </td>
         </tr>
     </table>
 </div>

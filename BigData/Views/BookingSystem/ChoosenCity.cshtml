@@ -7,69 +7,64 @@
     ViewBag.Title = "ChoosenCity";
 }
 <br />
+ <h2>Örebro </h2>
+    <br />
+    <table class="table">
 
-<h2>Örebro</h2>
-<br />
-<table class="table">
-
-
-
-    <tr>
-     
-        <th>
-            @Html.DisplayNameFor(model => model.SystemName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.SystemDescription)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Email)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.PhoneNumber)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Adress)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.PostaICode)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.City)
-        </th>
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
         <tr>
-         
-            <td>
-                @Html.DisplayFor(modelItem => item.SystemName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SystemDescription)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PhoneNumber)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Adress)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PostaICode)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.City)
-            </td>   
-            <td>
-                @Html.ActionLink("Gå till " + item.SystemName, "ChoosenBookingSystem", new { id = item.BookningSystemId })
-            </td>
+            <th>
+                @Html.DisplayNameFor(model => model.SystemName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SystemDescription)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PhoneNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Adress)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PostaICode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.City)
+            </th>
+            <th></th>
         </tr>
-    }
 
-</table>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SystemName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SystemDescription)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PhoneNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Adress)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PostaICode)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.City)
+                </td>
+                <td>
+                    @Html.ActionLink("Gå till " + item.SystemName, "ChoosenBookingSystem", new { id = item.BookningSystemId })
+                </td>
+            </tr>
+        }
+
+    </table>
 
