@@ -4,11 +4,11 @@
     ViewBag.Title = "GetAllBookingSystems";
 }
 <link href="~/Content/Site.css" rel="stylesheet" />
-<h2>GetAllBookingSystems</h2>
+<br />
+<h2>Alla bookningSystem</h2>
+<br />
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+
 <table class="bookingsystem">
     <tr>
         <th>
@@ -24,25 +24,25 @@
             @Html.DisplayNameFor(model => model.PhoneNumber)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Website)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CompanyName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ContactEmail)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ContactPhone)
-        </th>
-        <th>
             @Html.DisplayNameFor(model => model.Adress)
         </th>
-  
+
         <th>
             @Html.DisplayNameFor(model => model.PostaICode)
         </th>
- 
+        <th>
+            @Html.DisplayNameFor(model => model.PostaICode)
+        </th>
+
+        <th>
+            <h6>Delete</h6>
+        </th>
+
+        <th>
+            <h6>Artiklar</h6>
+        </th>
+
+
         <th></th>
     </tr>
 
@@ -60,18 +60,7 @@
         <td>
             @Html.DisplayFor(modelItem => item.PhoneNumber)
         </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Website)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CompanyName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ContactEmail)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ContactPhone)
-        </td>
+       
         <td>
             @Html.DisplayFor(modelItem => item.Adress)
         </td>

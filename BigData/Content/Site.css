@@ -101,4 +101,10 @@ textarea {
     background-color: #5BB85D;
 }
 
+.bookingsystem, tr, td {
+    border: 1px solid #212529;
+    background-color: white;
+    text-align: center;
+}
+
 

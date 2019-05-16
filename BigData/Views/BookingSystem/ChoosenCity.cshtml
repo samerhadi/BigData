@@ -6,21 +6,16 @@
 @{
     ViewBag.Title = "ChoosenCity";
 }
+<br />
 
-
-<h2>ChoosenCity</h2>
-
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+<h2>Örebro</h2>
+<br />
 <table class="table">
 
 
 
     <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.ServiceType)
-        </th>
+     
         <th>
             @Html.DisplayNameFor(model => model.SystemName)
         </th>
@@ -34,23 +29,7 @@
             @Html.DisplayNameFor(model => model.PhoneNumber)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Website)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CompanyName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ContactEmail)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ContactPhone)
-        </th>
-        <th>
             @Html.DisplayNameFor(model => model.Adress)
-        </th>
-      
-        <th>
-            @Html.DisplayNameFor(model => model.Distance)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.PostaICode)
@@ -64,9 +43,7 @@
     @foreach (var item in Model)
     {
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ServiceType)
-            </td>
+         
             <td>
                 @Html.DisplayFor(modelItem => item.SystemName)
             </td>
@@ -80,23 +57,7 @@
                 @Html.DisplayFor(modelItem => item.PhoneNumber)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Website)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CompanyName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ContactEmail)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ContactPhone)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.Adress)
-            </td>
-       
-            <td>
-                @Html.DisplayFor(modelItem => item.Distance)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.PostaICode)
