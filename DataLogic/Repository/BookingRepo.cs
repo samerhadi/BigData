@@ -81,7 +81,7 @@ namespace DataLogic.Repository
         {
             var timeBooked = false;
 
-            var bookingTableEntity = new BookingTableEntity
+            var bookingTable = new BookingTableEntity
             {
                 StartTime = findTimeModel.CheckTime.StartTime,
                 EndTime = findTimeModel.CheckTime.EndTime,
@@ -90,20 +90,26 @@ namespace DataLogic.Repository
             };
 
             var bookingSystem = await new ArticleRepo().GetBookingSystemFromArticleAsync(findTimeModel.Article.ArticleId);
-            var listOfBookingTables = await GetAllBookingTablesAsync();
+
+            var listOfBookingTables = await GetOneDayBookingTablesFromBookingSystem(bookingSystem, bookingTable.Date);
 
             foreach (var item in listOfBookingTables)
             {
                 var thisBookingSystem = await new ArticleRepo().GetBookingSystemFromArticleAsync(item.ArticleId);
 
-                if (item.Date == bookingTableEntity.Date && item.StartTime < bookingTableEntity.EndTime && item.EndTime > bookingTableEntity.StartTime
-                      && thisBookingSystem.BookningSystemId == bookingSystem.BookningSystemId)
+                if (item.StartTime < bookingTable.EndTime && item.EndTime > bookingTable.StartTime)
                 {
                     timeBooked = true;
                 }
             }
 
             return timeBooked;
+        }
+
+        public async Task<List<BookingTableEntity>> GetOneDayBookingTablesFromBookingSystem(BookingSystemEntity bookingSystem, DateTime date)
+        {
+            var listOfBookingTableEntity = context.BookingTabels.Where(b => b.BookingSystemId == bookingSystem.BookningSystemId && b.Date == date).ToList();
+            return listOfBookingTableEntity;
         }
     }
 }
