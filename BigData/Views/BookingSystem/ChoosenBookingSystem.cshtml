@@ -4,27 +4,12 @@
     ViewBag.Title = "ChoosenService";
 }
 
-<h2>ChoosenService</h2>
+<h2>  @Html.DisplayFor(model => model.BookingSystem.SystemName)</h2>
 
 <div>
-    <h4>BookingSystemEntity</h4>
+    <h4>  @Html.DisplayFor(model => model.BookingSystem.SystemDescription)</h4>
     <hr />
     <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.BookingSystem.SystemName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.BookingSystem.SystemName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.BookingSystem.SystemDescription)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.BookingSystem.SystemDescription)
-        </dd>
 
         <dt>
             @Html.DisplayNameFor(model => model.BookingSystem.Email)
@@ -40,38 +25,6 @@
 
         <dd>
             @Html.DisplayFor(model => model.BookingSystem.PhoneNumber)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.BookingSystem.Website)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.BookingSystem.Website)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.BookingSystem.CompanyName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.BookingSystem.CompanyName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.BookingSystem.ContactEmail)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.BookingSystem.ContactEmail)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.BookingSystem.ContactPhone)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.BookingSystem.ContactPhone)
         </dd>
 
         <dt>
@@ -144,9 +97,7 @@
     }
 
 </table>
-<p>
-    @Html.ActionLink("Back to List", "AllServices")
-</p>
+
 
 <!DOCTYPE html>
 <html>

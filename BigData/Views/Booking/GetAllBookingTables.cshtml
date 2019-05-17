@@ -4,14 +4,15 @@
     ViewBag.Title = "GetAllBookingTables";
 }
 <link href="~/Content/Site.css" rel="stylesheet" />
-<h2>GetAllBookingTables</h2>
+<h2>Alla bokningar</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+
 <table class="bookingTable">
     <tr>
- 
+
+        <th>
+            @Html.DisplayNameFor(model => model.ArticleId)
+        </th>
         <th>
             @Html.DisplayNameFor(model => model.Date)
         </th>
@@ -21,13 +22,15 @@
         <th>
             @Html.DisplayNameFor(model => model.EndTime)
         </th>
-    
+
         <th></th>
     </tr>
 
 @foreach (var item in Model) {
     <tr>
-  
+        <td>
+            @Html.DisplayFor(modelItem => item.ArticleId)
+        </td>
         <td>
             @Html.DisplayFor(modelItem => item.Date)
         </td>
@@ -36,9 +39,10 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.EndTime)
+
         </td>
-   
-     
+
+
         <td>
             @Html.ActionLink("Delete", "GetAllBookingTables", new { id = item.BookingTableId })
         </td>

@@ -19,5 +19,6 @@ namespace DataLogic.Entities
         public DateTime EndTime { get; set; }
         public int Price { get; set; }
         public int ArticleId { get; set; }
+      
     }
 }
