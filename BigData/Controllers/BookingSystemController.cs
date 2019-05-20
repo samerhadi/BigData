@@ -40,7 +40,7 @@ namespace BigData.Controllers
         public async void AddBookingSystem(BookingSystemEntity bookingSystem)
         {
 
-            bookingSystem = await GetCoordinatesAsync(bookingSystem);
+            bookingSystem = await GetCoordinates(bookingSystem);
 
             var url = "http://localhost:60295/api/addbookingsystem";
 
@@ -79,7 +79,7 @@ namespace BigData.Controllers
         }
 
         //hämtar alla bookingsystem
-        public async Task<ActionResult> GetAllBookingSystemsView(int? id)
+        public async Task<ActionResult> AllBookingSystems(int? id)
         {
             if (id != null)
             {
@@ -147,6 +147,7 @@ namespace BigData.Controllers
         {
             return View();
         }
+
 #pragma warning disable 1998
         //sorterar system efter servicetype
         public async Task<List<BookingSystemEntity>> SortListByServiceType(List<BookingSystemEntity> listOfBookingSystems)
@@ -154,10 +155,10 @@ namespace BigData.Controllers
             var sortedlist = listOfBookingSystems.OrderByDescending(x => (int)(x.ServiceType)).ToList();
             return sortedlist;
         }
-        //hämtar kordinater för en adress
-        public async Task<BookingSystemEntity> GetCoordinatesAsync(BookingSystemEntity system)
-        {
 
+        //hämtar kordinater för en adress
+        public async Task<BookingSystemEntity> GetCoordinates(BookingSystemEntity system)
+        {
             string cityName = system.City;
             string streetName = system.Adress;
 
@@ -175,6 +176,7 @@ namespace BigData.Controllers
 
             return system;
         }
+
         //tar bort ett system
         [HttpDelete]
         public async void DeleteSystem(int? id)

@@ -83,5 +83,21 @@ namespace DataLogic.Repository
             return serviceType;
         }
 
+
+        public BookingSystemEntity GetBookingSystemFromArticle(int id)
+        {
+            var article = new ArticleRepo().GetArticle(id);
+            var bookingSystem = new BookingSystemRepo().GetBookingSystem(article.BookingSystemId);
+            return bookingSystem;
+
+        }
+
+        public async Task<BookingSystemEntity> GetBookingSystemFromArticleAsync(int id)
+        {
+            var article = await new ArticleRepo().GetArticleAsync(id);
+            var bookingSystem = await new BookingSystemRepo().GetBookingSystemAsync(article.BookingSystemId);
+            return bookingSystem;
+        }
+
     }
 }

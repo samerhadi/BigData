@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using static DataLogic.Models.SuggestionViewModels;
 
 namespace DataLogic.Repository
 {
@@ -48,13 +49,13 @@ namespace DataLogic.Repository
         public async Task<List<BookingSystemEntity>> ListOfBookingSystemsInRadius(List<BookingSystemEntity> listOfIncBookingSystems, BookingTableEntity bookingTable)
         {
             var listOfBookingSystems = new List<BookingSystemEntity>();
-            var bookingSystem = await new ArticleRepo().GetBookingSystemFromArticleAsync(bookingTable.ArticleId);
+            var bookingSystem = await new BookingSystemRepo().GetBookingSystemFromArticleAsync(bookingTable.ArticleId);
 
             foreach (var item in listOfIncBookingSystems)
             {
-                item.Distance = await DistanceTo(bookingSystem.Latitude, bookingSystem.Longitude, item.Latitude, item.Longitude);
+                var distance = await DistanceTo(bookingSystem.Latitude, bookingSystem.Longitude, item.Latitude, item.Longitude);
 
-                if (item.Distance <= 5)
+                if (distance <= 5)
                 {
                     listOfBookingSystems.Add(item);
                 }
@@ -64,216 +65,323 @@ namespace DataLogic.Repository
         }
 
         //Returnerar en TimeBookedModel med bokningsystem och deras lediga tider 1h innan och efter gjord bokning
-        public async Task<List<FindTimeModel>> FindTimes(BookingTableEntity bookingTable, List<ArticleEntity> listOfArticles)
+        public async Task<List<Suggestion>> CreateTimesForSuggestions(BookingTableEntity bookingTable, List<ArticleEntity> listOfArticles)
         {
-            var completeListOfFindTimeModels = new List<FindTimeModel>();
-            var listOfFindTimeModels = new List<FindTimeModel>();
+            var listOfSuggestions = new List<Suggestion>();
 
             foreach (var item in listOfArticles)
             {
-                var findTimeModel = new FindTimeModel();
-
-                findTimeModel.Article = item;
-                findTimeModel.Time = bookingTable.Date;
-
                 var time = new Times
                 {
                     StartTime = bookingTable.StartTime,
                     EndTime = bookingTable.EndTime
                 };
 
-                findTimeModel.ChoosenTime = time;
-                findTimeModel.ListOfTimes = await CreateListOfTimes(findTimeModel, bookingTable);
+                var suggestion = new Suggestion();
+
+                suggestion.ListOfTimes = await CreateTimes(item, bookingTable);
+                suggestion.Article = item;
+                suggestion.Date = bookingTable.Date;
+                suggestion.BookingSystem = await new BookingSystemRepo().GetBookingSystemFromArticleAsync(item.ArticleId);
 
 
-                if (findTimeModel.ListOfTimes.Count() > 0)
+                if (suggestion.ListOfTimes.Count() > 0)
                 {
-                    listOfFindTimeModels.Add(findTimeModel);
+                    listOfSuggestions.Add(suggestion);
                 }
-
-                completeListOfFindTimeModels = listOfFindTimeModels;
             }
 
-            return completeListOfFindTimeModels;
+            return listOfSuggestions;
         }
 
-        //Returnerar en lista med tider för ett bokningssystem 1h innan och efter en bokad tid
-        public async Task<List<Times>> CreateListOfTimes(FindTimeModel findTimeModel, BookingTableEntity bookingTable)
+        public async Task<List<Times>> CreateTimes(ArticleEntity article, BookingTableEntity bookingTable)
         {
             var listOfTimes = new List<Times>();
-            var length = findTimeModel.Article.Length;
 
-            findTimeModel.BookingSystem = await new ArticleRepo().GetBookingSystemFromArticleAsync(findTimeModel.Article.ArticleId);
+            DateTime startTime = bookingTable.StartTime.AddMinutes(-article.Length);
+            DateTime endTime = startTime.AddMinutes(article.Length);
 
-            DateTime startTime = bookingTable.StartTime.AddMinutes(-length);
-            DateTime endTime = startTime.AddMinutes(length);
+            DateTime openingTime = SetOpeningTime(bookingTable.Date);
+            DateTime closingTime = SetClosingTime(bookingTable.Date);
 
-            DateTime openingTime = SetOpeningTime(findTimeModel);
-            DateTime closingTime = SetClosingTime(findTimeModel);
+            var bookingSystem = await new BookingSystemRepo().GetBookingSystemAsync(article.BookingSystemId);
 
-            for (int i = 0; i < 3; i++) 
+            var listOfBookingTables = await new BookingRepo().GetBookingTablesFromOneDayAndOneBookingSystem(bookingSystem.BookningSystemId, bookingTable.Date);
+
+            for (int i = 0; i < 3; i++)
             {
                 if (startTime != bookingTable.StartTime && startTime >= openingTime && endTime <= closingTime)
                 {
-                    var times = new Times();
-                    times.StartTime = startTime;
-                    times.EndTime = endTime;
-                    findTimeModel.CheckTime = times;
-                    times.TimeBooked = await new BookingRepo().CheckIfTimeIsBookedAsync(findTimeModel);
+                    var time = new Times();
 
-                    if (!times.TimeBooked)
+                    time.StartTime = startTime;
+                    time.EndTime = endTime;
+
+                    var checkIfTimeIsBookedModel = new CheckIfTimeIsBokedModel();
+                    checkIfTimeIsBookedModel.Times = time;
+                    checkIfTimeIsBookedModel.ListOfBookingTables = listOfBookingTables;
+
+                    time.TimeBooked = await new BookingRepo().CheckIfTimeIsBookedAsync(checkIfTimeIsBookedModel);
+
+                    if (!time.TimeBooked)
                     {
-                        listOfTimes.Add(times);
+                        listOfTimes.Add(time);
                     }
+                    
                 }
-
-                if(i == 1)
+                    
+                if (i == 1)
                 {
-                    var article = await new ArticleRepo().GetArticleAsync(bookingTable.ArticleId);
-                    startTime = startTime.AddMinutes(article.Length);
-                    endTime = endTime.AddMinutes(article.Length);
+                    var bookedArticle = await new ArticleRepo().GetArticleAsync(bookingTable.ArticleId);
+                    startTime = startTime.AddMinutes(bookedArticle.Length);
+                    endTime = endTime.AddMinutes(bookedArticle.Length);
                 }
 
                 else
                 {
-                    startTime = startTime.AddMinutes(length);
-                    endTime = endTime.AddMinutes(length);
+                    startTime = startTime.AddMinutes(article.Length);
+                    endTime = endTime.AddMinutes(article.Length);
                 }
             }
 
             return listOfTimes;
         }
 
-        public DateTime SetOpeningTime(FindTimeModel findTimeModel)
+        public DateTime SetOpeningTime(DateTime date)
         {
-            DateTime timeEarly = DateTime.MinValue.Date.Add(new TimeSpan(08, 00, 00));
-            DateTime openingTime = findTimeModel.Time;
-            openingTime = openingTime.Date.Add(timeEarly.TimeOfDay);
+            DateTime startTime = date;
+            DateTime time = DateTime.MinValue.Date.Add(new TimeSpan(08, 00, 00));
+            startTime = startTime.Date.Add(time.TimeOfDay);
 
-            return openingTime;
+            return startTime;
         }
 
-        public DateTime SetClosingTime(FindTimeModel findTimeModel)
+        public DateTime SetClosingTime(DateTime date)
         {
-            DateTime timeLate = DateTime.MinValue.Date.Add(new TimeSpan(16, 00, 00));
-            DateTime closingTime = findTimeModel.Time;
-            closingTime = closingTime.Date.Add(timeLate.TimeOfDay);
+            DateTime endTime = DateTime.MinValue.Date.Add(new TimeSpan(16, 00, 00));
+            DateTime closingTime = date;
+            closingTime = closingTime.Date.Add(endTime.TimeOfDay);
 
             return closingTime;
         }
 
-        public async Task<TimeBookedModel> GetSuggestions(BookingTableEntity bookingTable)
+        public async Task<List<Suggestion>> GetSuggestionsFromDifferentBookingSystems(BookingTableEntity bookingTable)
         {
-            var bookingSystem = await new ArticleRepo().GetBookingSystemFromArticleAsync(bookingTable.ArticleId);
+            var bookingSystem = await new BookingSystemRepo().GetBookingSystemFromArticleAsync(bookingTable.ArticleId);
 
-            var listOfBookingSystem = await new BookingSystemRepo().GetSuggestedServicesAsync(bookingSystem);
+            var listOfBookingSystemFromSameCity = await new BookingSystemRepo().GetSuggestedServicesAsync(bookingSystem);
 
-            var listOfBookingSystemInRadius = await ListOfBookingSystemsInRadius(listOfBookingSystem, bookingTable);
+            var listOfBookingSystemInRadius = await ListOfBookingSystemsInRadius(listOfBookingSystemFromSameCity, bookingTable);
 
-            var listOfBookingSystemsBasedOnServiceType = await SelectBookingSystemsBasedOnServiceType(bookingTable, listOfBookingSystemInRadius);
-
-            var listOfArticles = await GetArticlesFromBookingSystems(listOfBookingSystemsBasedOnServiceType, bookingTable, bookingSystem);
+            var listOfArticles = await GetArticlesFromBookingSystemsBasedOnServiceType(bookingTable, listOfBookingSystemInRadius);
 
             var listOfRandomizedArticles = await RandomizeArticles(listOfArticles);
 
-            var listOfSuggestionsFromSameBookingSystem = await GetSuggestionsFromSameBookingSystem(bookingTable);
+            var listOfSuggestions = await CreateTimesForSuggestions(bookingTable, listOfRandomizedArticles);
 
-            var timeBookedModel = new TimeBookedModel();
-
-            timeBookedModel.ListOfFindTimeModelsForDifferentBookingSystems = await FindTimes(bookingTable, listOfRandomizedArticles);
-            timeBookedModel.BookingTable = bookingTable;
-            timeBookedModel.BookingSystem = bookingSystem;
-            timeBookedModel.ListOfFindTimeModelsForSameBookingSystem = await FindTimes(bookingTable, listOfSuggestionsFromSameBookingSystem);
-
-            return timeBookedModel;
+            return listOfSuggestions;
         }
 
-        public async Task<List<ArticleEntity>> GetSuggestionsFromSameBookingSystem(BookingTableEntity bookingTable)
+        public async Task<List<Suggestion>> GetSuggestionsFromSameBookingSystem(BookingTableEntity bookingTable)
         {
-            var bookingSystem = await new ArticleRepo().GetBookingSystemFromArticleAsync(bookingTable.ArticleId);
+            var bookingSystem = await new BookingSystemRepo().GetBookingSystemFromArticleAsync(bookingTable.ArticleId);
 
             var listOfArticles = await GetDifferentArticlesFromBookingSystem(bookingTable);
 
             var listOfRandomizedArticles = await RandomizeArticles(listOfArticles);
 
-            var completeListOfArticles = listOfRandomizedArticles;
-            
-            return completeListOfArticles;
+            var listOfSuggestions = await CreateTimesForSuggestions(bookingTable, listOfRandomizedArticles);
+
+            return listOfSuggestions;
         }
 
-        public async Task<List<BookingSystemEntity>> SelectBookingSystemsBasedOnServiceType(BookingTableEntity bookingTable, List<BookingSystemEntity> listOfBookingSystem)
+        public async Task<List<ArticleEntity>> GetArticlesFromBookingSystemsBasedOnServiceType(BookingTableEntity bookingTable, List<BookingSystemEntity> listOfBookingSystems)
         {
-            var bookingSystem = await new ArticleRepo().GetBookingSystemFromArticleAsync(bookingTable.ArticleId);
+            var bookingSystem = await new BookingSystemRepo().GetBookingSystemFromArticleAsync(bookingTable.ArticleId);
 
-            var completeListOfBookingSystem = new List<BookingSystemEntity>();
+            var listOfArticles = new List<ArticleEntity>();
 
             if (bookingSystem.ServiceType == 5 || bookingSystem.ServiceType == 4)
             {
-                completeListOfBookingSystem = await ServiceTypeCar(listOfBookingSystem);
+                listOfArticles = await ServiceTypeCar(listOfBookingSystems, bookingTable, bookingSystem);
             }
 
-            if(bookingSystem.ServiceType == 1 || bookingSystem.ServiceType == 2 || bookingSystem.ServiceType == 3)
+            if (bookingSystem.ServiceType == 1 || bookingSystem.ServiceType == 2 || bookingSystem.ServiceType == 3)
             {
-                completeListOfBookingSystem = await ServiceTypeBeuty(listOfBookingSystem);
+                listOfArticles = await ServiceTypeBeuty(listOfBookingSystems, bookingTable, bookingSystem);
             }
 
-            return completeListOfBookingSystem;
+            if(listOfArticles.Count() < 3)
+            {
+                listOfArticles = await FillListWithRandomArticles(listOfArticles, listOfBookingSystems, bookingSystem.ServiceType);
+            }
+
+            return listOfArticles;
         }
 
-        public async Task<List<BookingSystemEntity>> ServiceTypeCar(List<BookingSystemEntity> listOfBookingSystem)
+        public async Task<List<ArticleEntity>> FillListWithRandomArticles(List<ArticleEntity> listOfArticles, List<BookingSystemEntity> listOfBookingSystems, int serviceType)
         {
-            var completeListOfBookingSystems = new List<BookingSystemEntity>();
+            var article = new ArticleEntity();
 
-            foreach(var item in listOfBookingSystem)
+            for (var i = listOfArticles.Count(); i < 3; i++)
             {
-                if(item.ServiceType == 5 || item.ServiceType == 4)
-                {
-                    completeListOfBookingSystems.Add(item);
-                }
+                article = (await AddRandomArticle(listOfBookingSystems, serviceType));
+
+                var bookingSystem = await new BookingSystemRepo().GetBookingSystemAsync(article.BookingSystemId);
+
+                var bookingSystemToRemove = listOfBookingSystems.FirstOrDefault(b => b.BookningSystemId == bookingSystem.BookningSystemId);
+
+                listOfBookingSystems.Remove(bookingSystemToRemove);
+                listOfArticles.Add(article);
             }
 
-            return completeListOfBookingSystems;
+            return listOfArticles;
         }
 
-        public async Task<List<BookingSystemEntity>> ServiceTypeBeuty(List<BookingSystemEntity> listOfBookingSystem)
+        public async Task<ArticleEntity> AddRandomArticle(List<BookingSystemEntity> listOfBookingSystems, int serviceType)
         {
-            var completeListOfBookingSystems = new List<BookingSystemEntity>();
+            var article = new ArticleEntity();
+
+            if (serviceType == 1 || serviceType == 2 || serviceType == 3)
+            {
+                article = await AddRandomArticleForCategoryBeuty(listOfBookingSystems, serviceType);
+            }
+
+            if (serviceType == 4 || serviceType == 5)
+            {
+                article = await AddRandomArticleForCategoryCar(listOfBookingSystems, serviceType);
+            }
+
+            return article;
+        }
+
+        public async Task<ArticleEntity> AddRandomArticleForCategoryBeuty(List<BookingSystemEntity> listOfBookingSystems, int serviceType)
+        {
+            var listOfBookingSystemsFromDifferentCategory = listOfBookingSystems.Where(b => b.ServiceType != 1 && b.ServiceType != 2 && b.ServiceType != 3).ToList();
+            var bookingSystem = await RandomizeABookingSystem(listOfBookingSystemsFromDifferentCategory);
+            var listOfArticles = await new ArticleRepo().GetArticlesFromBookingSystemAsync(bookingSystem.BookningSystemId);
+
+            var article = await RandomizeOneArticle(listOfArticles);
+
+            return article;
+        }
+
+        public async Task<ArticleEntity> AddRandomArticleForCategoryCar(List<BookingSystemEntity> listOfBookingSystems, int serviceType)
+        {
+            var newListOfBookingSystems = listOfBookingSystems.Where(b => b.ServiceType != 4 && b.ServiceType != 5).ToList();
+            var bookingSystem = await RandomizeABookingSystem(newListOfBookingSystems);
+            var listOfArticles = await new ArticleRepo().GetArticlesFromBookingSystemAsync(bookingSystem.BookningSystemId);
+
+            var article = await RandomizeOneArticle(listOfArticles);
+
+            return article;
+        }
+
+        public async Task<List<ArticleEntity>> ServiceTypeCar(List<BookingSystemEntity> listOfBookingSystem, BookingTableEntity bookingTable, BookingSystemEntity bookingSystem)
+        {
+            var listOfArticles = new List<ArticleEntity>();
+
+            var workshopListOfBookingSystem = new List<BookingSystemEntity>();
+            var carWashListOfBookingSystem = new List<BookingSystemEntity>();
+
             foreach (var item in listOfBookingSystem)
             {
-                if (item.ServiceType == 1 || item.ServiceType == 2 || item.ServiceType == 3)
+                if (item.ServiceType == 4)
                 {
-                    completeListOfBookingSystems.Add(item);
+                    workshopListOfBookingSystem.Add(item);
+                }
+
+                if (item.ServiceType == 5)
+                {
+                    carWashListOfBookingSystem.Add(item);
                 }
             }
 
-            return completeListOfBookingSystems;
+            var workshopListOfArticles = await GetArticlesFromBookingSystems(workshopListOfBookingSystem, bookingTable, bookingSystem);
+            var carWashListOfArticles = await GetArticlesFromBookingSystems(carWashListOfBookingSystem, bookingTable, bookingSystem);
+
+            if(workshopListOfArticles.Count() > 0)
+            {
+                listOfArticles.Add(await RandomizeOneArticle(workshopListOfArticles));
+            }
+            
+            if(carWashListOfArticles.Count() > 0)
+            {
+                listOfArticles.Add(await RandomizeOneArticle(carWashListOfArticles));
+            }
+            
+            return listOfArticles;
         }
 
-        //public async Task<List<BookingSystemEntity>> RemoveBookingSystemsOfSameServiceType(TimeBookedModel timeBookedModel, BookingSystemEntity bookingSystem)
-        //{
-        //    foreach (var item in timeBookedModel.ListOfFindTimeModels)
-        //    {
+        public async Task<List<ArticleEntity>> ServiceTypeBeuty(List<BookingSystemEntity> listOfBookingSystem, BookingTableEntity bookingTable, BookingSystemEntity bookingSystem)
+        {
+            var listOfArticles = new List<ArticleEntity>();
 
-        //        if (item.BookingSystem.ServiceType == timeBookedModel.BookingSystem.ServiceType)
-        //        {
-        //            item.BookingSystem.Distance = await DistanceTo(bookingSystem.Latitude, bookingSystem.Longitude,
-        //                item.BookingSystem.Latitude, item.BookingSystem.Longitude);
+            var hairdresserListOfBookingSystem = new List<BookingSystemEntity>();
+            var massageListOfBookingSystem = new List<BookingSystemEntity>();
+            var beutySalonListOfBookingSystem = new List<BookingSystemEntity>();
 
-        //            if (.Distance >= bookingSystem.Distance)
-        //            {
-        //                listOfBookingSystems.Remove(item);
-        //                listOfBookingSystems.Add(bookingSystem);
-        //            }
-        //        }
+            foreach (var item in listOfBookingSystem)
+            {
+                if (item.ServiceType == 1)
+                {
+                    hairdresserListOfBookingSystem.Add(item);
+                }
 
-        //        else
-        //        {
-        //            listOfBookingSystems.Add(bookingSystem);
-        //        }
-        //    }
+                if(item.ServiceType == 2)
+                {
+                    massageListOfBookingSystem.Add(item);
+                }
+                
+                if(item.ServiceType == 3)
+                {
+                    beutySalonListOfBookingSystem.Add(item);
+                }
+            }
 
-        //    return listOfBookingSystems;
-        //}
+            var hairdresserListOfArticles = await GetArticlesFromBookingSystems(hairdresserListOfBookingSystem, bookingTable, bookingSystem);
+            var massageListOfArticles = await GetArticlesFromBookingSystems(massageListOfBookingSystem, bookingTable, bookingSystem);
+            var beutySalondListOfArticles = await GetArticlesFromBookingSystems(beutySalonListOfBookingSystem, bookingTable, bookingSystem);
+
+            if(hairdresserListOfArticles.Count() > 0)
+            {
+                listOfArticles.Add(await RandomizeOneArticle(hairdresserListOfArticles));
+            }
+            
+            if(massageListOfArticles.Count() > 0)
+            {
+                listOfArticles.Add(await RandomizeOneArticle(massageListOfArticles));
+            }
+            
+            if(beutySalondListOfArticles.Count() > 0)
+            {
+                listOfArticles.Add(await RandomizeOneArticle(beutySalondListOfArticles));
+            }
+            
+            return listOfArticles;
+        }
+
+        public async Task<ArticleEntity> RandomizeOneArticle(List<ArticleEntity> listOfArticles)
+        {
+            Random rnd = new Random();
+
+            var index = rnd.Next(listOfArticles.Count);
+
+            var article = listOfArticles[index];
+
+            return article;
+        }
+
+        public async Task<BookingSystemEntity> RandomizeABookingSystem(List<BookingSystemEntity> listOfBookingSystems)
+        {
+            Random rnd = new Random();
+
+            var index = rnd.Next(listOfBookingSystems.Count);
+
+            var bookingSystem = listOfBookingSystems[index];
+
+            return bookingSystem;
+        }
 
         public async Task<List<ArticleEntity>> GetArticlesFromBookingSystems(List<BookingSystemEntity> listOfBookingSystems, BookingTableEntity bookingTable, BookingSystemEntity bookingSystem)
         {
@@ -308,7 +416,7 @@ namespace DataLogic.Repository
         {
             var article = await new ArticleRepo().GetArticleAsync(bookingTable.ArticleId);
 
-            var bookingSystem =  await new ArticleRepo().GetBookingSystemFromArticleAsync(bookingTable.ArticleId);
+            var bookingSystem =  await new BookingSystemRepo().GetBookingSystemFromArticleAsync(bookingTable.ArticleId);
 
             var listOfArticles = await new ArticleRepo().GetDifferentArticlesFromBookingSystem(bookingSystem.BookningSystemId, article.Service);
 

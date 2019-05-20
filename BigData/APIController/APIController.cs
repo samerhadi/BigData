@@ -9,6 +9,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using DataLogic.Repository;
+using static DataLogic.Models.SuggestionViewModels;
 
 namespace BigData.APIController
 {
@@ -89,11 +90,19 @@ namespace BigData.APIController
         }
 
         [HttpPost]
-        [Route ("api/getsuggestions/")]
-        public async Task<IHttpActionResult> GetSuggestions(BookingTableEntity bookingTable)
+        [Route ("api/getsuggestionsfromdifferentbookingsystems/")]
+        public async Task<IHttpActionResult> GetSuggestionsFromDifferentBookingSystems(BookingTableEntity bookingTable)
         {
-            var timeBooked = await new SuggestionRepo().GetSuggestions(bookingTable);
-            return Ok(timeBooked);
+            var listOfSuggestions = await new SuggestionRepo().GetSuggestionsFromDifferentBookingSystems(bookingTable);
+            return Ok(listOfSuggestions);
+        }
+
+        [HttpPost]
+        [Route("api/getsuggestionsfromsamebookingsystem/")]
+        public async Task<IHttpActionResult> GetSuggestionsFromSameBookingSystem(BookingTableEntity bookingTable)
+        {
+            var listOfSuggestions = await new SuggestionRepo().GetSuggestionsFromSameBookingSystem(bookingTable);
+            return Ok(listOfSuggestions);
         }
 
         [HttpPost]
@@ -106,9 +115,9 @@ namespace BigData.APIController
 
         [HttpPost]
         [Route("api/checkiftimeisbooked")]
-        public async Task<IHttpActionResult> CheckIfTimeIsBooked(FindTimeModel findTimeModel)
+        public async Task<IHttpActionResult> CheckIfTimeIsBooked(CheckIfTimeIsBokedModel checkIfTimeIsBokedModel)
         {
-            var timeBooked = new BookingRepo().CheckIfTimeIsBooked(findTimeModel);
+            var timeBooked = new BookingRepo().CheckIfTimeIsBooked(checkIfTimeIsBokedModel);
             return Ok(timeBooked);
         }
 
@@ -148,7 +157,7 @@ namespace BigData.APIController
         [Route("api/getbookingsystemfromarticle/{id}")]
         public async Task<IHttpActionResult> GetBookingSystemFromArticle(int id)
         {
-            var bookingSystem = new ArticleRepo().GetBookingSystemFromArticle(id);
+            var bookingSystem = new BookingSystemRepo().GetBookingSystemFromArticle(id);
             return Ok(bookingSystem);
         }
 
@@ -167,5 +176,7 @@ namespace BigData.APIController
             var article = new ArticleRepo().GetArticle(id);
             return Ok(article);
         }
+
+
     }
 }

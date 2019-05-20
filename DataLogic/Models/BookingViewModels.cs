@@ -6,18 +6,6 @@ using DataLogic.Entities;
 
 namespace DataLogic.Models
 {
-    public class FindTimeModel
-    {
-        public DateTime Time { get; set; }
-        public BookingSystemEntity BookingSystem { get; set; }
-        public bool DateChoosen { get; set; }
-        public List<Times> ListOfTimes { get; set; }
-        public Times ChoosenTime { get; set; }
-        public Times CheckTime { get; set; }
-        public double TimeLength { get; set; }
-        public ArticleEntity Article { get; set; }
-    }
-
     public class Times
     {
         public DateTime StartTime { get; set; }
@@ -25,12 +13,17 @@ namespace DataLogic.Models
         public bool TimeBooked { get; set; }
     }
 
-    public class TimeBookedModel
+    public class BookTimeModel
     {
-        public BookingTableEntity BookingTable { get; set; }
-        public List<FindTimeModel> ListOfFindTimeModelsForDifferentBookingSystems { get; set; }
-        public BookingSystemEntity BookingSystem { get; set; }
-        public List<FindTimeModel> ListOfFindTimeModelsForSameBookingSystem { get; set; }
-        public ArticleEntity Article { get; set; }
+        public bool DateChoosen { get; set; }
+        public int ArticleId { get; set; }
+        public List<Times> ListOfTimes { get; set; }
+        public DateTime Time { get; set; }
+    }
+
+    public class CheckIfTimeIsBokedModel
+    {
+        public List<BookingTableEntity> ListOfBookingTables { get; set; }
+        public Times Times { get; set; }
     }
 }

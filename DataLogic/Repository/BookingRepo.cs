@@ -14,6 +14,7 @@ namespace DataLogic.Repository
     public class BookingRepo
     {
         ApplicationDbContext context = new ApplicationDbContext();
+
         public static HttpClient client = new HttpClient();
 
         public List<BookingTableEntity> GetAllBookingTables()
@@ -47,69 +48,40 @@ namespace DataLogic.Repository
             context.SaveChanges();
         }
 
-        //Returnerar en bool beroende på om en tid är bokad eller inte
-        public bool CheckIfTimeIsBooked(FindTimeModel findTimeModel)
+        public async Task<List<BookingTableEntity>> GetBookingTablesFromOneDayAndOneBookingSystem(int bookingSystemId, DateTime date)
         {
-            var timeBooked = false;
-
-            var bookingTableEntity = new BookingTableEntity
-            {
-                StartTime = findTimeModel.CheckTime.StartTime,
-                EndTime = findTimeModel.CheckTime.EndTime,
-                Date = findTimeModel.Time,
-                ArticleId = findTimeModel.Article.ArticleId
-            };
-
-            var bookingSystem = new ArticleRepo().GetBookingSystemFromArticle(findTimeModel.Article.ArticleId);
-            var listOfBookingTables = GetAllBookingTables();
-
-            foreach (var item in listOfBookingTables)
-            {
-                var thisBookingSystem = new ArticleRepo().GetBookingSystemFromArticle(item.ArticleId);
-
-                if (item.Date == bookingTableEntity.Date && item.StartTime < bookingTableEntity.EndTime && item.EndTime > bookingTableEntity.StartTime
-                      && thisBookingSystem.BookningSystemId == bookingSystem.BookningSystemId)
-                {
-                    timeBooked = true;
-                }
-            }
-
-            return timeBooked;
-        }
-
-        public async Task<bool> CheckIfTimeIsBookedAsync(FindTimeModel findTimeModel)
-        {
-            var timeBooked = false;
-
-            var bookingTable = new BookingTableEntity
-            {
-                StartTime = findTimeModel.CheckTime.StartTime,
-                EndTime = findTimeModel.CheckTime.EndTime,
-                Date = findTimeModel.Time,
-                ArticleId = findTimeModel.Article.ArticleId
-            };
-
-            var bookingSystem = await new ArticleRepo().GetBookingSystemFromArticleAsync(findTimeModel.Article.ArticleId);
-
-            var listOfBookingTables = await GetOneDayBookingTablesFromBookingSystem(bookingSystem, bookingTable.Date);
-
-            foreach (var item in listOfBookingTables)
-            {
-                var thisBookingSystem = await new ArticleRepo().GetBookingSystemFromArticleAsync(item.ArticleId);
-
-                if (item.StartTime < bookingTable.EndTime && item.EndTime > bookingTable.StartTime)
-                {
-                    timeBooked = true;
-                }
-            }
-
-            return timeBooked;
-        }
-
-        public async Task<List<BookingTableEntity>> GetOneDayBookingTablesFromBookingSystem(BookingSystemEntity bookingSystem, DateTime date)
-        {
-            var listOfBookingTableEntity = context.BookingTabels.Where(b => b.BookingSystemId == bookingSystem.BookningSystemId && b.Date == date).ToList();
+            var listOfBookingTableEntity = context.BookingTabels.Where(b => b.BookingSystemId == bookingSystemId && b.Date == date).ToList();
             return listOfBookingTableEntity;
+        }
+
+        public bool CheckIfTimeIsBooked(CheckIfTimeIsBokedModel checkIfTimeIsBokedModel)
+        {
+            var timeBooked = false;
+
+            foreach (var item in checkIfTimeIsBokedModel.ListOfBookingTables)
+            {
+                if (item.StartTime < checkIfTimeIsBokedModel.Times.EndTime && item.EndTime > checkIfTimeIsBokedModel.Times.StartTime)
+                {
+                    timeBooked = true;
+                }
+            }
+
+            return timeBooked;
+        }
+
+        public async Task<bool> CheckIfTimeIsBookedAsync(CheckIfTimeIsBokedModel checkIfTimeIsBokedModel)
+        {
+            var timeBooked = false;
+
+            foreach (var item in checkIfTimeIsBokedModel.ListOfBookingTables)
+            {
+                if (item.StartTime < checkIfTimeIsBokedModel.Times.EndTime && item.EndTime > checkIfTimeIsBokedModel.Times.StartTime)
+                {
+                    timeBooked = true;
+                }
+            }
+
+            return timeBooked;
         }
     }
 }
