@@ -30,12 +30,9 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li class="nav-item">@Html.ActionLink("Alla bookningar", "AllBookingTables", "Booking", new { area = "" }, new { @class = "navbar-brand" })</li>
-                    <li class="nav-item">@Html.ActionLink("Alla bookningsystem", "AllBookingSystems", "BookingSystem", new { area = "" }, new { @class = "navbar-brand" })</li>
-                    <li class="nav-item">@Html.ActionLink("SystemRegister", "CreateBookingSystem", "BookingSystem", new { area = "" }, new { @class = "navbar-brand" })</li>
+                    <li class="nav-item">@Html.ActionLink("Alla bokningssystem", "AllBookingSystems", "BookingSystem", new { area = "" }, new { @class = "navbar-brand" })</li>
+                    <li class="nav-item">@Html.ActionLink("Registrera bokningssystem", "CreateBookingSystem", "BookingSystem", new { area = "" }, new { @class = "navbar-brand" })</li>
                     <li class="nav-item">@Html.ActionLink("Hitta tjänster", "ChooseCity", "Bookingsystem", new { area = "" }, new { @class = "navbar-brand" })</li>
-                    <li class="nav-item">@Html.ActionLink("Alla Artiklar", "GetAllArticles", "Article", new { area = "" }, new { @class = "navbar-brand" })</li>
-
                 </ul>   
                 @Html.Partial("_LoginPartial")
             </div>
