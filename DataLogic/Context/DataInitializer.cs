@@ -84,8 +84,8 @@ namespace DataLogic.Context
                 ContactEmail = "saras.massage@gmail.com",
                 ContactPhone = "070-000 00 00",
                 Adress = "Glanshammarsvägen 16",
-                Latitude = 59.382950,
-                Longitude = 17.917660,
+                Latitude = 59.294810,
+                Longitude = 15.231510,
                 PostaICode = "703 64",
                 City = "Örebro",
             };

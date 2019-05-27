@@ -150,6 +150,7 @@
     <Compile Include="Models\BookingViewModels.cs" />
     <Compile Include="Models\GoogleGeocodingModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\SuggestionViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\ArticleRepo.cs" />
     <Compile Include="Repository\BookingRepo.cs" />

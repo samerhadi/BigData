@@ -492,9 +492,9 @@
     <Content Include="Views\BookingSystem\ChoosenBookingSystem.cshtml" />
     <Content Include="Views\Booking\BookTime.cshtml" />
     <Content Include="Views\Booking\TimeBooked.cshtml" />
-    <Content Include="Views\BookingSystem\GetAllBookingSystemsView.cshtml" />
+    <Content Include="Views\BookingSystem\AllBookingSystems.cshtml" />
     <Content Include="Views\BookingSystem\ChoosenCity.cshtml" />
-    <Content Include="Views\Booking\GetAllBookingTables.cshtml" />
+    <Content Include="Views\Booking\AllBookingTables.cshtml" />
     <Content Include="Views\Article\CreateArticle.cshtml" />
     <Content Include="Views\Article\ArticleAdded.cshtml" />
     <Content Include="Views\Article\GetAllArticles.cshtml" />
@@ -502,7 +502,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Base\" />
-    <Folder Include="Views\Suggestion\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

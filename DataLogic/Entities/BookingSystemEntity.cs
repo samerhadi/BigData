@@ -23,7 +23,6 @@ namespace DataLogic.Entities
         public string Adress { get; set; }
         public double Latitude { get; set; }
         public double Longitude { get; set; }
-        public double Distance { get; set; }
         public string PostaICode { get; set; }
         public string City { get; set; }
         //skapar en variabel av enum klassen

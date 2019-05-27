@@ -1,4 +1,4 @@
-﻿@model DataLogic.Models.TimeBookedModel
+﻿@model DataLogic.Models.SuggestionViewModels.SuggestionViewModel
 
 <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
 <link href="~/Content/Site.css" rel="stylesheet" />
@@ -30,14 +30,14 @@
     </table>
 </div>
 
-@if (Model.ListOfFindTimeModelsForDifferentBookingSystems != null)
+@if(Model.ListOfSuggestionsFromDifferentBookingSystems.Count() > 0)
 {
     <hr />
     <p>Lediga tider i närheten </p>
 
     <div class="container section-plan">
         <div class="row">
-            @foreach (var item in Model.ListOfFindTimeModelsForDifferentBookingSystems)
+            @foreach (var item in Model.ListOfSuggestionsFromDifferentBookingSystems)
             {
                 <div class="col-md-4 col-sm-4 col-xs-12">
                     <div class="row plan-box plan-danger text-center">
@@ -56,7 +56,7 @@
                             <div class="col-md-12 section4">
                                 <button class="btn btn-danger btn-block" onclick="location.href='@Url.Action("TimeBooked", "Booking", new
                                                                                             {
-                                                                                                date = item.Time,
+                                                                                                date = item.Date,
                                                                                                 startTime = i.StartTime,
                                                                                                 endTime = i.EndTime,
                                                                                                 articleId = item.Article.ArticleId,
@@ -80,14 +80,14 @@ else
     <p>Inga system hittades</p>
 }
 
-@if (Model.ListOfFindTimeModelsForSameBookingSystem != null)
+@if(Model.ListOfSuggestionsFromSameBookingSystems.Count() > 0)
 {
     <hr />
     <p>Lediga tider på samma företag </p>
 
     <div class="container section-plan">
         <div class="row">
-            @foreach (var item in Model.ListOfFindTimeModelsForSameBookingSystem)
+            @foreach (var item in Model.ListOfSuggestionsFromSameBookingSystems)
             {
                 <div class="col-md-4 col-sm-4 col-xs-12">
                     <div class="row plan-box plan-success text-center">
@@ -106,7 +106,7 @@ else
                             <div class="col-md-12 section4">
                                 <button class="btn btn-success btn-block" onclick="location.href='@Url.Action("TimeBooked", "Booking", new
                                                                                             {
-                                                                                                date = item.Time,
+                                                                                                date = item.Date,
                                                                                                 startTime = i.StartTime,
                                                                                                 endTime = i.EndTime,
                                                                                                 articleId = item.Article.ArticleId,

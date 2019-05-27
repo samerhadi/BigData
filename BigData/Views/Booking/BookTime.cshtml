@@ -1,4 +1,4 @@
-﻿@model DataLogic.Models.FindTimeModel
+﻿@model DataLogic.Models.BookTimeModel
 
 @{
     /**/
@@ -15,48 +15,35 @@
 {
 
     @Html.EditorFor(model => model.Time, new { htmlAttributes = new { @class = "datepicker" } })
-    @Html.HiddenFor(model => model.BookingSystem.BookningSystemId)
-    @Html.HiddenFor(model => model.Article.ArticleId)
+    @Html.HiddenFor(model => model.ArticleId)
     <input type="submit" value="Välj dag" onclick="location.href='@Url.Action("BookTime", "BookingS", new { Model = Model })'" />
 }
 
 @if (Model.DateChoosen)
 {
-    @Html.HiddenFor(model => model.BookingSystem.BookningSystemId)
     @Html.HiddenFor(model => model.Time)
-    @Html.HiddenFor(model => model.Article.ArticleId)
+    @Html.HiddenFor(model => model.ArticleId)
 
     <div class="booking-button-main-div">
         @foreach (var item in Model.ListOfTimes)
         {
             if (!item.TimeBooked)
             {
-                @*@Html.ActionLink(item.StartTime.ToString("HH':'mm") + "-" + item.EndTime.ToString("HH':'mm"), "TimeBooked", new { date = Model.Time, startTime = item.StartTime, endTime = item.EndTime,
-                    articleId = Model.Article.ArticleId,  })*@
-
                 <button class="btn btn-success btn-block booking-button" onclick="location.href='@Url.Action("TimeBooked", "Booking", new
                                                                                             {
                                                                                                 date = Model.Time,
                                                                                                 startTime = item.StartTime,
                                                                                                 endTime = item.EndTime,
-                                                                                                articleId = Model.Article.ArticleId,
+                                                                                                articleId = Model.ArticleId,
                                                                                             })'">
 
                     @string.Format("Boka " + item.StartTime.ToString("HH':'mm") + "-" + item.EndTime.ToString("HH':'mm"))
                 </button>
-
-
             }
 
             else
             {
-                <button class="btn btn-danger btn-block booking-button" disabled onclick="location.href='@Url.Action("TimeBooked", "Booking", new
-                                                                                            {
-                                                                                                date = Model.Time,
-                                                                                                startTime = item.StartTime,
-                                                                                                endTime = item.EndTime,
-                                                                                                articleId = Model.Article.ArticleId,
-                                                                                            })'">
+                <button class="btn btn-danger btn-block booking-button" disabled>
 
                     @string.Format("Bokad " + item.StartTime.ToString("HH':'mm") + "-" + item.EndTime.ToString("HH':'mm"))
                 </button>
