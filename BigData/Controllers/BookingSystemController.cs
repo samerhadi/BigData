@@ -27,7 +27,7 @@ namespace BigData.Controllers
         }
         //skapar ett bookingsystem
 
-        public async Task<ActionResult> CreateBookingSystem(CreateBookingSystemModel createBookingSystemModel)
+        public async Task<ActionResult> CreatBookingSystemAsync(CreateBookingSystemModel createBookingSystemModel)
         {
             createBookingSystemModel.BookingSystem.ServiceType = Convert.ToInt32(createBookingSystemModel.ServiceType);
 
